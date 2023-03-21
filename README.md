@@ -1,0 +1,1 @@
+This bug tracking web app is a web-based application designed to track and manage bugs for a software project. The application is built on the Amazon RDS, Express.js, React.js, and Node.js stack, and it provides an easy-to-use interface for creating, updating, and resolving bugs.
