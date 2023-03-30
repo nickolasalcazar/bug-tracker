@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import Auth0Wrapper from "./components/auth0/Auth0Wrapper";
-import LoginButton from "./components/auth0/LoginButton";
-import LogoutButton from "./components/auth0/LogoutButton";
+
+import Homepage from "./pages/Homepage";
+import Profile from "./pages/Profile";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -23,13 +24,12 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        {/* <p>{message}</p> */}
-        <Auth0Wrapper>
-          <LoginButton />
-          <LogoutButton />
-        </Auth0Wrapper>
-      </header>
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route />
+        <Route />
+      </Routes>
     </div>
   );
 }
