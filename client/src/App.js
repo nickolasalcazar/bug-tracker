@@ -1,12 +1,12 @@
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 
 import { Amplify, Auth } from "aws-amplify";
-
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 
+import NavBar from "./components/NavBar";
 import Homepage from "./pages/Homepage";
 import Profile from "./pages/Profile";
 import AuthTest from "./pages/AuthTest";
@@ -14,12 +14,29 @@ import AuthTest from "./pages/AuthTest";
 import awsExports from "./aws-exports";
 Amplify.configure(awsExports);
 
-const UserContext = createContext();
+export const UserContext = createContext(null);
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const cognitoUser = await Auth.currentAuthenticatedUser();
+        const attributes = cognitoUser.attributes;
+        // console.log("attributes", attributes);
+        setUser(attributes);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchUser();
+  }, []);
+
   return (
-    <UserContext.Provider value={undefined}>
+    <UserContext.Provider value={user}>
       <div className="App">
+        <NavBar />
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/profile" element={<Profile />} />

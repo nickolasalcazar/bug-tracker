@@ -1,22 +1,8 @@
-import { useEffect, useState } from "react";
-import { Auth } from "aws-amplify";
+import { useContext } from "react";
+import { UserContext } from "../App";
 
 function Profile() {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    async function fetchUser() {
-      try {
-        const cognitoUser = await Auth.currentAuthenticatedUser();
-        const attributes = cognitoUser.attributes;
-        console.log("attributes", attributes);
-        setUser(attributes);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchUser();
-  }, []);
+  const user = useContext(UserContext);
 
   if (!user) {
     return <div>Loading...</div>;
