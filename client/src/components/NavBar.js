@@ -1,7 +1,12 @@
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 
+import { useAuth0 } from "@auth0/auth0-react";
+
 import { UserContext } from "../App";
+
+import LoginButton from "./Login";
+import LogoutButton from "./Logout";
 
 function NavBar() {
   const user = useContext(UserContext);
@@ -18,8 +23,14 @@ function NavBar() {
           <NavLink to="/profile">Profile</NavLink>
           <img />
         </li>
-        <li>
+        {/* <li>
           <NavLink to="/login">Login</NavLink>
+        </li> */}
+        <li>
+          <LoginButton />
+        </li>
+        <li>
+          <LogoutButton />
         </li>
       </ul>
     </nav>
