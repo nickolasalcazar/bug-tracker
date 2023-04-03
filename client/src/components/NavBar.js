@@ -7,9 +7,11 @@ import { UserContext } from "../App";
 
 import LoginButton from "./Login";
 import LogoutButton from "./Logout";
+import SignupButton from "./SignUp";
 
 function NavBar() {
-  const user = useContext(UserContext);
+  // const user = useContext(UserContext);
+  const { isAuthenticated } = useAuth0();
 
   return (
     <nav>
@@ -23,15 +25,21 @@ function NavBar() {
           <NavLink to="/profile">Profile</NavLink>
           <img />
         </li>
-        {/* <li>
-          <NavLink to="/login">Login</NavLink>
-        </li> */}
-        <li>
-          <LoginButton />
-        </li>
-        <li>
-          <LogoutButton />
-        </li>
+        {isAuthenticated ? (
+          <li>
+            <LogoutButton />
+          </li>
+        ) : (
+          <>
+            <li>
+              <LoginButton />
+            </li>
+
+            <li>
+              <SignupButton />
+            </li>
+          </>
+        )}
       </ul>
     </nav>
   );
