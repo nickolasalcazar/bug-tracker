@@ -14,6 +14,8 @@ export default function Profile() {
       <img src={user.picture} alt={user.name} />
       <h2>{user.name}</h2>
       <p>{user.email}</p>
+      <br />
+      <p>{JSON.stringify(user, null, 2)}</p>
     </div>
   ) : (
     <p>isAuthenticated === false</p>

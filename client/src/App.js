@@ -33,7 +33,6 @@ function App() {
           path="/profile"
           element={<AuthenticationGuard component={Profile} />}
         />
-        {/* <Route path="/login" element={<h1>Login</h1>} /> */}
         <Route
           path="*"
           element={
