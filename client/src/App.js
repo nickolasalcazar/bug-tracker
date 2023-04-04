@@ -9,11 +9,11 @@ import NavBar from "./components/NavBar";
 import PageLoader from "./components/PageLoader";
 import Homepage from "./pages/Homepage";
 import Profile from "./pages/Profile";
+import ProtectedPage from "./pages/ProtectedPage";
 
 export const UserContext = createContext(null);
 
 function App() {
-  const [user, setUser] = useState(null);
   const { isLoading } = useAuth0();
 
   if (isLoading) {
@@ -32,6 +32,10 @@ function App() {
         <Route
           path="/profile"
           element={<AuthenticationGuard component={Profile} />}
+        />
+        <Route
+          path="/protected-page"
+          element={<AuthenticationGuard component={ProtectedPage} />}
         />
         <Route
           path="*"

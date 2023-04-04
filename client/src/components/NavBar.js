@@ -23,7 +23,9 @@ function NavBar() {
         </li>
         <li>
           <NavLink to="/profile">Profile</NavLink>
-          <img />
+        </li>
+        <li>
+          <NavLink to="/protected-page">Protected Page</NavLink>
         </li>
         {isAuthenticated ? (
           <li>
