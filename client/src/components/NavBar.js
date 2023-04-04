@@ -15,7 +15,11 @@ function NavBar() {
 
   return (
     <nav>
-      <ul>
+      <ul style={{ display: "flex", alignItems: "center", listStyle: "none" }}>
+        <img
+          src="https://mugbug-public-assets.s3.us-west-1.amazonaws.com/logo-icon-v3.png"
+          style={{ width: "80px" }}
+        />
         <li>
           <NavLink exact="true" to="/">
             Home
