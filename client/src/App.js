@@ -10,6 +10,7 @@ import PageLoader from "./components/PageLoader";
 import Homepage from "./pages/Homepage";
 import Profile from "./pages/Profile";
 import ProtectedPage from "./pages/ProtectedPage";
+import Dashboard from "./pages/Dashboard";
 
 export const UserContext = createContext(null);
 
@@ -29,6 +30,10 @@ function App() {
       <NavBar />
       <Routes>
         <Route path="/" element={<Homepage />} />
+        <Route
+          path="/dashboard"
+          element={<AuthenticationGuard component={Dashboard} />}
+        />
         <Route
           path="/profile"
           element={<AuthenticationGuard component={Profile} />}

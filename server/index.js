@@ -22,6 +22,29 @@ const CLIENT_ORIGIN_URL = process.env.CLIENT_ORIGIN_URL;
 const app = express();
 const apiRouter = express.Router();
 
+/* TESTING RDS **********************/
+const { Client } = require("pg");
+
+const client = new Client({
+  host: process.env.RDS_ENDPOINT,
+  port: process.env.RDS_PORT,
+  database: process.env.RDS_DATABASE,
+  user: process.env.RDS_USERNAME,
+  password: process.env.RDS_PASSWORD,
+});
+
+client
+  .connect()
+  .then(() => console.log("Connected to database"))
+  .catch((err) => console.error("Error connecting to database", err));
+
+client
+  .query("SELECT NOW() as now")
+  // .then((res) => console.log(res.rows[0]))
+  .then((res) => console.log(res))
+  .catch((e) => console.error(e.stack));
+/* TESTING RDS **********************/
+
 app.use(express.json());
 app.set("json spaces", 2);
 
