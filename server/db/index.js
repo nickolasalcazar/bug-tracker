@@ -13,6 +13,15 @@ const pool = new Pool({
 module.exports = {
   /**
    * Query the database.
+   *
+   * @example
+   * const db = require("./db");
+   *
+   * db.query("SELECT NOW() as now", [])
+   *   .then((res) => {
+   *     console.log("res.rows[0] =", res.rows[0]);
+   *   })
+   *   .catch((error) => console.log(error));
    * @param {string} text
    * @param {Array} params
    * @returns {res}
