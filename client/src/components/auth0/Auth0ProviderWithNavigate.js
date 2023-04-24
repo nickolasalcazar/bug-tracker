@@ -14,8 +14,7 @@ export default function Auth0ProviderWithNavigate({ children }) {
   const redirectUri = process.env.REACT_APP_AUTH0_CALLBACK_URL;
   const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
 
-  // console.log(domain, clientId, redirectUri, audience);
-
+  // Called after users are redirected from Auth0's universal login.
   const onRedirectCallback = (appState) => {
     navigate(appState?.returnTo || window.location.pathname);
   };
