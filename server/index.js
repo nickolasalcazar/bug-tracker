@@ -7,7 +7,7 @@ const { auth } = require("express-oauth2-jwt-bearer");
 dotenv.config();
 
 const PORT = parseInt(process.env.PORT, 10);
-const CLIENT_ORIGIN_URL = process.env.CLIENT_ORIGIN_URL;
+// const CLIENT_ORIGIN_URL = process.env.CLIENT_ORIGIN_URL;
 
 const jwtCheck = auth({
   issuerBaseURL: `https://${process.env.AUTH0_DOMAIN}`,
