@@ -11,7 +11,12 @@ export default function Profile() {
   return isAuthenticated ? (
     <div>
       <h1>Profile</h1>
-      <img src={user.picture} alt={user.name} referrerPolicy="no-referrer" />
+      <img
+        src={user.picture}
+        alt={user.name}
+        referrerPolicy="no-referrer"
+        style={{ borderRadius: "50%" }}
+      />
       <h2>{user.name}</h2>
       <p>{user.email}</p>
       <br />

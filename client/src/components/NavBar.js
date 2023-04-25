@@ -15,7 +15,14 @@ function NavBar() {
 
   return (
     <nav>
-      <ul style={{ display: "flex", alignItems: "center", listStyle: "none" }}>
+      <ul
+        style={{
+          display: "flex",
+          justifyContent: "space-around",
+          alignItems: "center",
+          listStyle: "none",
+        }}
+      >
         <img
           src="https://mugbug-public-assets.s3.us-west-1.amazonaws.com/logo-icon-v3.png"
           style={{ width: "80px" }}
@@ -29,8 +36,11 @@ function NavBar() {
           <NavLink to="/profile">Profile</NavLink>
         </li>
         <li>
-          <NavLink to="/protected-page">Protected Page</NavLink>
+          <NavLink to="/dashboard">Dashboard</NavLink>
         </li>
+        {/* <li>
+          <NavLink to="/protected-page">Protected Page</NavLink>
+        </li> */}
         {isAuthenticated ? (
           <li>
             <LogoutButton />

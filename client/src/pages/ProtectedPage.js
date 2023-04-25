@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
-import { getProtectedResource } from "../services/message.service";
+import { getProtectedResource } from "../services/message";
 
 // A page for demoing accessing authorized data from the backend.
 export default function ProtectedPage() {
