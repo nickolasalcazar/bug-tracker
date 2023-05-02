@@ -14,10 +14,11 @@ services:
     depends_on:
       - database
     environment:
-      DB_HOST: postgres
-      DB_USER: postgres
-      DB_PASSWORD: password
+      # DB_HOST: postgres
+      DB_ENDPOINT: postgres
       DB_NAME: mydb
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
   database:
     image: postgres:latest
     environment:
@@ -25,7 +26,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: mydb
     volumes:
-      - .server/db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
-      - .serber/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./server/db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - ./server/db/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - 5432:5432

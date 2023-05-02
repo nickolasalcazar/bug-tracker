@@ -1,10 +1,10 @@
-const db = require("../../db");
+const db = require("../../db/db");
 
 const queries = require("./queries");
 
 module.exports = {
-  getUser: (req, res) => {
-    console.log("Get user");
+  getUsers: (req, res) => {
+    console.log("Example: get all user");
     // db.query(queries.getStudents, [])
     //   .then((result) => {
     //     res.status(200).json(result.rows);
@@ -15,8 +15,14 @@ module.exports = {
     //   });
   },
 
-  getUserById: (req, res) => {
+  /**
+   * Get user by ID. If user does not exist, return 'user does not exist'.
+   */
+  getUser: (req, res) => {
     const id = parseInt(req.params.id);
+    db.query(queries.getUser, id).then((result) => {
+      console.log("Does user exist? ", result.rows);
+    });
   },
 
   addUser: (req, res) => {
@@ -28,7 +34,7 @@ module.exports = {
     console.log("Delete user");
   },
 
-  updateStudent: (req, res) => {
+  updateUser: (req, res) => {
     console.log("Update user");
   },
 };

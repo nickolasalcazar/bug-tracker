@@ -2,9 +2,9 @@ const express = require("express");
 const apiRouter = express.Router();
 
 const userRouter = require("./user/userRouter");
+const messagesRouter = require("./messages/messagesRouter");
+
 apiRouter.use("/user", userRouter);
+apiRouter.use("/messages", messagesRouter);
 
-// const projectRouter = require("./project/projectRouter");
-// apiRouter.use("/project", projectRouter);
-
-module.exports = { apiRouter };
+module.exports = apiRouter;

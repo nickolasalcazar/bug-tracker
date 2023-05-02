@@ -2,7 +2,7 @@ import { callExternalApi } from "./external-api";
 
 const apiServerUrl = process.env.REACT_APP_API_SERVER_URL;
 
-export const getPublicResource = async () => {
+export const getPublicMessage = async () => {
   const config = {
     url: `${apiServerUrl}/api/messages/public`,
     method: "GET",
@@ -19,7 +19,7 @@ export const getPublicResource = async () => {
   };
 };
 
-export const getProtectedResource = async (accessToken) => {
+export const getProtectedMessage = async (accessToken) => {
   const config = {
     url: `${apiServerUrl}/api/messages/protected`,
     method: "GET",
@@ -37,7 +37,7 @@ export const getProtectedResource = async (accessToken) => {
   };
 };
 
-export const getAdminResource = async (accessToken) => {
+export const getAdminMessage = async (accessToken) => {
   const config = {
     url: `${apiServerUrl}/api/messages/admin`,
     method: "GET",

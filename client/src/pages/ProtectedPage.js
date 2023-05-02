@@ -1,6 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import React, { useEffect, useState } from "react";
-import { getProtectedResource } from "../services/message";
+import { getProtectedMessage } from "../services/message";
 
 // A page for demoing accessing authorized data from the backend.
 export default function ProtectedPage() {
@@ -13,7 +13,7 @@ export default function ProtectedPage() {
 
     const getMessage = async () => {
       const accessToken = await getAccessTokenSilently();
-      const { data, error } = await getProtectedResource(accessToken);
+      const { data, error } = await getProtectedMessage(accessToken);
 
       if (!isMounted) {
         return;
