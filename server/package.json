@@ -4,8 +4,8 @@
   "description": "This bug tracking web app is a web-based application designed to track and manage bugs for software projects. The application is built on the Amazon RDS, Express.js, React.js, and Node.js stack, and it provides an easy-to-use interface for creating, updating, and resolving bugs.",
   "main": "index.js",
   "scripts": {
-    "start": "node server/index.js",
-    "dev": "nodemon server/index.js",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "react-scripts build"
   },
