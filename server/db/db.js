@@ -22,20 +22,20 @@ module.exports = {
    *     console.log("res.rows[0] =", res.rows[0]);
    *   })
    *   .catch((error) => console.log(error));
-   * @param {string} text
-   * @param {Array} params
+   * @param   {string}  sql
+   * @param   {Array}   params
    * @returns {res}
    */
-  async query(text, params) {
+  async query(sql, params) {
     const start = Date.now();
     try {
-      const res = await pool.query(text, params);
+      const res = await pool.query(sql, params);
       const duration = Date.now() - start;
-      console.log("executed query", { text, duration, rows: res.rowCount });
+      logQuery(sql, duration, res.rowCount, null);
       return res;
     } catch (error) {
       const duration = Date.now() - start;
-      console.log("executed query", { text, duration, rows: "ERROR OCCURRED" });
+      logQuery(sql, duration, null, error.toString());
       throw error;
     }
   },
@@ -74,4 +74,20 @@ module.exports = {
     };
     return client;
   },
+};
+
+/**
+ * Log a query to the console.
+ * @param {string} sql
+ * @param {number} duration
+ * @param {number} rows
+ * @param {any}    error
+ */
+const logQuery = (sql, duration, rows = null, error = null) => {
+  console.log("executed query", {
+    sql: sql,
+    duration: `${duration} ms`,
+    rows: rows,
+    error: error,
+  });
 };
