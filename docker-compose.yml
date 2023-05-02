@@ -1,5 +1,23 @@
 version: "3.8"
 services:
+  client:
+    build: ./client
+    ports:
+      - 3000:3000
+    depends_on:
+      - server
+    # environment:
+  server:
+    build: ./server
+    ports:
+      - 9000:9000
+    depends_on:
+      - database
+    environment:
+      DB_HOST: postgres
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_NAME: mydb
   database:
     image: postgres:latest
     environment:
@@ -7,17 +25,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: mydb
     volumes:
-      - ./db:/var/lib/postgresql/data
+      - .server/db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - .serber/db/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-      - "5432:5432"
-  backend:
-    build: .
-    ports:
-      - "9000:9000"
-    depends_on:
-      - postgres
-    environment:
-      DB_HOST: postgres
-      DB_USER: postgres
-      DB_PASSWORD: password
-      DB_NAME: mydb
+      - 5432:5432
