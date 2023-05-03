@@ -3,11 +3,11 @@ dotenv.config();
 const { Pool } = require("pg");
 
 const pool = new Pool({
-  host: process.env.RDS_ENDPOINT,
-  port: process.env.RDS_PORT,
-  database: process.env.RDS_DATABASE,
-  user: process.env.RDS_USERNAME,
-  password: process.env.RDS_PASSWORD,
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  database: process.env.DB_DATABASE,
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
 });
 
 module.exports = {
