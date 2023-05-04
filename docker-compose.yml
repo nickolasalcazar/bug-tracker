@@ -6,6 +6,13 @@ services:
       - 3000:3000
     depends_on:
       - server
+    environment:
+      # To enable hot reloading
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+      - WDS_SOCKET_HOST=127.0.0.1
+    volumes:
+      - ./client:/app
   server:
     build: ./server
     ports:
