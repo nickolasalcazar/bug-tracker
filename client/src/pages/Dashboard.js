@@ -25,6 +25,15 @@ function Dashboard() {
   return (
     <div>
       <h1>Dashboard</h1>
+      <p>
+        This is the dashboard. It displays all of a user's tasks and projects.
+      </p>
+      <div>
+        <h2>Projects</h2>
+      </div>
+      <div>
+        <h2>Tasks</h2>
+      </div>
     </div>
   );
 }

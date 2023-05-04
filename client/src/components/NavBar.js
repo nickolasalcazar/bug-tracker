@@ -3,15 +3,14 @@ import { NavLink } from "react-router-dom";
 
 import { useAuth0 } from "@auth0/auth0-react";
 
-import { UserContext } from "../App";
-
+import ProfilePic from "./ProfilePic";
 import LoginButton from "./Login";
 import LogoutButton from "./Logout";
 import SignupButton from "./SignUp";
 
 function NavBar() {
   // const user = useContext(UserContext);
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, user } = useAuth0();
 
   return (
     <nav>
@@ -33,18 +32,22 @@ function NavBar() {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/profile">Profile</NavLink>
-        </li>
-        <li>
           <NavLink to="/dashboard">Dashboard</NavLink>
         </li>
         {/* <li>
           <NavLink to="/protected-page">Protected Page</NavLink>
         </li> */}
         {isAuthenticated ? (
-          <li>
-            <LogoutButton />
-          </li>
+          <>
+            <li>
+              <LogoutButton />
+            </li>
+            <li>
+              <NavLink to="/profile">
+                <ProfilePic src={user.picture} />
+              </NavLink>
+            </li>
+          </>
         ) : (
           <>
             <li>
