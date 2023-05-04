@@ -1,7 +1,5 @@
---- Insert initial data here
-
 DROP TABLE IF EXISTS task_comments CASCADE;
-DROP TABLE IF EXISTS task_designees CASCADE;
+DROP TABLE IF EXISTS task_subscribers CASCADE;
 DROP TABLE IF EXISTS tasks CASCADE;
 DROP TABLE IF EXISTS project_comments CASCADE;
 DROP TABLE IF EXISTS project_members CASCADE;
@@ -20,7 +18,7 @@ CREATE TABLE users (
 );
 
 -- User groups are named collections of users.
--- E.g. 'Household', 'Computer Science Club'
+-- E.g. 'Household', 'Computer Science Club'.
 CREATE TABLE user_groups (
 	group_id SERIAL PRIMARY KEY,
 	title TEXT NOT NULL,
@@ -57,6 +55,8 @@ CREATE TABLE project_comments (
 	date_posted TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+-- Tasks can be standalone or belong to a project.
+-- Tasks can be added to a project?
 CREATE TABLE tasks (
 	task_id SERIAL PRIMARY KEY,
 	parent_task_id SERIAL REFERENCES tasks(task_id) ON DELETE CASCADE,
@@ -67,7 +67,7 @@ CREATE TABLE tasks (
 	is_completed BOOLEAN NOT NULL DEFAULT FALSE
 );
 
-CREATE TABLE task_designees (
+CREATE TABLE task_subscribers (
 	task_id SERIAL REFERENCES tasks(task_id),
 	user_id TEXT REFERENCES users(user_id)
 );
