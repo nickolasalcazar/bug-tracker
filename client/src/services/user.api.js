@@ -1,6 +1,4 @@
-// All interactions with API takes place here
 import { callExternalApi } from "./external-api";
-
 const endpoint = process.env.REACT_APP_API_SERVER_URL;
 
 /**
