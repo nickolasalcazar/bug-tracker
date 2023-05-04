@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -10,9 +9,7 @@ import LogoutButton from "../Logout";
 import SignupButton from "../SignUp";
 
 function NavBar() {
-  // const user = useContext(UserContext);
   const { isAuthenticated, user } = useAuth0();
-
   return (
     <nav className="nav-bar">
       <ul>
