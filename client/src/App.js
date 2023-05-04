@@ -9,7 +9,8 @@ import NavBar from "./components/NavBar";
 import PageLoader from "./components/PageLoader";
 import Homepage from "./pages/Homepage";
 import Profile from "./pages/Profile";
-import ProtectedPage from "./pages/ProtectedPage";
+import Projects from "./pages/Projects";
+import NewProject from "./pages/NewProject";
 import Dashboard from "./pages/Dashboard";
 
 export const UserContext = createContext(null);
@@ -35,12 +36,16 @@ function App() {
           element={<AuthenticationGuard component={Dashboard} />}
         />
         <Route
-          path="/profile"
-          element={<AuthenticationGuard component={Profile} />}
+          path="/projects"
+          element={<AuthenticationGuard component={Projects} />}
         />
         <Route
-          path="/protected-page"
-          element={<AuthenticationGuard component={ProtectedPage} />}
+          path="/projects/new"
+          element={<AuthenticationGuard component={NewProject} />}
+        />
+        <Route
+          path="/profile"
+          element={<AuthenticationGuard component={Profile} />}
         />
         <Route
           path="*"

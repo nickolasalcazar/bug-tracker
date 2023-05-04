@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getUserInfo, createUser } from "../services/user.api";
 
+import { NavLink } from "react-router-dom";
+
 function Dashboard() {
   const { user, getAccessTokenSilently } = useAuth0();
 
@@ -30,6 +32,18 @@ function Dashboard() {
       </p>
       <div>
         <h2>Projects</h2>
+        <ul>
+          <li>
+            <button>
+              <NavLink to="/projects">View Projects</NavLink>
+            </button>
+          </li>
+          <li>
+            <button>
+              <NavLink to="/projects/new">Create New Project</NavLink>
+            </button>
+          </li>
+        </ul>
       </div>
       <div>
         <h2>Tasks</h2>
