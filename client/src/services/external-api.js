@@ -17,10 +17,6 @@ import axios from "axios";
  */
 export const callExternalApi = async ({ url, method, headers, data }) => {
   return await axios({ url, method, headers: headers, data })
-    .then((res) => {
-      return { data: res.data, error: null };
-    })
-    .catch((e) => {
-      return { data: null, error: e };
-    });
+    .then((res) => res)
+    .catch((e) => e.response);
 };
