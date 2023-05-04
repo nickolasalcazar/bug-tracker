@@ -1,0 +1,34 @@
+.new-task {
+  margin: auto;
+  /* padding: 5px;  */
+  min-width: 200px;
+  margin: 5px;
+  background-color: white;
+  border: 0.5px solid #d8dee4;
+  border-radius: 10px;
+}
+
+.new-task form {
+  /* margin: 5px; */
+  display: flex;
+  flex-direction: column;
+}
+
+.new-task form #task-title {
+  font-size: larger;
+  font-weight: 600;
+}
+
+.new-task form > * {
+  margin: 7.5px 0px;
+}
+
+.new-task form textarea,
+.new-task form input {
+  background: none;
+  border-width: 0px;
+}
+
+.new-task form > *:not(:first-child) {
+  border-top: 1px solid #d8dee4;
+}

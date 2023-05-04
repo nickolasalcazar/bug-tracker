@@ -4,15 +4,12 @@ import "./NewTask.css";
 
 /**
  * Renders a form for creating a new task.
- * @param {*} props
- * @returns
  */
-export default function NewTask({}) {
+export default function NewTask() {
   return (
-    <div>
-      <h2>New Task</h2>
+    <div className="new-task">
+      {/* <h2>New Task</h2> */}
       <form>
-        <label htmlFor="task-title">Task Title</label>
         <input
           type="text"
           id="task-title"
@@ -20,18 +17,42 @@ export default function NewTask({}) {
           required
           aria-required="true"
           aria-label="Task Title"
+          placeholder="Enter task title"
         />
-
-        <label htmlFor="description">Description</label>
         <textarea
           id="description"
           name="description"
           required
           aria-required="true"
           aria-label="Description"
+          placeholder="Enter task description"
+          rows={5}
         ></textarea>
-
-        <button type="submit">Submit</button>
+        <div>
+          <label hmtlFor="subscribers">Subscribers</label>
+          <input
+            type="text"
+            id="subscribers"
+            name="subscribers"
+            required
+            aria-required="true"
+            aria-label="Subscribers"
+            placeholder="Enter subscribers"
+          />
+        </div>
+        <div>
+          <label hmtlFor="tags">Tags</label>
+          <input
+            type="text"
+            id="tags"
+            name="tags"
+            required
+            aria-required="true"
+            aria-label="tags"
+            placeholder="Enter tags"
+          />
+        </div>
+        <button type="submit">Create</button>
       </form>
     </div>
   );
