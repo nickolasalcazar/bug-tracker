@@ -12,8 +12,8 @@ DROP TABLE IF EXISTS users CASCADE;
 
 CREATE TABLE users (
     user_id TEXT PRIMARY KEY,
-    email TEXT NOT NULL UNIQUE,
     username TEXT NOT NULL UNIQUE,
+    email TEXT NOT NULL UNIQUE,
     "name" TEXT NOT NULL,
     nickname TEXT,
     picture TEXT
