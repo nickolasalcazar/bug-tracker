@@ -16,8 +16,8 @@ export default function SignupButton() {
   };
 
   return (
-    <button className="button__sign-up" onClick={handleSignUp}>
+    <a className="button__sign-up" onClick={handleSignUp}>
       Sign Up
-    </button>
+    </a>
   );
 }
