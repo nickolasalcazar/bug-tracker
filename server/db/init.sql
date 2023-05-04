@@ -11,12 +11,12 @@ DROP TABLE IF EXISTS user_groups CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
 
 CREATE TABLE users (
-    user_id TEXT PRIMARY KEY,
-    username TEXT NOT NULL UNIQUE,
-    email TEXT NOT NULL UNIQUE,
-    "name" TEXT NOT NULL,
-    nickname TEXT,
-    picture TEXT
+	user_id TEXT PRIMARY KEY,
+	username TEXT NOT NULL UNIQUE,
+	email TEXT NOT NULL UNIQUE,
+	"name" TEXT NOT NULL,
+	nickname TEXT,
+	picture TEXT
 );
 
 -- User groups are named collections of users.
@@ -35,18 +35,18 @@ CREATE TABLE user_group_members (
 );
 
 CREATE TABLE projects (
-    project_id SERIAL PRIMARY KEY,
-    user_group_id SERIAL REFERENCES user_groups(group_id),
-    title TEXT NOT NULL,
+	project_id SERIAL PRIMARY KEY,
+	user_group_id SERIAL REFERENCES user_groups(group_id),
+	title TEXT NOT NULL,
 	description TEXT DEFAULT 'No description',
 	date_created TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE project_members (
-    project_id SERIAL REFERENCES projects(project_id) ON DELETE CASCADE,
+	project_id SERIAL REFERENCES projects(project_id) ON DELETE CASCADE,
 	member_id TEXT REFERENCES users(user_id),
 	is_owner BOOLEAN NOT NULL DEFAULT FALSE,
-    PRIMARY KEY (project_id, member_id)
+	PRIMARY KEY (project_id, member_id)
 );
 
 CREATE TABLE project_comments (
@@ -58,10 +58,10 @@ CREATE TABLE project_comments (
 );
 
 CREATE TABLE tasks (
-    task_id SERIAL PRIMARY KEY,
-    parent_task_id SERIAL REFERENCES tasks(task_id) ON DELETE CASCADE,
+	task_id SERIAL PRIMARY KEY,
+	parent_task_id SERIAL REFERENCES tasks(task_id) ON DELETE CASCADE,
 	project_id SERIAL REFERENCES projects(project_id) ON DELETE CASCADE,
-    title TEXT NOT NULL,
+	title TEXT NOT NULL,
 	description TEXT DEFAULT 'No description',
 	date_created TIMESTAMP NOT NULL DEFAULT NOW(),
 	is_completed BOOLEAN NOT NULL DEFAULT FALSE
