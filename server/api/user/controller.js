@@ -1,33 +1,52 @@
 const db = require("../../db/db");
 
 const queries = require("./queries");
+const { appendUniqueSuffix } = require("./utils");
 
 module.exports = {
-  getUsers: (req, res) => {
-    console.log("Example: get all user");
-    // db.query(queries.getStudents, [])
-    //   .then((result) => {
-    //     res.status(200).json(result.rows);
-    //   })
-    //   .catch((error) => {
-    //     console.log("Error", error);
-    //     res.sendStatus(500);
-    //   });
-  },
-
   /**
-   * Get user by ID. If user does not exist, return 'user does not exist'.
+   * Get user by ID.
+   * @param {*} req
+   * @param {*} res
    */
   getUser: (req, res) => {
-    const id = parseInt(req.params.id);
-    db.query(queries.getUser, id).then((result) => {
-      console.log("Does user exist? ", result.rows);
+    const id = decodeURI(req.params.id);
+    db.query(queries.getUserById, [id]).then((result) => {
+      result.rows.length === 0
+        ? res.sendStatus(404)
+        : res.status(200).json(result.rows);
     });
   },
 
-  addUser: (req, res) => {
-    const { name, email, age, dob } = req.body;
-    console.log("Add user");
+  /**
+   * Create a new user.
+   * @param {*} req
+   * @param {*} res
+   */
+  createUser: (req, res) => {
+    const { sub, email, name, nickname, picture } = req.body;
+
+    console.log("req.body", { nickname, name, picture, email, sub });
+
+    // Does provided sub match sub in JWT?
+    if (req.auth.payload.sub === req.body.sub) {
+      // Does this user already exist?
+      db.query(queries.getUserById, [req.body.sub]).then((result) => {
+        if (result.rows.length === 0) {
+          db.query(queries.createUser, [
+            sub,
+            appendUniqueSuffix(nickname),
+            email,
+            name,
+            nickname,
+            picture,
+          ]).then((result) => {
+            console.log("Insert response = ", result);
+            res.sendStatus(201);
+          });
+        } else res.sendStatus(403);
+      });
+    } else res.sendStatus(403);
   },
 
   deleteUser: (req, res) => {

@@ -15,10 +15,8 @@ CREATE TABLE users (
     email TEXT NOT NULL UNIQUE,
     username TEXT NOT NULL UNIQUE,
     "name" TEXT NOT NULL,
-	given_name TEXT,
-    family_name TEXT,
-	nickname TEXT,
-	profile_pic_url TEXT
+    nickname TEXT,
+    picture TEXT
 );
 
 -- User groups are named collections of users.
