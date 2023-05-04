@@ -1,11 +1,12 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 
 import { useAuth0 } from "@auth0/auth0-react";
 
 import { AuthenticationGuard } from "./components/auth0/AuthenticationGuard";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/NavBar/NavBar";
+import NewTask from "./components/NewTask/NewTask";
 import PageLoader from "./components/PageLoader";
 import Homepage from "./pages/Homepage";
 import Profile from "./pages/Profile";
@@ -42,6 +43,10 @@ function App() {
         <Route
           path="/projects/new"
           element={<AuthenticationGuard component={NewProject} />}
+        />
+        <Route
+          path="/tasks/new"
+          element={<AuthenticationGuard component={NewTask} />}
         />
         <Route
           path="/profile"

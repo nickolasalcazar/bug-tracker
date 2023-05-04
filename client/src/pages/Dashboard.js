@@ -47,6 +47,9 @@ function Dashboard() {
       </div>
       <div>
         <h2>Tasks</h2>
+        <button>
+          <NavLink to="/tasks/new">New Task</NavLink>
+        </button>
       </div>
     </div>
   );
