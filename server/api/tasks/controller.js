@@ -4,19 +4,28 @@ const queries = require("./queries");
 module.exports = {
   /**
    * Get a task by ID.
-   * @param {*} req
-   * @param {*} res
    */
   getTask: (req, res) => {},
 
   /**
-   * Create a new new task
-   * @param {*} req
-   * @param {*} res
+   * Create a new task.
    */
   createTask: (req, res) => {
-    console.log("Create task");
-    res.sendStatus(201);
+    const {
+      title,
+      description,
+      projectId = null,
+      parentTaskId = null,
+    } = req.body;
+    db.query(queries.createTask, [title, description, projectId, parentTaskId])
+      .then((result) => {
+        console.log(result);
+        res.sendStatus(201);
+      })
+      .catch((e) => {
+        console.log(e);
+        res.sendStatus(403);
+      });
   },
 
   deleteTask: (req, res) => {

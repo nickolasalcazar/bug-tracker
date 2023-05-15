@@ -1,13 +1,3 @@
-DROP TABLE IF EXISTS task_comments CASCADE;
-DROP TABLE IF EXISTS task_subscribers CASCADE;
-DROP TABLE IF EXISTS tasks CASCADE;
-DROP TABLE IF EXISTS project_comments CASCADE;
-DROP TABLE IF EXISTS project_members CASCADE;
-DROP TABLE IF EXISTS projects CASCADE;
-DROP TABLE IF EXISTS user_group_members CASCADE;
-DROP TABLE IF EXISTS user_groups CASCADE;
-DROP TABLE IF EXISTS users CASCADE;
-
 CREATE TABLE users (
 	user_id TEXT PRIMARY KEY,
 	username TEXT NOT NULL UNIQUE,
@@ -55,17 +45,20 @@ CREATE TABLE project_comments (
 	date_posted TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
--- Tasks can be standalone or belong to a project.
--- Tasks can be added to a project?
 CREATE TABLE tasks (
 	task_id SERIAL PRIMARY KEY,
 	parent_task_id SERIAL REFERENCES tasks(task_id) ON DELETE CASCADE,
 	project_id SERIAL REFERENCES projects(project_id) ON DELETE CASCADE,
 	title TEXT NOT NULL,
-	description TEXT DEFAULT 'No description',
-	date_created TIMESTAMP NOT NULL DEFAULT NOW(),
-	is_completed BOOLEAN NOT NULL DEFAULT FALSE
+	"description" TEXT DEFAULT 'No description',
+	date_created TIMESTAMP NOT NULL DEFAULT NOW()
 );
+
+-- Alter table tasks to make foreign keys nullable
+ALTER TABLE tasks
+	ALTER COLUMN parent_task_id DROP NOT NULL;
+ALTER TABLE tasks
+	ALTER COLUMN project_id DROP NOT NULL;
 
 CREATE TABLE task_subscribers (
 	task_id SERIAL REFERENCES tasks(task_id),

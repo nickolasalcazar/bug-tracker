@@ -1,4 +1,4 @@
 module.exports = {
-  // getTaskById: "SELECT * FROM users WHERE user_id = $1",
-  createTask: "INSERT INTO tasks() VALUES",
+  createTask:
+    "INSERT INTO tasks(title, description, project_id, parent_task_id) VALUES ($1, $2, $3, $4)",
 };
