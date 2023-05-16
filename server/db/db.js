@@ -23,7 +23,7 @@ module.exports = {
    *   })
    *   .catch((error) => console.log(error));
    * @param   {string}  sql
-   * @param   {Array}   params
+   * @param   {array}   params
    * @returns {res}
    */
   async query(sql, params) {
@@ -42,7 +42,7 @@ module.exports = {
 
   /**
    * Check out a client from the pool to run several queries in a row in a transaction.
-   * @returns {client}
+   * @returns client object
    * @link    https://node-postgres.com/guides/project-structure
    */
   async getClient() {
