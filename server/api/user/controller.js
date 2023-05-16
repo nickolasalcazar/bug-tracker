@@ -6,8 +6,6 @@ const { appendUniqueSuffix } = require("./utils");
 module.exports = {
   /**
    * Get user by ID.
-   * @param {*} req
-   * @param {*} res
    */
   getUser: (req, res) => {
     const id = decodeURI(req.params.id);
@@ -20,13 +18,9 @@ module.exports = {
 
   /**
    * Create a new user.
-   * @param {*} req
-   * @param {*} res
    */
   createUser: (req, res) => {
     const { sub, email, name, nickname, picture } = req.body;
-
-    console.log("req.body", { nickname, name, picture, email, sub });
 
     // Does provided sub match sub in JWT?
     if (req.auth.payload.sub === req.body.sub) {
@@ -41,7 +35,6 @@ module.exports = {
             nickname,
             picture,
           ]).then((result) => {
-            console.log("Insert response = ", result);
             res.sendStatus(201);
           });
         } else res.sendStatus(403);
