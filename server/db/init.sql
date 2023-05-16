@@ -17,9 +17,9 @@ CREATE TABLE user_groups (
 
 CREATE TABLE user_group_members (
 	group_id SERIAL REFERENCES user_groups(group_id) ON DELETE CASCADE,
-	member_id TEXT REFERENCES users(user_id),
+	user_id TEXT REFERENCES users(user_id),
 	is_owner BOOLEAN NOT NULL DEFAULT FALSE,
-	PRIMARY KEY (group_id, member_id)
+	PRIMARY KEY (group_id, user_id)
 );
 
 CREATE TABLE projects (
@@ -32,9 +32,9 @@ CREATE TABLE projects (
 
 CREATE TABLE project_members (
 	project_id SERIAL REFERENCES projects(project_id) ON DELETE CASCADE,
-	member_id TEXT REFERENCES users(user_id),
+	user_id TEXT REFERENCES users(user_id),
 	is_owner BOOLEAN NOT NULL DEFAULT FALSE,
-	PRIMARY KEY (project_id, member_id)
+	PRIMARY KEY (project_id, user_id)
 );
 
 CREATE TABLE project_comments (
@@ -49,6 +49,7 @@ CREATE TABLE tasks (
 	task_id SERIAL PRIMARY KEY,
 	parent_task_id SERIAL REFERENCES tasks(task_id) ON DELETE CASCADE,
 	project_id SERIAL REFERENCES projects(project_id) ON DELETE CASCADE,
+	owner_id TEXT REFERENCES users(user_id) ON DELETE CASCADE,
 	title TEXT NOT NULL,
 	"description" TEXT DEFAULT 'No description',
 	date_created TIMESTAMP NOT NULL DEFAULT NOW()
@@ -68,7 +69,7 @@ CREATE TABLE task_subscribers (
 CREATE TABLE task_comments (
 	comment_id SERIAL PRIMARY KEY,
 	task_id SERIAL REFERENCES tasks(task_id) ON DELETE CASCADE,
-	author_id TEXT REFERENCES users(user_id),
+	user_id TEXT REFERENCES users(user_id),
 	comment_text TEXT NOT NULL,
 	date_posted TIMESTAMP NOT NULL DEFAULT NOW()
 );
