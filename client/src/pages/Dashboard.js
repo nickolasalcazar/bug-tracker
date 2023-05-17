@@ -3,9 +3,21 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { getUserInfo, createUser } from "../services/user.api";
 
 import { NavLink } from "react-router-dom";
+import MUIDataTable from "mui-datatables";
 
 function Dashboard() {
   const { user, getAccessTokenSilently } = useAuth0();
+
+  const columns = ["Name", "Company", "City", "State"];
+  const data = [
+    ["Joe James", "Test Corp", "Yonkers", "NY"],
+    ["John Walsh", "Test Corp", "Hartford", "CT"],
+    ["Bob Herm", "Test Corp", "Tampa", "FL"],
+    ["James Houston", "Test Corp", "Dallas", "TX"],
+  ];
+  const options = {
+    filterType: "checkbox",
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -27,9 +39,14 @@ function Dashboard() {
   return (
     <div>
       <h1>Dashboard</h1>
-      <p>
-        This is the dashboard. It displays all of a user's tasks and projects.
-      </p>
+      <div style={{ display: "table", tableLayout: "fixed", width: "100%" }}>
+        <MUIDataTable
+          title={"Tasks"}
+          data={data}
+          columns={columns}
+          options={options}
+        />
+      </div>
       <div>
         <h2>Projects</h2>
         <ul>

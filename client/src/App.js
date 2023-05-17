@@ -5,7 +5,8 @@ import "./App.css";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import { AuthenticationGuard } from "./components/auth0/AuthenticationGuard";
-import NavBar from "./components/NavBar/NavBar";
+// import NavBar from "./components/NavBar/NavBar";
+import NavBar from "./components/NavBar";
 import NewTask from "./components/NewTask/NewTask";
 import PageLoader from "./components/PageLoader";
 import Homepage from "./pages/Homepage";
