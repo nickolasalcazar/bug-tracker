@@ -5,24 +5,37 @@ import { getAllSubscribedTasks } from "../services/task.api";
 
 import { NavLink } from "react-router-dom";
 import MUIDataTable from "mui-datatables";
+import { ThemeProvider, createTheme, styled } from "@mui/material";
+import DataTable from "../components/DataTable";
 
 function Dashboard() {
   const { user, getAccessTokenSilently } = useAuth0();
-
-  // const columns = ["Created", "Title", "Description", "Owner ID", "Project ID"];
-  // const data = [
-  //   ["Joe James", "Test Corp", "Yonkers", "NY"],
-  //   ["John Walsh", "Test Corp", "Hartford", "CT"],
-  //   ["Bob Herm", "Test Corp", "Tampa", "FL"],
-  //   ["James Houston", "Test Corp", "Dallas", "TX"],
-  // ];
-
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
+  // const dataTableOptions = {
+  //   filterType: "checkbox",
+  //   onCellClick: handleCellOnClick,
+  //   onRowClick: handleRowOnClick,
+  // };
 
-  const options = {
-    filterType: "checkbox",
-  };
+  const dataTableTheme = createTheme({
+    components: {
+      MUIDataTableBodyRow: {
+        styleOverrides: {
+          root: {
+            backgroundColor: "#FF0000",
+          },
+        },
+      },
+      // MUIDataTableBodyCell: {
+      //   styleOverrides: {
+      //     root: {
+      //       backgroundColor: "#FF0000",
+      //     },
+      //   },
+      // },
+    },
+  });
 
   useEffect(() => {
     let isMounted = true;
@@ -40,8 +53,17 @@ function Dashboard() {
     const getSubscribedTasks = async () => {
       const accessToken = await getAccessTokenSilently();
       const res = await getAllSubscribedTasks(accessToken);
-      setColumns(Object.keys(res.data[0]));
-      setRows(res.data.map((row) => Object.values(row)));
+
+      const columns = Object.keys(res.data[0]);
+      const rows = res.data.map((row) => Object.values(row));
+      // const rows = res.data;
+
+      // console.log("res.data", res.data);
+      // console.log("columns", columns);
+      // console.log("rows", rows);
+
+      setColumns(columns);
+      setRows(rows);
     };
     getSubscribedTasks();
 
@@ -52,15 +74,17 @@ function Dashboard() {
 
   return (
     <div>
-      <h1>Dashboard</h1>
-      <div style={{ display: "table", tableLayout: "fixed", width: "100%" }}>
-        <MUIDataTable
-          title={"Tasks"}
-          data={rows}
-          columns={columns}
-          options={options}
-        />
-      </div>
+      <DataTable columns={columns} rows={rows} />
+      {/* <div style={{ display: "table", tableLayout: "fixed", width: "100%" }}>
+        <ThemeProvider theme={dataTableTheme}>
+          <MUIDataTable
+            title={"Tasks"}
+            data={rows}
+            columns={columns}
+            options={dataTableOptions}
+          />
+        </ThemeProvider>
+      </div> */}
       <div>
         <h2>Projects</h2>
         <ul>
@@ -84,6 +108,14 @@ function Dashboard() {
       </div>
     </div>
   );
+
+  // function handleCellOnClick(data) {
+  //   console.log(data);
+  // }
+
+  // function handleRowOnClick(data) {
+  //   console.log(data);
+  // }
 }
 
 export default Dashboard;
