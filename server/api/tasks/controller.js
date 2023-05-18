@@ -12,34 +12,28 @@ module.exports = {
    * user is subscribed to.
    */
   getAllOwnedTasks: (req, res) => {
-    if (req.auth.payload.sub !== req.body.sub) res.sendStatus(403);
-    else {
-      db.query(queries.getAllOwnedTasks, [req.auth.payload.sub])
-        .then((result) => {
-          res.status(200).json(result.rows);
-        })
-        .catch((e) => {
-          console.log(e);
-          res.sendStatus(500);
-        });
-    }
+    db.query(queries.getAllOwnedTasks, [req.auth.payload.sub])
+      .then((result) => {
+        res.status(200).json(result.rows);
+      })
+      .catch((e) => {
+        console.log(e);
+        res.sendStatus(500);
+      });
   },
 
   /**
    * Get all tasks that the user is subscribed to.
    */
   getAllSubscribedTasks: (req, res) => {
-    if (req.auth.payload.sub !== req.body.sub) res.sendStatus(403);
-    else {
-      db.query(queries.getAllSubscribedTasks, [req.auth.payload.sub])
-        .then((result) => {
-          res.status(200).json(result.rows);
-        })
-        .catch((e) => {
-          console.log(e);
-          res.sendStatus(500);
-        });
-    }
+    db.query(queries.getAllSubscribedTasks, [req.auth.payload.sub])
+      .then((result) => {
+        res.status(200).json(result.rows);
+      })
+      .catch((e) => {
+        console.log(e);
+        res.sendStatus(500);
+      });
   },
 
   /**
