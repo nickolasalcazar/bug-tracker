@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import {
   AppBar,
   Avatar,
@@ -13,7 +12,6 @@ import {
   Toolbar,
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
-
 import { useAuth0 } from "@auth0/auth0-react";
 import LoginButton from "./Login";
 import LogoutButton from "./Logout";
@@ -127,13 +125,10 @@ export default function NavBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ backgroundColor: "#25292f" }}>
+      <AppBar position="static">
         <CssBaseline />
         <Toolbar>
-          <img
-            src="https://mugbug-public-assets.s3.us-west-1.amazonaws.com/logo-icon-v3-alt.png"
-            style={{ width: "50px" }}
-          />
+          <img src="logo-icon-dark.png" style={{ width: "50px" }} />
           <Box sx={{ flexGrow: 1 }} />
           <Stack direction="row" spacing={2}>
             {isAuthenticated ? (

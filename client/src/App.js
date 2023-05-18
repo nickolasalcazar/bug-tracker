@@ -34,6 +34,13 @@ function App() {
       background: {
         default: "#f6f8fa",
       },
+      primary: {
+        main: "#f63628", // Background color of navbar and other major components
+      },
+    },
+    typography: {
+      fontFamily:
+        '-apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
     },
   });
 
