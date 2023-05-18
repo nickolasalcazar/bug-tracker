@@ -4,8 +4,15 @@ module.exports = {
   getAllOwnedTasks: "SELECT * FROM tasks WHERE owner_id = $1",
   // Get all tasks that the user is subcribed to
   getAllSubscribedTasks: `
-    SELECT * FROM tasks
+    SELECT
+      tasks.task_id AS "Task ID",
+      title AS "Title",
+      description AS "Description",
+      users.username AS "Owner",
+      TO_CHAR(date_created AT TIME ZONE 'UTC', 'MM/DD/YYYY') AS "Created"
+      FROM tasks
     INNER JOIN task_subscribers ON tasks.task_id = task_subscribers.task_id
+    INNER JOIN users ON tasks.owner_id = users.user_id 
     WHERE task_subscribers.user_id = $1
     `,
   addSubscriber:
