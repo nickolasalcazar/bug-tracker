@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -25,17 +26,16 @@ const testData = {
  * @param {array} rows    E.g. [[row1], [row2]], [row3]]
  */
 export default function DataTable({ columns, rows }) {
+  const [tableSize, setTableSize] = useState("small");
   // const [columns, setColumns] = useState([]);
   // const [rows, setRows] = useState([]);
 
-  // rows.map((row) => {
-  //   console.log(`row[${row[0]}]`);
-  //   row.forEach((cell) => console.log("\tcell", cell));
-  // });
+  // const [selected, setSelected] = React.useState([]);
+  // const isSelected = (name) => selected.indexOf(name) !== -1;
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} size="small" aria-label="table">
+      <Table sx={{ minWidth: 650 }} size={tableSize} aria-label="table">
         <TableHead>
           <TableRow>
             {columns.map((col, i) => (
@@ -46,18 +46,32 @@ export default function DataTable({ columns, rows }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row, i) => (
-            <TableRow
-              key={i}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              {row.map((cell, j) => (
-                <TableCell key={i + "-" + j} align="left">
-                  {cell}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
+          {rows.map((row, i) => {
+            // const isItemSelected = isSelected(row.name);
+            // const labelId = `enhanced-table-checkbox-${i}`;
+
+            return (
+              <TableRow
+                key={i}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                {/* <TableCell padding="checkbox">
+                  <Checkbox
+                    color="primary"
+                    checked={isItemSelected}
+                    inputProps={{
+                      "aria-labelledby": labelId,
+                    }}
+                  />
+                </TableCell> */}
+                {row.map((cell, j) => (
+                  <TableCell key={i + "-" + j} align="left">
+                    {cell}
+                  </TableCell>
+                ))}
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </TableContainer>

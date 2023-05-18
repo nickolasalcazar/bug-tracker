@@ -4,38 +4,12 @@ import { getUserInfo, createUser } from "../services/user.api";
 import { getAllSubscribedTasks } from "../services/task.api";
 
 import { NavLink } from "react-router-dom";
-import MUIDataTable from "mui-datatables";
-import { ThemeProvider, createTheme, styled } from "@mui/material";
 import DataTable from "../components/DataTable";
 
 function Dashboard() {
   const { user, getAccessTokenSilently } = useAuth0();
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
-  // const dataTableOptions = {
-  //   filterType: "checkbox",
-  //   onCellClick: handleCellOnClick,
-  //   onRowClick: handleRowOnClick,
-  // };
-
-  const dataTableTheme = createTheme({
-    components: {
-      MUIDataTableBodyRow: {
-        styleOverrides: {
-          root: {
-            backgroundColor: "#FF0000",
-          },
-        },
-      },
-      // MUIDataTableBodyCell: {
-      //   styleOverrides: {
-      //     root: {
-      //       backgroundColor: "#FF0000",
-      //     },
-      //   },
-      // },
-    },
-  });
 
   useEffect(() => {
     let isMounted = true;
@@ -75,16 +49,6 @@ function Dashboard() {
   return (
     <div>
       <DataTable columns={columns} rows={rows} />
-      {/* <div style={{ display: "table", tableLayout: "fixed", width: "100%" }}>
-        <ThemeProvider theme={dataTableTheme}>
-          <MUIDataTable
-            title={"Tasks"}
-            data={rows}
-            columns={columns}
-            options={dataTableOptions}
-          />
-        </ThemeProvider>
-      </div> */}
       <div>
         <h2>Projects</h2>
         <ul>
@@ -108,14 +72,6 @@ function Dashboard() {
       </div>
     </div>
   );
-
-  // function handleCellOnClick(data) {
-  //   console.log(data);
-  // }
-
-  // function handleRowOnClick(data) {
-  //   console.log(data);
-  // }
 }
 
 export default Dashboard;
