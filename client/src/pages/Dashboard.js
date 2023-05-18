@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getUserInfo, createUser } from "../services/user.api";
+import { getAllSubscribedTasks } from "../services/task.api";
 
 import { NavLink } from "react-router-dom";
 import MUIDataTable from "mui-datatables";
@@ -8,13 +9,17 @@ import MUIDataTable from "mui-datatables";
 function Dashboard() {
   const { user, getAccessTokenSilently } = useAuth0();
 
-  const columns = ["Name", "Company", "City", "State"];
-  const data = [
-    ["Joe James", "Test Corp", "Yonkers", "NY"],
-    ["John Walsh", "Test Corp", "Hartford", "CT"],
-    ["Bob Herm", "Test Corp", "Tampa", "FL"],
-    ["James Houston", "Test Corp", "Dallas", "TX"],
-  ];
+  // const columns = ["Created", "Title", "Description", "Owner ID", "Project ID"];
+  // const data = [
+  //   ["Joe James", "Test Corp", "Yonkers", "NY"],
+  //   ["John Walsh", "Test Corp", "Hartford", "CT"],
+  //   ["Bob Herm", "Test Corp", "Tampa", "FL"],
+  //   ["James Houston", "Test Corp", "Dallas", "TX"],
+  // ];
+
+  const [columns, setColumns] = useState([]);
+  const [rows, setRows] = useState([]);
+
   const options = {
     filterType: "checkbox",
   };
@@ -31,6 +36,15 @@ function Dashboard() {
       if (!isMounted) return;
     };
     newUserCheck();
+
+    const getSubscribedTasks = async () => {
+      const accessToken = await getAccessTokenSilently();
+      const res = await getAllSubscribedTasks(accessToken);
+      setColumns(Object.keys(res.data[0]));
+      setRows(res.data.map((row) => Object.values(row)));
+    };
+    getSubscribedTasks();
+
     return () => {
       isMounted = false;
     };
@@ -42,7 +56,7 @@ function Dashboard() {
       <div style={{ display: "table", tableLayout: "fixed", width: "100%" }}>
         <MUIDataTable
           title={"Tasks"}
-          data={data}
+          data={rows}
           columns={columns}
           options={options}
         />
