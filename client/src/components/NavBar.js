@@ -5,6 +5,7 @@ import {
   Avatar,
   Box,
   Button,
+  CssBaseline,
   IconButton,
   Menu,
   MenuItem,
@@ -127,6 +128,7 @@ export default function NavBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: "#25292f" }}>
+        <CssBaseline />
         <Toolbar>
           <img
             src="https://mugbug-public-assets.s3.us-west-1.amazonaws.com/logo-icon-v3-alt.png"
