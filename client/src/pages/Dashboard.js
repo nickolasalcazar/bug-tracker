@@ -4,7 +4,7 @@ import { getUserInfo, createUser } from "../services/user.api";
 import { getAllSubscribedTasks } from "../services/task.api";
 
 import { NavLink } from "react-router-dom";
-import DataTable from "../components/DataTable";
+import DataTable from "../components/DataTable/DataTable";
 import { Box, Container, Stack } from "@mui/material";
 
 function Dashboard() {
@@ -31,7 +31,7 @@ function Dashboard() {
 
       const columns = Object.keys(res.data[0]);
       const rows = res.data.map((row) => Object.values(row));
-      // const rows = res.data;
+      // const rows = res.data; // For custom table
 
       // console.log("res.data", res.data);
       // console.log("columns", columns);
