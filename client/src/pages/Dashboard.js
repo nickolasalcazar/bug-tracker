@@ -5,6 +5,7 @@ import { getAllSubscribedTasks } from "../services/task.api";
 
 import { NavLink } from "react-router-dom";
 import DataTable from "../components/DataTable";
+import { Box, Container, Stack } from "@mui/material";
 
 function Dashboard() {
   const { user, getAccessTokenSilently } = useAuth0();
@@ -47,30 +48,46 @@ function Dashboard() {
   }, []);
 
   return (
-    <div>
-      <DataTable columns={columns} rows={rows} />
-      <div>
-        <h2>Projects</h2>
-        <ul>
-          <li>
-            <button>
-              <NavLink to="/projects">View Projects</NavLink>
-            </button>
-          </li>
-          <li>
-            <button>
-              <NavLink to="/projects/new">Create New Project</NavLink>
-            </button>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <h2>Tasks</h2>
-        <button>
-          <NavLink to="/tasks/new">New Task</NavLink>
-        </button>
-      </div>
-    </div>
+    <Stack direction="row">
+      {/* SideBar */}
+      <Container
+        flex={1}
+        sx={{ display: { xs: "none", sm: "none", md: "block" } }}
+      >
+        <div>
+          <h2>Projects</h2>
+          <ul>
+            <li>
+              <button>
+                <NavLink to="/projects">View Projects</NavLink>
+              </button>
+            </li>
+            <li>
+              <button>
+                <NavLink to="/projects/new">Create New Project</NavLink>
+              </button>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h2>Tasks</h2>
+          <button>
+            <NavLink to="/tasks/new">New Task</NavLink>
+          </button>
+        </div>
+      </Container>
+      {/* DataTable */}
+      <Container flex={2}>
+        <DataTable columns={columns} rows={rows} />
+      </Container>
+      {/* RightBar */}
+      <Container
+        flex={1}
+        sx={{ display: { xs: "none", sm: "none", md: "block" } }}
+      >
+        Rightbar
+      </Container>
+    </Stack>
   );
 }
 
