@@ -125,7 +125,10 @@ export default function NavBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar
+        position="fixed"
+        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+      >
         <CssBaseline />
         <Toolbar>
           <img src="logo-icon-dark.png" style={{ width: "50px" }} />
