@@ -153,7 +153,7 @@ function ResponsiveDrawer(props) {
               onClick={handleDrawerToggle}
               sx={{ mr: 2, display: { sm: "none" } }}
             >
-              <MenuIcon />
+              <MenuIcon fontSize="large" />
             </IconButton>
             <img
               src="logo-icon-dark.png"
