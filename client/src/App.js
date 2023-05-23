@@ -5,7 +5,7 @@ import "./App.css";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import { AuthenticationGuard } from "./components/auth0/AuthenticationGuard";
-import NavBar from "./components/NavBar/NavBar";
+// import NavBar from "./components/NavBar/NavBar";
 import NavBarWithDrawer from "./components/NavBar/NavBarWithDrawer";
 import NewTask from "./components/NewTask";
 import PageLoader from "./components/PageLoader";
@@ -21,6 +21,7 @@ import {
   Container,
   CssBaseline,
   ThemeProvider,
+  Typography,
 } from "@mui/material";
 
 export const UserContext = createContext(null);
@@ -64,7 +65,8 @@ function App() {
 
   const AppLayout = () => (
     <>
-      <NavBar />
+      {/* <NavBar /> */}
+      <Typography>NavBar is temporarily removed.</Typography>
       <Outlet />
     </>
   );

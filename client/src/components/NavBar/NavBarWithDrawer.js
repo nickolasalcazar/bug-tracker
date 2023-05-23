@@ -1,11 +1,9 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -13,17 +11,9 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import MailIcon from "@mui/icons-material/Mail";
-import MenuIcon from "@mui/icons-material/MenuRounded";
 import Toolbar from "@mui/material/Toolbar";
-import { Avatar, Button, Stack } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-
-import { NavLink } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
-import LoginButton from "../Login";
-import LogoutButton from "../Logout";
-import SignupButton from "../SignUp";
 import ProfileMenu from "./ProfileMenu";
+import NavBar from "./NavBar";
 
 const drawerWidth = 240;
 
@@ -70,7 +60,7 @@ export default function NavbarWithDrawer(props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  const { isAuthenticated, user } = useAuth0();
+  // const { isAuthenticated, user } = useAuth0();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -89,75 +79,11 @@ export default function NavbarWithDrawer(props) {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      {/**/}
-      <AppBar
-        position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      >
-        <Toolbar>
-          <Box
-            display="flex"
-            flex={1}
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { sm: "none" } }}
-            >
-              <MenuIcon fontSize="large" />
-            </IconButton>
-            <img
-              src="logo-icon-dark.png"
-              style={{ width: "50px", height: "50px" }}
-            />
-            <Stack direction="row" spacing={2}>
-              {isAuthenticated ? (
-                <>
-                  <Button sx={{ display: { sm: "block", xs: "none" } }}>
-                    <NavLink to="/dashboard">Dashboard</NavLink>
-                  </Button>
-                  <IconButton
-                    size="large"
-                    edge="end"
-                    aria-label="more navigation options"
-                    aria-controls={profileMenuId}
-                    aria-haspopup="true"
-                    onClick={handleProfileMenuOpen}
-                    color="inherit"
-                  >
-                    <Avatar src={user.picture} alt={user.nickname} />
-                  </IconButton>
-                </>
-              ) : (
-                <>
-                  <Button sx={{ display: { sm: "block", xs: "none" } }}>
-                    <LoginButton />
-                  </Button>
-                  <Button sx={{ display: { sm: "block", xs: "none" } }}>
-                    <SignupButton />
-                  </Button>
-                  <IconButton
-                    size="large"
-                    edge="end"
-                    aria-label="more navigation options"
-                    aria-controls={profileMenuId}
-                    aria-haspopup="true"
-                    onClick={handleProfileMenuOpen}
-                    color="inherit"
-                  >
-                    <MoreVertIcon />
-                  </IconButton>
-                </>
-              )}
-            </Stack>
-          </Box>
-        </Toolbar>
-      </AppBar>
-      {/**/}
+      <NavBar
+        handleDrawerToggle={handleDrawerToggle}
+        profileMenuId={profileMenuId}
+        handleProfileMenuOpen={handleProfileMenuOpen}
+      />
       {/* Drawer */}
       <Box
         component="nav"

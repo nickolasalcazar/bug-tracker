@@ -1,149 +1,63 @@
-import * as React from "react";
-import {
-  AppBar,
-  Avatar,
-  Box,
-  Button,
-  CssBaseline,
-  IconButton,
-  Menu,
-  MenuItem,
-  Stack,
-  Toolbar,
-} from "@mui/material";
+import React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/MenuRounded";
+import Toolbar from "@mui/material/Toolbar";
+import { Avatar, Button, Stack } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+
 import { NavLink } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import LoginButton from "../Login";
-import LogoutButton from "../Logout";
 import SignupButton from "../SignUp";
 
-export default function NavBar() {
+/**
+ * The navigation bar that resides at the top of the application.
+ *
+ * @param {function} handleDrawerToggle
+ * @param {string} profileMenuId
+ * @param {function} handleProfileMenuOpen
+ */
+function NavBar({ handleDrawerToggle, profileMenuId, handleProfileMenuOpen }) {
   const { isAuthenticated, user } = useAuth0();
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
-  const menuId = "primary-search-account-menu";
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>
-        <NavLink to="/profile">Profile</NavLink>
-      </MenuItem>
-      <MenuItem>
-        <LogoutButton />
-      </MenuItem>
-      {/* <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
-    </Menu>
-  );
-
-  const mobileMenuId = "primary-search-account-menu-mobile";
-  const renderMobileMenu = (
-    <></>
-    // <Menu
-    //   anchorEl={mobileMoreAnchorEl}
-    //   anchorOrigin={{
-    //     vertical: "top",
-    //     horizontal: "right",
-    //   }}
-    //   id={mobileMenuId}
-    //   keepMounted
-    //   transformOrigin={{
-    //     vertical: "top",
-    //     horizontal: "right",
-    //   }}
-    //   open={isMobileMenuOpen}
-    //   onClose={handleMobileMenuClose}
-    // >
-    //   <MenuItem>
-    //     <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-    //       <Badge badgeContent={4} color="error">
-    //         <MailIcon />
-    //       </Badge>
-    //     </IconButton>
-    //     <p>Messages</p>
-    //   </MenuItem>
-    //   <MenuItem>
-    //     <IconButton
-    //       size="large"
-    //       aria-label="show 17 new notifications"
-    //       color="inherit"
-    //     >
-    //       <Badge badgeContent={17} color="error">
-    //         <NotificationsIcon />
-    //       </Badge>
-    //     </IconButton>
-    //     <p>Notifications</p>
-    //   </MenuItem>
-    //   <MenuItem onClick={handleProfileMenuOpen}>
-    //     <IconButton
-    //       size="large"
-    //       aria-label="account of current user"
-    //       aria-controls="primary-search-account-menu"
-    //       aria-haspopup="true"
-    //       color="inherit"
-    //     >
-    //       <AccountCircle />
-    //     </IconButton>
-    //     <p>Profile</p>
-    //   </MenuItem>
-    // </Menu>
-  );
-
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar
-        position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      >
-        <CssBaseline />
-        <Toolbar>
-          <img src="logo-icon-dark.png" style={{ width: "50px" }} />
-          <Box sx={{ flexGrow: 1 }} />
+    <AppBar
+      position="fixed"
+      sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+    >
+      <Toolbar>
+        <Box
+          display="flex"
+          flex={1}
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: "none" } }}
+          >
+            <MenuIcon fontSize="large" />
+          </IconButton>
+          <img
+            src="logo-icon-dark.png"
+            style={{ width: "50px", height: "50px" }}
+          />
           <Stack direction="row" spacing={2}>
             {isAuthenticated ? (
               <>
-                <Button>
+                <Button sx={{ display: { sm: "block", xs: "none" } }}>
                   <NavLink to="/dashboard">Dashboard</NavLink>
                 </Button>
                 <IconButton
                   size="large"
                   edge="end"
-                  aria-label="account of current user"
-                  aria-controls={menuId}
+                  aria-label="more navigation options"
+                  aria-controls={profileMenuId}
                   aria-haspopup="true"
                   onClick={handleProfileMenuOpen}
                   color="inherit"
@@ -153,19 +67,30 @@ export default function NavBar() {
               </>
             ) : (
               <>
-                <Button>
+                <Button sx={{ display: { sm: "block", xs: "none" } }}>
                   <LoginButton />
                 </Button>
-                <Button>
+                <Button sx={{ display: { sm: "block", xs: "none" } }}>
                   <SignupButton />
                 </Button>
+                <IconButton
+                  size="large"
+                  edge="end"
+                  aria-label="more navigation options"
+                  aria-controls={profileMenuId}
+                  aria-haspopup="true"
+                  onClick={handleProfileMenuOpen}
+                  color="inherit"
+                >
+                  <MoreVertIcon />
+                </IconButton>
               </>
             )}
           </Stack>
-        </Toolbar>
-      </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
-    </Box>
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 }
+
+export default NavBar;
