@@ -4,7 +4,7 @@ import { getUserInfo, createUser } from "../services/user.api";
 import { getAllSubscribedTasks } from "../services/task.api";
 
 import DataTable from "../components/DataTable/DataTable";
-import { Container, Stack } from "@mui/material";
+import { Container, CssBaseline, Stack } from "@mui/material";
 import LeftDrawer from "../components/LeftDrawer";
 import RightBar from "../components/RightBar";
 
@@ -50,17 +50,20 @@ function Dashboard() {
 
   return (
     <Stack direction="row">
-      <Container
+      <CssBaseline />
+      {/* Commented out LeftDrawer because NavBarWithDrawer includes LeftDrawer in it  */}
+      {/* <Container
         flex={1}
         sx={{ display: { xs: "none", sm: "none", md: "block" } }}
       >
         <LeftDrawer />
-      </Container>
-      <Container flex={2}>
+      </Container> */}
+      {/* <Container flex={2}> */}
+      <Container>
         <DataTable columns={columns} rows={rows} />
       </Container>
       <Container
-        flex={1}
+        // flex={1}
         sx={{ display: { xs: "none", sm: "none", md: "block" } }}
       >
         <RightBar />
