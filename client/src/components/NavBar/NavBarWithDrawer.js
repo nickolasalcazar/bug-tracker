@@ -15,8 +15,7 @@ import ListItemText from "@mui/material/ListItemText";
 import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/MenuRounded";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import { Avatar, Button, Stack, Menu, MenuItem } from "@mui/material";
+import { Avatar, Button, Stack } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import { NavLink } from "react-router-dom";
@@ -24,6 +23,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import LoginButton from "../Login";
 import LogoutButton from "../Logout";
 import SignupButton from "../SignUp";
+import ProfileMenu from "./ProfileMenu";
 
 const drawerWidth = 240;
 
@@ -73,7 +73,6 @@ export default function NavbarWithDrawer(props) {
   const { isAuthenticated, user } = useAuth0();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -81,54 +80,11 @@ export default function NavbarWithDrawer(props) {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
   const handleMenuClose = () => {
     setAnchorEl(null);
-    handleMobileMenuClose();
   };
 
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
-  const menuId = "primary-search-account-menu";
-  // Render menu when profile avatar is clicked
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-      sx={{
-        mt: "45px",
-      }}
-    >
-      <MenuItem
-        onClick={handleMenuClose}
-        sx={{ display: { md: "none", sm: "none" } }}
-      >
-        <NavLink to="/dashboard">Dashboard</NavLink>
-      </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
-        <NavLink to="/profile">Profile</NavLink>
-      </MenuItem>
-      <MenuItem>
-        <LogoutButton />
-      </MenuItem>
-    </Menu>
-  );
+  const profileMenuId = "profile-menu";
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -168,7 +124,7 @@ export default function NavbarWithDrawer(props) {
                     size="large"
                     edge="end"
                     aria-label="more navigation options"
-                    aria-controls={menuId}
+                    aria-controls={profileMenuId}
                     aria-haspopup="true"
                     onClick={handleProfileMenuOpen}
                     color="inherit"
@@ -188,7 +144,7 @@ export default function NavbarWithDrawer(props) {
                     size="large"
                     edge="end"
                     aria-label="more navigation options"
-                    aria-controls={menuId}
+                    aria-controls={profileMenuId}
                     aria-haspopup="true"
                     onClick={handleProfileMenuOpen}
                     color="inherit"
@@ -252,7 +208,12 @@ export default function NavbarWithDrawer(props) {
         <Toolbar />
         <Box component="main">{props.children}</Box>
       </Box>
-      {renderMenu}
+      <ProfileMenu
+        anchorEl={anchorEl}
+        menuId={profileMenuId}
+        isMenuOpen={isMenuOpen}
+        handleMenuClose={handleMenuClose}
+      />
     </Box>
   );
 }
