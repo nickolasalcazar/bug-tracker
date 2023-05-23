@@ -43,10 +43,23 @@ function NavBar({ handleDrawerToggle, profileMenuId, handleProfileMenuOpen }) {
           >
             <MenuIcon fontSize="large" />
           </IconButton>
-          <img
-            src="logo-icon-dark.png"
-            style={{ width: "50px", height: "50px" }}
-          />
+          <Stack direction="row" spacing={1}>
+            <img
+              src="logo-icon-dark.png"
+              style={{ width: "50px", height: "50px" }}
+            />
+            <Box
+              sx={{
+                pt: "3px",
+                display: { sm: "block", xs: "none" },
+              }}
+            >
+              <img
+                src="logo-text-alt.png"
+                style={{ width: "auto", height: "50px" }}
+              />
+            </Box>
+          </Stack>
           <Stack direction="row" spacing={2}>
             {isAuthenticated ? (
               <>
