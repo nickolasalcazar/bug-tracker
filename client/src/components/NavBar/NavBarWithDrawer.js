@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Box, CssBaseline, Toolbar } from "@mui/material";
+import { Box, CssBaseline, Toolbar as ToolbarPadding } from "@mui/material";
 import ProfileMenu from "./ProfileMenu";
 import NavBar from "./NavBar";
 import LeftDrawer from "./LeftDrawer";
@@ -8,24 +8,19 @@ const drawerWidth = 240;
 
 export default function NavbarWithDrawer(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
-
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  const profileMenuId = "profile-menu";
   const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const isMenuOpen = Boolean(anchorEl);
-
+  const isProfileMenuOpen = Boolean(anchorEl);
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
-  const handleMenuClose = () => {
+  const handleProfileMenuClose = () => {
     setAnchorEl(null);
   };
-
-  const profileMenuId = "profile-menu";
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -48,14 +43,14 @@ export default function NavbarWithDrawer(props) {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >
-        <Toolbar />
+        <ToolbarPadding />
         <Box component="main">{props.children}</Box>
       </Box>
       <ProfileMenu
         anchorEl={anchorEl}
         menuId={profileMenuId}
-        isMenuOpen={isMenuOpen}
-        handleMenuClose={handleMenuClose}
+        isMenuOpen={isProfileMenuOpen}
+        handleMenuClose={handleProfileMenuClose}
       />
     </Box>
   );
