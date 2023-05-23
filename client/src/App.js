@@ -5,8 +5,8 @@ import "./App.css";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import { AuthenticationGuard } from "./components/auth0/AuthenticationGuard";
-import NavBar from "./components/NavBar";
-import NavBarWithDrawer from "./components/NavBarWithDrawer";
+import NavBar from "./components/NavBar/NavBar";
+import NavBarWithDrawer from "./components/NavBar/NavBarWithDrawer";
 import NewTask from "./components/NewTask";
 import PageLoader from "./components/PageLoader";
 import Homepage from "./pages/Homepage";
@@ -70,11 +70,9 @@ function App() {
   );
 
   const DashboardLayout = () => (
-    <>
-      <NavBarWithDrawer />
-      {/* Commented out because NavBarWithDrawer is being implemented */}
-      {/* <Outlet /> */}
-    </>
+    <NavBarWithDrawer>
+      <Outlet />
+    </NavBarWithDrawer>
   );
 
   return (

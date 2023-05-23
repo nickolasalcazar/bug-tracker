@@ -27,7 +27,7 @@ import SignupButton from "../SignUp";
 
 const drawerWidth = 240;
 
-function ResponsiveDrawer(props) {
+export default function NavbarWithDrawer(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -250,19 +250,17 @@ function ResponsiveDrawer(props) {
         }}
       >
         <Toolbar />
-        <Typography paragraph>Content goes here</Typography>
+        <Box component="main">{props.children}</Box>
       </Box>
       {renderMenu}
     </Box>
   );
 }
 
-ResponsiveDrawer.propTypes = {
+NavbarWithDrawer.propTypes = {
   /**
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
    */
   window: PropTypes.func,
 };
-
-export default ResponsiveDrawer;
