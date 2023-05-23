@@ -1,12 +1,16 @@
 import * as React from "react";
 import { Box, CssBaseline, Toolbar as ToolbarPadding } from "@mui/material";
-import ProfileMenu from "./ProfileMenu";
-import NavBar from "./NavBar";
-import LeftDrawer from "./LeftDrawer";
+import ProfileMenu from "./components/NavigationUI/ProfileMenu";
+import NavBar from "./components/NavigationUI/NavBar";
+import LeftDrawer from "./components/NavigationUI/LeftDrawer";
 
 const drawerWidth = 240;
 
-export default function NavbarWithDrawer(props) {
+/**
+ * Renders the main layout of the app, rendering components such as NavBar,
+ * LeftDrawer, and the main content of the app contained in <main />.
+ */
+export default function AppLayout({ children, disableDrawer }) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -30,11 +34,13 @@ export default function NavbarWithDrawer(props) {
         profileMenuId={profileMenuId}
         handleProfileMenuOpen={handleProfileMenuOpen}
       />
-      <LeftDrawer
-        handleDrawerToggle={handleDrawerToggle}
-        drawerWidth={drawerWidth}
-        mobileOpen={mobileOpen}
-      />
+      {disableDrawer ? null : (
+        <LeftDrawer
+          handleDrawerToggle={handleDrawerToggle}
+          drawerWidth={drawerWidth}
+          mobileOpen={mobileOpen}
+        />
+      )}
       <Box
         component="main"
         sx={{
@@ -44,7 +50,7 @@ export default function NavbarWithDrawer(props) {
         }}
       >
         <ToolbarPadding />
-        <Box component="main">{props.children}</Box>
+        <Box component="main">{children}</Box>
       </Box>
       <ProfileMenu
         anchorEl={anchorEl}

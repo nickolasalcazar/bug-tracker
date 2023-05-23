@@ -5,8 +5,7 @@ import "./App.css";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import { AuthenticationGuard } from "./components/auth0/AuthenticationGuard";
-// import NavBar from "./components/NavBar/NavBar";
-import NavBarWithDrawer from "./components/NavBar/NavBarWithDrawer";
+import AppLayout from "./AppLayout";
 import NewTask from "./components/NewTask";
 import PageLoader from "./components/PageLoader";
 import Homepage from "./pages/Homepage";
@@ -15,14 +14,7 @@ import Projects from "./pages/Projects";
 import NewProject from "./pages/NewProject";
 import Dashboard from "./pages/Dashboard";
 
-import {
-  createTheme,
-  Box,
-  Container,
-  CssBaseline,
-  ThemeProvider,
-  Typography,
-} from "@mui/material";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 
 export const UserContext = createContext(null);
 
@@ -63,18 +55,10 @@ function App() {
     },
   });
 
-  const AppLayout = () => (
-    <>
-      {/* <NavBar /> */}
-      <Typography>NavBar is temporarily removed.</Typography>
+  const AppLayoutWrapper = ({ disableDrawer }) => (
+    <AppLayout disableDrawer={disableDrawer}>
       <Outlet />
-    </>
-  );
-
-  const DashboardLayout = () => (
-    <NavBarWithDrawer>
-      <Outlet />
-    </NavBarWithDrawer>
+    </AppLayout>
   );
 
   return (
@@ -82,10 +66,10 @@ function App() {
       <div className="App">
         <CssBaseline />
         <Routes>
-          <Route element={<DashboardLayout />}>
+          <Route element={<AppLayoutWrapper />}>
             <Route path="/dashboard" element={<Dashboard />} />
           </Route>
-          <Route element={<AppLayout />}>
+          <Route element={<AppLayoutWrapper disableDrawer={true} />}>
             <Route path="/" element={<Homepage />} />
             <Route
               path="/projects"
