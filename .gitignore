@@ -2,6 +2,7 @@
 
 .env
 db-data
+_*
 
 # dependencies
 /node_modules
