@@ -39,26 +39,26 @@ function NavBar({ handleDrawerToggle, profileMenuId, handleProfileMenuOpen }) {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}
+            sx={{ mr: 2, display: { lg: "none" } }}
           >
             <MenuIcon fontSize="large" />
           </IconButton>
           <Stack direction="row" spacing={1}>
-            <img
+            <Box
+              component="img"
               src="logo-icon-dark.png"
               style={{ width: "50px", height: "50px" }}
             />
             <Box
+              component="img"
+              src="logo-text-alt.png"
               sx={{
+                width: "auto",
+                height: "50px",
                 pt: "3px",
-                display: { sm: "block", xs: "none" },
+                display: { xs: "none", sm: "block", md: "block" },
               }}
-            >
-              <img
-                src="logo-text-alt.png"
-                style={{ width: "auto", height: "50px" }}
-              />
-            </Box>
+            />
           </Stack>
           <Stack direction="row" spacing={2}>
             {isAuthenticated ? (

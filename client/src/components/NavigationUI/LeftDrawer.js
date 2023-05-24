@@ -60,10 +60,10 @@ export default function LeftDrawer({
   return (
     <Box
       component="nav"
-      sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+      sx={{ width: { lg: drawerWidth }, flexShrink: { sm: 0 } }}
       aria-label="mailbox folders"
     >
-      {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+      {/* The two Drawer elements below can be swapped with js to avoid SEO duplication of links. */}
       <Drawer
         // container={container}
         variant="temporary"
@@ -73,7 +73,7 @@ export default function LeftDrawer({
           keepMounted: true, // Better open performance on mobile.
         }}
         sx={{
-          display: { xs: "block", sm: "none" },
+          display: { xs: "block", sm: "block", md: "block", lg: "none" },
           "& .MuiDrawer-paper": {
             boxSizing: "border-box",
             width: drawerWidth,
@@ -85,7 +85,7 @@ export default function LeftDrawer({
       <Drawer
         variant="permanent"
         sx={{
-          display: { xs: "none", sm: "block" },
+          display: { xs: "none", sm: "none", md: "none", lg: "block" },
           "& .MuiDrawer-paper": {
             boxSizing: "border-box",
             width: drawerWidth,

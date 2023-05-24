@@ -45,9 +45,8 @@ export default function AppLayout({ children, disableDrawer }) {
         component="main"
         sx={{
           flexGrow: 1,
-          // p: 3,
           pt: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          width: { sm: `calc(100% - ${drawerWidth}px)` }, // Not sure what effect this has on styling
         }}
       >
         <ToolbarPadding />
