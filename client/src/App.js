@@ -37,6 +37,9 @@ function App() {
       primary: {
         main: "#f63628", // Background color of navbar and other major components
       },
+      secondary: {
+        main: "#1976d2",
+      },
     },
     typography: {
       fontFamily:

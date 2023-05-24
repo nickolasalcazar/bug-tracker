@@ -8,10 +8,11 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Toolbar,
+  Toolbar as ToolbarPadding,
 } from "@mui/material";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import NewButton from "./NewButton";
 
 /**
  * Renders the left drawer that should appear in the Dashboard page.
@@ -25,9 +26,9 @@ export default function LeftDrawer({
   mobileOpen,
   handleDrawerToggle,
 }) {
-  const drawer = (
+  const _drawer = (
     <div>
-      <Toolbar />
+      <ToolbarPadding />
       <Divider />
       <List>
         {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
@@ -55,6 +56,19 @@ export default function LeftDrawer({
         ))}
       </List>
     </div>
+  );
+
+  const drawer = (
+    <>
+      <ToolbarPadding />
+      <List sx={{ mt: { xs: 1, sm: 0 } }}>
+        <NewButton />
+        <Divider />
+      </List>
+      {/* <Divider />  */}
+
+      {/* <Divider /> */}
+    </>
   );
 
   return (
