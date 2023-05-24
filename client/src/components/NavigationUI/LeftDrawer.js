@@ -10,8 +10,9 @@ import {
   ListItemText,
   Toolbar as ToolbarPadding,
 } from "@mui/material";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import PersonIcon from "@mui/icons-material/PersonOutlineOutlined";
+import SubscribedIcon from "@mui/icons-material/ListOutlined";
+import StarOutlineIcon from "@mui/icons-material/StarOutlineRounded";
 import NewButton from "./NewButton";
 
 /**
@@ -26,48 +27,38 @@ export default function LeftDrawer({
   mobileOpen,
   handleDrawerToggle,
 }) {
-  const _drawer = (
-    <div>
-      <ToolbarPadding />
-      <Divider />
-      <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </div>
-  );
-
   const drawer = (
     <>
       <ToolbarPadding />
       <List sx={{ mt: { xs: 1, sm: 0 } }}>
         <NewButton />
         <Divider />
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <PersonIcon />
+            </ListItemIcon>
+            <ListItemText primary={"My Tasks"} />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <SubscribedIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Subscribed"} />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <StarOutlineIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Starred"} />
+          </ListItemButton>
+        </ListItem>
+        <Divider />
       </List>
-      {/* <Divider />  */}
-
-      {/* <Divider /> */}
     </>
   );
 
