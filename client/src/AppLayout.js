@@ -4,7 +4,7 @@ import ProfileMenu from "./components/NavigationUI/ProfileMenu";
 import NavBar from "./components/NavigationUI/NavBar";
 import LeftDrawer from "./components/NavigationUI/LeftDrawer";
 
-const drawerWidth = 240;
+const drawerWidth = 200;
 
 /**
  * Renders the main layout of the app, rendering components such as NavBar,
@@ -44,13 +44,18 @@ export default function AppLayout({ children, disableDrawer }) {
       <Box
         component="main"
         sx={{
-          flexGrow: 1,
-          pt: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` }, // Not sure what effect this has on styling
+          flex: 1,
+          py: 1,
+          px: {
+            xs: 0,
+            sm: 0,
+            md: 1,
+          },
+          // width: { sm: `calc(100% - ${drawerWidth}px)` }, // Not sure what effect this has on styling
         }}
       >
         <ToolbarPadding />
-        <Box component="main">{children}</Box>
+        {children}
       </Box>
       <ProfileMenu
         anchorEl={anchorEl}

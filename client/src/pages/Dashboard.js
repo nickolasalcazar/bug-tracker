@@ -4,7 +4,7 @@ import { getUserInfo, createUser } from "../services/user.api";
 import { getAllSubscribedTasks } from "../services/task.api";
 
 import DataTable from "../components/DataTable/DataTable";
-import { Box, Container, CssBaseline, Stack, Typography } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import RightBar from "../components/RightBar";
 import NewTask from "../components/NewTask";
 
@@ -48,29 +48,25 @@ function Dashboard() {
     };
   }, []);
 
-  // return (
-  //   <Box
-  //     sx={{
-  //       flex: 1,
-  //       backgroundColor: "#ffffff",
-  //     }}
-  //   >
-  //     <Typography>Hello</Typography>
-  //   </Box>
-  // );
-
   return (
-    <Stack direction="row" sx={{ p: "none", m: "none" }}>
-      <CssBaseline />
-      <Container>
+    <Stack
+      direction="row"
+      spacing={1}
+      sx={{ p: "none", m: "none" }}
+      justifyContent="space-around"
+    >
+      <Box
+        sx={{ width: { sm: "100%", md: "60%", lg: "75%", maxWidth: "95vw" } }}
+      >
         <DataTable columns={columns} rows={rows} />
-      </Container>
-      <Container sx={{ display: { xs: "none", sm: "none", md: "block" } }}>
+      </Box>
+      <Box
+        sx={{ width: "50%", display: { xs: "none", sm: "none", md: "block" } }}
+      >
         <RightBar>
-          {/* NewTask added as child for testing */}
           <NewTask />
         </RightBar>
-      </Container>
+      </Box>
     </Stack>
   );
 }
