@@ -12,6 +12,7 @@ function Dashboard() {
   const { user, getAccessTokenSilently } = useAuth0();
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
+  const [rightBarVisible, setRightBarVisible] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -56,17 +57,27 @@ function Dashboard() {
       justifyContent="space-around"
     >
       <Box
-        sx={{ width: { sm: "100%", md: "60%", lg: "75%", maxWidth: "95vw" } }}
+        sx={{
+          width: rightBarVisible
+            ? { sm: "100%", md: "60%", lg: "75%" }
+            : "100%",
+          maxWidth: "95vw",
+        }}
       >
         <DataTable columns={columns} rows={rows} />
       </Box>
-      <Box
-        sx={{ width: "50%", display: { xs: "none", sm: "none", md: "block" } }}
-      >
-        <RightBar>
-          <NewTask />
-        </RightBar>
-      </Box>
+      {rightBarVisible ? (
+        <Box
+          sx={{
+            width: "50%",
+            display: { xs: "none", sm: "none", md: "block" },
+          }}
+        >
+          <RightBar>
+            <NewTask />
+          </RightBar>
+        </Box>
+      ) : null}
     </Stack>
   );
 }
