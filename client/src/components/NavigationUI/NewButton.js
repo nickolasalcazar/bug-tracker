@@ -1,11 +1,11 @@
 import * as React from "react";
 import { styled, alpha } from "@mui/material/styles";
 import { Box, Button, Divider, Menu, MenuItem } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
 import ArchiveIcon from "@mui/icons-material/Archive";
-import FileCopyIcon from "@mui/icons-material/FileCopy";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import AddIcon from "@mui/icons-material/Add";
+import TaskIcon from "@mui/icons-material/AssignmentTurnedInRounded";
+import ProjectIcon from "@mui/icons-material/MenuBookRounded";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -94,12 +94,12 @@ export default function NewButton() {
         onClose={handleClose}
       >
         <MenuItem onClick={handleClose} disableRipple>
-          <EditIcon />
-          Edit
+          <TaskIcon />
+          Task
         </MenuItem>
         <MenuItem onClick={handleClose} disableRipple>
-          <FileCopyIcon />
-          Duplicate
+          <ProjectIcon />
+          Project
         </MenuItem>
         <Divider sx={{ my: 0.5 }} />
         <MenuItem onClick={handleClose} disableRipple>
