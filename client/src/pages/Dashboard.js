@@ -49,6 +49,10 @@ function Dashboard() {
     };
   }, []);
 
+  const handleOnRowClick = () => {
+    setRightBarVisible(!rightBarVisible);
+  };
+
   return (
     <Stack
       direction="row"
@@ -64,7 +68,11 @@ function Dashboard() {
           maxWidth: "95vw",
         }}
       >
-        <DataTable columns={columns} rows={rows} />
+        <DataTable
+          columns={columns}
+          rows={rows}
+          handleOnRowClick={handleOnRowClick}
+        />
       </Box>
       {rightBarVisible ? (
         <Box
