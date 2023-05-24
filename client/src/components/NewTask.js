@@ -1,14 +1,5 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  Paper,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, Grid, TextField, Typography } from "@mui/material";
 import { useAuth0 } from "@auth0/auth0-react";
 import { createTask } from "../services/task.api";
 
@@ -38,57 +29,53 @@ export default function NewTask() {
   };
 
   return (
-    <Paper sx={{ m: 3, pt: 2, pb: 2 }}>
-      <Container>
-        <Grid container direction="column" spacing={2}>
-          <Grid item>
-            <Typography variant="h5" component="h3">
-              New Task
-            </Typography>
+    <Grid container direction="column" spacing={2}>
+      <Grid item>
+        <Typography variant="h5" component="h3">
+          New Task
+        </Typography>
+      </Grid>
+      <Grid item>
+        <form action="">
+          <Grid container direction="column" spacing={2}>
+            <Grid item>
+              <TextField
+                id="task-title"
+                name="title"
+                label="Title"
+                placeholder="Enter task title"
+                onChange={handleTextChange}
+                required
+                fullWidth
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                id="description"
+                name="description"
+                label="Description"
+                placeholder="Enter task description"
+                onChange={handleTextChange}
+                multiline
+                minRows={5}
+                maxRows={Infinity}
+                required
+                fullWidth
+              />
+            </Grid>
+            <Grid item>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSubmit}
+                type="submit"
+              >
+                Publish
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item>
-            <form action="">
-              <Grid container direction="column" spacing={2}>
-                <Grid item>
-                  <TextField
-                    id="task-title"
-                    name="title"
-                    label="Title"
-                    placeholder="Enter task title"
-                    onChange={handleTextChange}
-                    required
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item>
-                  <TextField
-                    id="description"
-                    name="description"
-                    label="Description"
-                    placeholder="Enter task description"
-                    onChange={handleTextChange}
-                    multiline
-                    minRows={5}
-                    maxRows={Infinity}
-                    required
-                    fullWidth
-                  />
-                </Grid>
-                <Grid item>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleSubmit}
-                    type="submit"
-                  >
-                    Publish
-                  </Button>
-                </Grid>
-              </Grid>
-            </form>
-          </Grid>
-        </Grid>
-      </Container>
-    </Paper>
+        </form>
+      </Grid>
+    </Grid>
   );
 }
