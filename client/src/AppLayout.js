@@ -45,7 +45,8 @@ export default function AppLayout({ children, disableDrawer }) {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
+          // p: 3,
+          pt: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >

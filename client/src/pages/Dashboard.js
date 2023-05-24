@@ -4,9 +4,9 @@ import { getUserInfo, createUser } from "../services/user.api";
 import { getAllSubscribedTasks } from "../services/task.api";
 
 import DataTable from "../components/DataTable/DataTable";
-import { Container, CssBaseline, Stack } from "@mui/material";
-// import LeftDrawer from "../components/LeftDrawer";
+import { Box, Container, CssBaseline, Stack, Typography } from "@mui/material";
 import RightBar from "../components/RightBar";
+import NewTask from "../components/NewTask";
 
 function Dashboard() {
   const { user, getAccessTokenSilently } = useAuth0();
@@ -48,25 +48,28 @@ function Dashboard() {
     };
   }, []);
 
+  // return (
+  //   <Box
+  //     sx={{
+  //       flex: 1,
+  //       backgroundColor: "#ffffff",
+  //     }}
+  //   >
+  //     <Typography>Hello</Typography>
+  //   </Box>
+  // );
+
   return (
-    <Stack direction="row">
+    <Stack direction="row" sx={{ p: "none", m: "none" }}>
       <CssBaseline />
-      {/* Commented out LeftDrawer because NavBarWithDrawer includes LeftDrawer in it  */}
-      {/* <Container
-        flex={1}
-        sx={{ display: { xs: "none", sm: "none", md: "block" } }}
-      >
-        <LeftDrawer />
-      </Container> */}
-      {/* <Container flex={2}> */}
       <Container>
         <DataTable columns={columns} rows={rows} />
       </Container>
-      <Container
-        // flex={1}
-        sx={{ display: { xs: "none", sm: "none", md: "block" } }}
-      >
-        <RightBar />
+      <Container sx={{ display: { xs: "none", sm: "none", md: "block" } }}>
+        <RightBar>
+          {/* NewTask added as child for testing */}
+          <NewTask />
+        </RightBar>
       </Container>
     </Stack>
   );
