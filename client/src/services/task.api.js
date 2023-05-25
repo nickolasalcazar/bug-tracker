@@ -30,3 +30,18 @@ export const getAllSubscribedTasks = async (accessToken) =>
       Authorization: `Bearer ${accessToken}`,
     },
   });
+
+/**
+ * Get all of the details of a task.
+ * @param {string} accessToken
+ * @param {string} taskId
+ */
+export const getTaskDetails = async (accessToken, taskId) =>
+  await callExternalApi({
+    url: `${endpoint}/api/tasks/${taskId}`,
+    method: "GET",
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });

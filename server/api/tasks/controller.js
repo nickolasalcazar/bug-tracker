@@ -5,7 +5,18 @@ module.exports = {
   /**
    * Get a task by ID.
    */
-  getTask: (req, res) => {},
+  getTaskById: (req, res) => {
+    const id = decodeURI(req.params.id);
+    res.status(200).json({ message: "Querying taskId ", id });
+    // db.query(queries.getAllOwnedTasks, [req.auth.payload.sub])
+    //   .then((result) => {
+    //     res.status(200).json(result.rows);
+    //   })
+    //   .catch((e) => {
+    //     console.log(e);
+    //     res.sendStatus(500);
+    //   });
+  },
 
   /**
    * Get all tasks that are owned by the user. Does not inlcude tasks that the
