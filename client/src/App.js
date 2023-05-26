@@ -12,7 +12,6 @@ import Homepage from "./pages/Homepage";
 import Profile from "./pages/Profile";
 import Projects from "./pages/Projects";
 import NewProject from "./pages/NewProject";
-import Dashboard from "./pages/Dashboard/Dashboard";
 
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 
@@ -58,38 +57,38 @@ function App() {
     },
   });
 
-  const AppLayoutWrapper = ({ disableDrawer }) => (
-    <AppLayout disableDrawer={disableDrawer}>
-      <Outlet />
-    </AppLayout>
-  );
+  const AppLayoutWrapper = ({ requireAuth = true, dashboard = false }) =>
+    requireAuth ? (
+      <AuthenticationGuard
+        component={() => (
+          <AppLayout renderDashboard={dashboard}>
+            <Outlet />
+          </AppLayout>
+        )}
+      />
+    ) : (
+      <AppLayout renderDashboard={dashboard}>
+        <Outlet />
+      </AppLayout>
+    );
 
   return (
     <ThemeProvider theme={themeLight}>
       <div className="App">
         <CssBaseline />
         <Routes>
+          <Route
+            path="/dashboard"
+            element={<AppLayoutWrapper dashboard={true} />}
+          />
           <Route element={<AppLayoutWrapper />}>
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/projects/new" element={<NewProject />} />
+            <Route path="/tasks/new" element={<NewTask />} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
-          <Route element={<AppLayoutWrapper disableDrawer={true} />}>
+          <Route element={<AppLayoutWrapper requireAuth={false} />}>
             <Route path="/" element={<Homepage />} />
-            <Route
-              path="/projects"
-              element={<AuthenticationGuard component={Projects} />}
-            />
-            <Route
-              path="/projects/new"
-              element={<AuthenticationGuard component={NewProject} />}
-            />
-            <Route
-              path="/tasks/new"
-              element={<AuthenticationGuard component={NewTask} />}
-            />
-            <Route
-              path="/profile"
-              element={<AuthenticationGuard component={Profile} />}
-            />
             <Route
               path="*"
               element={
@@ -97,35 +96,6 @@ function App() {
               }
             />
           </Route>
-          {/* Old navigation */}
-          {/* <NavBar />
-          <Route path="/" element={<Homepage />} />
-          <Route
-            path="/dashboard"
-            element={<AuthenticationGuard component={Dashboard} />}
-          />
-          <Route
-            path="/projects"
-            element={<AuthenticationGuard component={Projects} />}
-          />
-          <Route
-            path="/projects/new"
-            element={<AuthenticationGuard component={NewProject} />}
-          />
-          <Route
-            path="/tasks/new"
-            element={<AuthenticationGuard component={NewTask} />}
-          />
-          <Route
-            path="/profile"
-            element={<AuthenticationGuard component={Profile} />}
-          /> 
-          <Route
-            path="*"
-            element={
-              <h1>404: Sorry, the page you are looking for does not exist</h1>
-            }
-          />*/}
         </Routes>
       </div>
     </ThemeProvider>

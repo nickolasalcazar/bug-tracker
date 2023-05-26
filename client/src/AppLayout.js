@@ -4,14 +4,24 @@ import ProfileMenu from "./components/NavigationUI/ProfileMenu";
 import NavBar from "./components/NavigationUI/NavBar";
 import LeftDrawer from "./components/NavigationUI/LeftDrawer";
 
+import Dashboard from "./pages/Dashboard/Dashboard";
+import NewTask from "./components/NewTask";
+import TaskInfo from "./components/Task";
+
 // const drawerWidth = 200;
 const drawerWidth = 185;
+
+const config = {
+  newTask: NewTask,
+  taskInfo: TaskInfo,
+};
 
 /**
  * Renders the main layout of the app, rendering components such as NavBar,
  * LeftDrawer, and the main content of the app contained in <main />.
  */
-export default function AppLayout({ children, disableDrawer }) {
+// export default function AppLayout({ children, disableDrawer }) {
+export default function AppLayout({ children, renderDashboard = false }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -27,6 +37,8 @@ export default function AppLayout({ children, disableDrawer }) {
     setAnchorEl(null);
   };
 
+  console.log("AppLayout children", children);
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -35,7 +47,8 @@ export default function AppLayout({ children, disableDrawer }) {
         profileMenuId={profileMenuId}
         handleProfileMenuOpen={handleProfileMenuOpen}
       />
-      {disableDrawer ? null : (
+      {/* {disableDrawer ? null : ( */}
+      {!renderDashboard ? null : (
         <LeftDrawer
           handleDrawerToggle={handleDrawerToggle}
           drawerWidth={drawerWidth}
@@ -56,7 +69,7 @@ export default function AppLayout({ children, disableDrawer }) {
         }}
       >
         <ToolbarPadding />
-        {children}
+        {renderDashboard ? <Dashboard /> : children}
       </Box>
       <ProfileMenu
         anchorEl={anchorEl}
