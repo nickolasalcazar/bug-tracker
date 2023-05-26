@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { getUserInfo, createUser } from "../services/user.api";
-import { getAllSubscribedTasks } from "../services/task.api";
+import { getUserInfo, createUser } from "../../services/user.api";
+import { getAllSubscribedTasks } from "../../services/task.api";
 
-import DataTable from "../components/DataTable/DataTable";
+import DataTable from "../../components/DataTable/DataTable";
 import { Box, Stack } from "@mui/material";
-import RightBar from "../components/RightBar";
-import NewTask from "../components/NewTask";
+import RightCanvas from "./RightCanvas";
+import NewTask from "../../components/NewTask";
 
+/**
+ * Renders the main dashboard that the user sees when they enter the app.
+ */
 function Dashboard() {
   const { user, getAccessTokenSilently } = useAuth0();
   const [columns, setColumns] = useState([]);
@@ -81,9 +84,9 @@ function Dashboard() {
             display: { xs: "none", sm: "none", md: "block" },
           }}
         >
-          <RightBar>
+          <RightCanvas>
             <NewTask />
-          </RightBar>
+          </RightCanvas>
         </Box>
       ) : null}
     </Stack>

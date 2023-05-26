@@ -12,7 +12,7 @@ import Homepage from "./pages/Homepage";
 import Profile from "./pages/Profile";
 import Projects from "./pages/Projects";
 import NewProject from "./pages/NewProject";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 
