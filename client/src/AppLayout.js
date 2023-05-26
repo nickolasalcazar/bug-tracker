@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { useState } from "react";
 import { Box, CssBaseline, Toolbar as ToolbarPadding } from "@mui/material";
 import ProfileMenu from "./components/NavigationUI/ProfileMenu";
 import NavBar from "./components/NavigationUI/NavBar";
@@ -6,8 +6,6 @@ import LeftDrawer from "./components/NavigationUI/LeftDrawer";
 
 // const drawerWidth = 200;
 const drawerWidth = 185;
-
-export const DashboardContext = createContext(1);
 
 /**
  * Renders the main layout of the app, rendering components such as NavBar,
@@ -30,44 +28,42 @@ export default function AppLayout({ children, disableDrawer }) {
   };
 
   return (
-    <DashboardContext.Provider value={"dashboard context is working"}>
-      <Box sx={{ display: "flex" }}>
-        <CssBaseline />
-        <NavBar
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <NavBar
+        handleDrawerToggle={handleDrawerToggle}
+        profileMenuId={profileMenuId}
+        handleProfileMenuOpen={handleProfileMenuOpen}
+      />
+      {disableDrawer ? null : (
+        <LeftDrawer
           handleDrawerToggle={handleDrawerToggle}
-          profileMenuId={profileMenuId}
-          handleProfileMenuOpen={handleProfileMenuOpen}
+          drawerWidth={drawerWidth}
+          mobileOpen={mobileOpen}
         />
-        {disableDrawer ? null : (
-          <LeftDrawer
-            handleDrawerToggle={handleDrawerToggle}
-            drawerWidth={drawerWidth}
-            mobileOpen={mobileOpen}
-          />
-        )}
-        <Box
-          component="main"
-          sx={{
-            flex: 1,
-            py: 1,
-            px: {
-              xs: 0,
-              sm: 0,
-              md: 1,
-            },
-            // width: { sm: `calc(100% - ${drawerWidth}px)` }, // Not sure what effect this has on styling
-          }}
-        >
-          <ToolbarPadding />
-          {children}
-        </Box>
-        <ProfileMenu
-          anchorEl={anchorEl}
-          menuId={profileMenuId}
-          isMenuOpen={isProfileMenuOpen}
-          handleMenuClose={handleProfileMenuClose}
-        />
+      )}
+      <Box
+        component="main"
+        sx={{
+          flex: 1,
+          py: 1,
+          px: {
+            xs: 0,
+            sm: 0,
+            md: 1,
+          },
+          // width: { sm: `calc(100% - ${drawerWidth}px)` }, // Not sure what effect this has on styling
+        }}
+      >
+        <ToolbarPadding />
+        {children}
       </Box>
-    </DashboardContext.Provider>
+      <ProfileMenu
+        anchorEl={anchorEl}
+        menuId={profileMenuId}
+        isMenuOpen={isProfileMenuOpen}
+        handleMenuClose={handleProfileMenuClose}
+      />
+    </Box>
   );
 }
