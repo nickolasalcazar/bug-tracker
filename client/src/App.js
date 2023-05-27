@@ -14,6 +14,7 @@ import Projects from "./pages/Projects";
 import NewProject from "./pages/NewProject";
 
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 export const UserContext = createContext(null);
 
@@ -57,37 +58,35 @@ function App() {
     },
   });
 
-  const AppLayoutWrapper = ({ requireAuth = true, dashboard = false }) =>
-    requireAuth ? (
-      <AuthenticationGuard
-        component={() => (
-          <AppLayout renderDashboard={dashboard}>
-            <Outlet />
-          </AppLayout>
-        )}
-      />
-    ) : (
-      <AppLayout renderDashboard={dashboard}>
+  // Specify auth for route; determine layout for route
+  const LayoutWrapper = ({ requireAuth = true, renderDashboard = false }) => {
+    const layoutComponent = () => (
+      <AppLayout renderDashboard={renderDashboard}>
         <Outlet />
       </AppLayout>
     );
+    return requireAuth ? (
+      <AuthenticationGuard component={layoutComponent} />
+    ) : (
+      layoutComponent()
+    );
+  };
 
   return (
     <ThemeProvider theme={themeLight}>
       <div className="App">
         <CssBaseline />
         <Routes>
-          <Route
-            path="/dashboard"
-            element={<AppLayoutWrapper dashboard={true} />}
-          />
-          <Route element={<AppLayoutWrapper />}>
+          <Route element={<LayoutWrapper renderDashboard={true} />}>
+            <Route path="/dashboard/*" element={<Dashboard />} />
+          </Route>
+          <Route element={<LayoutWrapper />}>
             <Route path="/projects" element={<Projects />} />
             <Route path="/projects/new" element={<NewProject />} />
             <Route path="/tasks/new" element={<NewTask />} />
             <Route path="/profile" element={<Profile />} />
           </Route>
-          <Route element={<AppLayoutWrapper requireAuth={false} />}>
+          <Route element={<LayoutWrapper requireAuth={false} />}>
             <Route path="/" element={<Homepage />} />
             <Route
               path="*"

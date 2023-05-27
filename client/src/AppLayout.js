@@ -4,17 +4,8 @@ import ProfileMenu from "./components/NavigationUI/ProfileMenu";
 import NavBar from "./components/NavigationUI/NavBar";
 import LeftDrawer from "./components/NavigationUI/LeftDrawer";
 
-import Dashboard from "./pages/Dashboard/Dashboard";
-import NewTask from "./components/NewTask";
-import TaskInfo from "./components/Task";
-
 // const drawerWidth = 200;
 const drawerWidth = 185;
-
-const config = {
-  newTask: NewTask,
-  taskInfo: TaskInfo,
-};
 
 /**
  * Renders the main layout of the app, rendering components such as NavBar,
@@ -37,8 +28,6 @@ export default function AppLayout({ children, renderDashboard = false }) {
     setAnchorEl(null);
   };
 
-  console.log("AppLayout children", children);
-
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -47,7 +36,6 @@ export default function AppLayout({ children, renderDashboard = false }) {
         profileMenuId={profileMenuId}
         handleProfileMenuOpen={handleProfileMenuOpen}
       />
-      {/* {disableDrawer ? null : ( */}
       {!renderDashboard ? null : (
         <LeftDrawer
           handleDrawerToggle={handleDrawerToggle}
@@ -69,7 +57,7 @@ export default function AppLayout({ children, renderDashboard = false }) {
         }}
       >
         <ToolbarPadding />
-        {renderDashboard ? <Dashboard /> : children}
+        {children}
       </Box>
       <ProfileMenu
         anchorEl={anchorEl}
