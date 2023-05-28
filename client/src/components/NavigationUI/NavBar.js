@@ -46,12 +46,12 @@ function NavBar({ handleDrawerToggle, profileMenuId, handleProfileMenuOpen }) {
           <Stack direction="row" spacing={1}>
             <Box
               component="img"
-              src="logo-icon-dark.png"
+              src="/logo-icon-dark.png"
               style={{ width: "50px", height: "50px" }}
             />
             <Box
               component="img"
-              src="logo-text-alt.png"
+              src="/logo-text-alt.png"
               sx={{
                 width: "auto",
                 height: "50px",
