@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getUserInfo, createUser } from "../../services/user.api";
 import { getAllSubscribedTasks } from "../../services/task.api";
@@ -15,7 +16,7 @@ function Dashboard() {
   const { user, getAccessTokenSilently } = useAuth0();
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
-  const [rightBarVisible, setRightBarVisible] = useState(false);
+  const [rightCanvasVisible, setRightBarVisible] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -53,7 +54,7 @@ function Dashboard() {
   }, []);
 
   const handleOnRowClick = () => {
-    setRightBarVisible(!rightBarVisible);
+    setRightBarVisible(!rightCanvasVisible);
   };
 
   return (
@@ -65,7 +66,7 @@ function Dashboard() {
     >
       <Box
         sx={{
-          width: rightBarVisible
+          width: rightCanvasVisible
             ? { sm: "100%", md: "60%", lg: "75%" }
             : "100%",
           maxWidth: "95vw",
@@ -77,7 +78,19 @@ function Dashboard() {
           handleOnRowClick={handleOnRowClick}
         />
       </Box>
-      {rightBarVisible ? (
+      <Box
+        sx={{
+          width: "50%",
+          display: { xs: "none", sm: "none", md: "block" },
+        }}
+      >
+        <RightCanvas>
+          <Routes>
+            <Route path="task/new" element={<NewTask />} />
+          </Routes>
+        </RightCanvas>
+      </Box>
+      {/* {rightCanvasVisible ? (
         <Box
           sx={{
             width: "50%",
@@ -88,7 +101,7 @@ function Dashboard() {
             <NewTask />
           </RightCanvas>
         </Box>
-      ) : null}
+      ) : null} */}
     </Stack>
   );
 }

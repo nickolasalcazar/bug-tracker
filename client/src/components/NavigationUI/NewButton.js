@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
 import { Box, Button, Divider, Menu, MenuItem } from "@mui/material";
 import ArchiveIcon from "@mui/icons-material/Archive";
@@ -95,7 +96,7 @@ export default function NewButton() {
       >
         <MenuItem onClick={handleClose} disableRipple>
           <TaskIcon />
-          Task
+          <Link to="/dashboard/task/new">Task</Link>
         </MenuItem>
         <MenuItem onClick={handleClose} disableRipple>
           <ProjectIcon />
