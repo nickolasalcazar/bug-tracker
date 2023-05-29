@@ -59,17 +59,15 @@ function Dashboard() {
 
   return (
     <Stack
-      direction="row"
+      direction={{ sx: "column", sm: "column", md: "column", lg: "row" }}
       spacing={1}
-      sx={{ p: "none", m: "none" }}
+      sx={{
+        m: "none",
+        pt: { xs: 1, sm: 0 },
+      }}
       justifyContent="space-around"
     >
-      <Box
-        sx={{
-          width: "100%",
-          maxWidth: "95vw",
-        }}
-      >
+      <Box sx={{ width: "100%" }}>
         <DataTable
           columns={columns}
           rows={rows}
@@ -81,9 +79,9 @@ function Dashboard() {
           element={
             <Box
               sx={{
-                width: "50%",
-                // display: { xs: "none", sm: "none", md: "block", lg: "block" },
-                display: { xs: "none", sm: "none", md: "none", lg: "block" },
+                pt: { xs: 1, sm: 0 },
+                width: { md: "100%", lg: "50%", xl: "40%" },
+                display: "block",
               }}
             >
               <RightCanvas>

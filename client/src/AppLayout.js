@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { Box, CssBaseline, Toolbar as ToolbarPadding } from "@mui/material";
+import {
+  Box,
+  Container,
+  CssBaseline,
+  Toolbar as ToolbarPadding,
+} from "@mui/material";
 import ProfileMenu from "./components/NavigationUI/ProfileMenu";
 import NavBar from "./components/NavigationUI/NavBar";
 import LeftDrawer from "./components/NavigationUI/LeftDrawer";
@@ -43,22 +48,18 @@ export default function AppLayout({ children, renderDashboard = false }) {
           mobileOpen={mobileOpen}
         />
       )}
-      <Box
+      <Container
+        disableGutters
         component="main"
+        maxWidth="100%"
         sx={{
-          flex: 1,
-          py: 1,
-          px: {
-            xs: 0,
-            sm: 0,
-            md: 1,
-          },
-          // width: { sm: `calc(100% - ${drawerWidth}px)` }, // Not sure what effect this has on styling
+          p: 1,
+          px: { xs: 0, sm: 1 },
         }}
       >
         <ToolbarPadding />
         {children}
-      </Box>
+      </Container>
       <ProfileMenu
         anchorEl={anchorEl}
         menuId={profileMenuId}
