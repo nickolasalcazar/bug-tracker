@@ -5,8 +5,7 @@ import { getUserInfo, createUser } from "../../services/user.api";
 import { getAllSubscribedTasks } from "../../services/task.api";
 
 import DataTable from "../../components/DataTable/DataTable";
-import { Box, Stack } from "@mui/material";
-import RightCanvas from "./RightCanvas";
+import { Box, Paper, Stack } from "@mui/material";
 import NewTask from "../../components/NewTask";
 import Task from "../../components/Task";
 
@@ -79,9 +78,9 @@ function Dashboard() {
                 display: "block",
               }}
             >
-              <RightCanvas>
+              <Paper sx={{ py: 2, px: 0 }}>
                 <Outlet />
-              </RightCanvas>
+              </Paper>
             </Box>
           }
         >
