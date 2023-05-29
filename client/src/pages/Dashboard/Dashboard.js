@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Outlet } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getUserInfo, createUser } from "../../services/user.api";
 import { getAllSubscribedTasks } from "../../services/task.api";
@@ -78,30 +78,24 @@ function Dashboard() {
           handleOnRowClick={handleOnRowClick}
         />
       </Box>
-      <Box
-        sx={{
-          width: "50%",
-          display: { xs: "none", sm: "none", md: "block" },
-        }}
-      >
-        <RightCanvas>
-          <Routes>
-            <Route path="task/new" element={<NewTask />} />
-          </Routes>
-        </RightCanvas>
-      </Box>
-      {/* {rightCanvasVisible ? (
-        <Box
-          sx={{
-            width: "50%",
-            display: { xs: "none", sm: "none", md: "block" },
-          }}
+      <Routes>
+        <Route
+          element={
+            <Box
+              sx={{
+                width: "50%",
+                display: { xs: "none", sm: "none", md: "block" },
+              }}
+            >
+              <RightCanvas>
+                <Outlet />
+              </RightCanvas>
+            </Box>
+          }
         >
-          <RightCanvas>
-            <NewTask />
-          </RightCanvas>
-        </Box>
-      ) : null} */}
+          <Route path="task/new" element={<NewTask />} />
+        </Route>
+      </Routes>
     </Stack>
   );
 }
