@@ -36,7 +36,7 @@ export const getAllSubscribedTasks = async (accessToken) =>
  * @param {string} accessToken
  * @param {string} taskId
  */
-export const getTaskDetails = async (accessToken, taskId) =>
+export const getTaskById = async (accessToken, taskId) =>
   await callExternalApi({
     url: `${endpoint}/api/tasks/${taskId}`,
     method: "GET",

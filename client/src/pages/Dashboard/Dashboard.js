@@ -34,14 +34,9 @@ function Dashboard() {
     const getSubscribedTasks = async () => {
       const accessToken = await getAccessTokenSilently();
       const res = await getAllSubscribedTasks(accessToken);
-
+      // console.log("res.data", res.data);
       const columns = Object.keys(res.data[0]);
       const rows = res.data.map((row) => Object.values(row));
-      // const rows = res.data; // For custom table
-
-      // console.log("res.data", res.data);
-      // console.log("columns", columns);
-      // console.log("rows", rows);
 
       setColumns(columns);
       setRows(rows);
@@ -91,7 +86,7 @@ function Dashboard() {
           }
         >
           <Route path="task/new" element={<NewTask />} />
-          <Route path="task" element={<Task />} />
+          <Route path="task/:id" element={<Task />} />
         </Route>
       </Routes>
     </Stack>
