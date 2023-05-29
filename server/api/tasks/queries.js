@@ -17,4 +17,5 @@ module.exports = {
     `,
   addSubscriber:
     "INSERT INTO task_subscribers (task_id, user_id) VALUES ($1, $2)",
+  getTaskById: "SELECT * FROM tasks WHERE task_id = $1",
 };

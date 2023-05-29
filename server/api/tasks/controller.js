@@ -7,15 +7,14 @@ module.exports = {
    */
   getTaskById: (req, res) => {
     const id = decodeURI(req.params.id);
-    res.status(200).json({ message: "Querying taskId ", id });
-    // db.query(queries.getAllOwnedTasks, [req.auth.payload.sub])
-    //   .then((result) => {
-    //     res.status(200).json(result.rows);
-    //   })
-    //   .catch((e) => {
-    //     console.log(e);
-    //     res.sendStatus(500);
-    //   });
+    db.query(queries.getTaskById, [id])
+      .then((result) => {
+        res.status(200).json(result.rows);
+      })
+      .catch((e) => {
+        console.log(e);
+        res.sendStatus(500);
+      });
   },
 
   /**

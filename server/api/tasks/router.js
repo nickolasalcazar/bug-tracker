@@ -5,9 +5,8 @@ const tasksRouter = Router();
 const controller = require("./controller");
 
 tasksRouter.use(jwtCheck);
-tasksRouter.get("/:id", controller.getTaskById);
-// tasksRouter.get("/", controller.getAllOwnedTasks);
 tasksRouter.get("/subscribed", controller.getAllSubscribedTasks);
+tasksRouter.get("/:id", controller.getTaskById);
 tasksRouter.post("/", controller.createTask);
 
 module.exports = tasksRouter;
