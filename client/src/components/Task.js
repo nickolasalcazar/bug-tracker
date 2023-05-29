@@ -1,8 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
-import { getTaskById } from "../services/task.api";
+import {
+  Box,
+  Divider,
+  Grid,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { createTask, getTaskById } from "../services/task.api";
 import { useAuth0 } from "@auth0/auth0-react";
+
+import InboxIcon from "@mui/icons-material/Inbox";
+import DraftsIcon from "@mui/icons-material/Drafts";
 
 /**
  * Component that displays all of the details of a task.
@@ -31,14 +45,48 @@ function Task() {
   if (loading) return <Typography component="h2">Loading task...</Typography>;
 
   return (
-    <Box>
-      <Typography variant="h5" component="h2">
-        {data.title}
-      </Typography>
-      <Typography variant="p" component="p">
-        {data.description}
-      </Typography>
-    </Box>
+    <List>
+      <ListItem>
+        <Typography variant="h6" component="h2">
+          {data.title}
+        </Typography>
+      </ListItem>
+      <Divider />
+      <ListItem>
+        <Typography variant="p" sx={{ pt: 2, pb: 4 }}>
+          {data.description}
+        </Typography>
+      </ListItem>
+      <Divider />
+      <ListItem>
+        <Box width="40%">
+          <ListItemIcon sx={{ pt: 1 }}>
+            <InboxIcon />
+            <Typography pl={1} variant="subtitle2">
+              Creator
+            </Typography>
+          </ListItemIcon>
+        </Box>
+        <Box width="60%">
+          <ListItemText primary="John Doe" />
+        </Box>
+      </ListItem>
+      <Divider />
+      <ListItem>
+        <Box width="40%">
+          <ListItemIcon sx={{ pt: 1 }}>
+            <InboxIcon />
+            <Typography pl={1} variant="subtitle2">
+              Subscribers
+            </Typography>
+          </ListItemIcon>
+        </Box>
+        <Box width="60%">
+          <ListItemText primary="John Doe" />
+        </Box>
+      </ListItem>
+      <Divider />
+    </List>
   );
 }
 
