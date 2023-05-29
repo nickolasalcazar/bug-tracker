@@ -17,7 +17,6 @@ function Dashboard() {
   const { user, getAccessTokenSilently } = useAuth0();
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
-  const [rightCanvasVisible, setRightBarVisible] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -55,7 +54,7 @@ function Dashboard() {
   }, []);
 
   const handleOnRowClick = () => {
-    setRightBarVisible(!rightCanvasVisible);
+    console.log("Dashboard: row clicked");
   };
 
   return (
@@ -67,9 +66,7 @@ function Dashboard() {
     >
       <Box
         sx={{
-          width: rightCanvasVisible
-            ? { sm: "100%", md: "60%", lg: "75%" }
-            : "100%",
+          width: "100%",
           maxWidth: "95vw",
         }}
       >
@@ -85,7 +82,8 @@ function Dashboard() {
             <Box
               sx={{
                 width: "50%",
-                display: { xs: "none", sm: "none", md: "block" },
+                // display: { xs: "none", sm: "none", md: "block", lg: "block" },
+                display: { xs: "none", sm: "none", md: "none", lg: "block" },
               }}
             >
               <RightCanvas>
