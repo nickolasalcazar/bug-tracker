@@ -8,6 +8,7 @@ import DataTable from "../../components/DataTable/DataTable";
 import { Box, Stack } from "@mui/material";
 import RightCanvas from "./RightCanvas";
 import NewTask from "../../components/NewTask";
+import Task from "../../components/Task";
 
 /**
  * Renders the main dashboard that the user sees when they enter the app.
@@ -94,6 +95,7 @@ function Dashboard() {
           }
         >
           <Route path="task/new" element={<NewTask />} />
+          <Route path="task" element={<Task />} />
         </Route>
       </Routes>
     </Stack>
