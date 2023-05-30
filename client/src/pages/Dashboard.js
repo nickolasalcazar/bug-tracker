@@ -62,7 +62,7 @@ function Dashboard() {
       }}
       justifyContent="space-around"
     >
-      {renderTable ? (
+      {/* {renderTable ? (
         <Box sx={{ width: "100%" }}>
           <DataTable
             columns={columns}
@@ -70,7 +70,7 @@ function Dashboard() {
             handleOnRowClick={handleOnRowClick}
           />
         </Box>
-      ) : null}
+      ) : null} */}
       <Routes>
         <Route
           element={
@@ -91,6 +91,7 @@ function Dashboard() {
           }
         >
           <Route path="task/new" element={<NewTask />} />
+          <Route path="task/:id/edit" element={"Edit a task"} />
           <Route
             path="task/:id"
             element={
@@ -99,6 +100,15 @@ function Dashboard() {
           />
         </Route>
       </Routes>
+      {renderTable ? (
+        <Box sx={{ width: "100%" }}>
+          <DataTable
+            columns={columns}
+            rows={rows}
+            handleOnRowClick={handleOnRowClick}
+          />
+        </Box>
+      ) : null}
     </Stack>
   );
 }

@@ -102,7 +102,9 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
               <ButtonLink>Discard</ButtonLink>
             </Button>
             <Button color="secondary" variant="contained">
-              <ButtonLink>Edit</ButtonLink>
+              <ButtonLink to={`/dashboard/task/${data.task.task_id}/edit`}>
+                Edit
+              </ButtonLink>
             </Button>
           </ButtonGroup>
           <ButtonGroup size="small" color="secondary">
