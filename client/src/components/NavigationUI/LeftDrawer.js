@@ -11,7 +11,7 @@ import {
   Toolbar as ToolbarPadding,
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/PersonOutlineOutlined";
-import SubscribedIcon from "@mui/icons-material/ListOutlined";
+import SubscriberIcon from "@mui/icons-material/Inbox";
 import StarOutlineIcon from "@mui/icons-material/StarOutlineRounded";
 import NewButton from "./NewButton";
 
@@ -44,7 +44,7 @@ export default function LeftDrawer({
         <ListItem disablePadding>
           <ListItemButton>
             <ListItemIcon>
-              <SubscribedIcon />
+              <SubscriberIcon />
             </ListItemIcon>
             <ListItemText primary={"Subscribed"} />
           </ListItemButton>

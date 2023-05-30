@@ -10,10 +10,13 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { createTask, getTaskById } from "../services/task.api";
+import { getTaskById } from "../services/task.api";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import InboxIcon from "@mui/icons-material/Inbox";
+import PersonIcon from "@mui/icons-material/PersonOutlineOutlined";
+import SubtasksIcon from "@mui/icons-material/ListOutlined";
+import SubscriberIcon from "@mui/icons-material/Inbox";
+import StarOutlineIcon from "@mui/icons-material/StarOutlineRounded";
 
 /**
  * Component that displays all of the details of a task.
@@ -60,7 +63,7 @@ function Task() {
       <ListItem>
         <Box width="40%">
           <ListItemIcon sx={{ pt: 1 }}>
-            <InboxIcon />
+            <PersonIcon />
             <Typography pl={1} variant="subtitle2">
               Creator
             </Typography>
@@ -68,7 +71,11 @@ function Task() {
         </Box>
         <Box width="60%">
           <ListItemText
-            primary={`${data.task.creator} (${data.task.date_created})`}
+            primary={
+              <Typography fontSize="14px">
+                {data.task.creator} ({data.task.date_created})
+              </Typography>
+            }
           />
         </Box>
       </ListItem>
@@ -76,7 +83,7 @@ function Task() {
       <ListItem>
         <Box width="40%">
           <ListItemIcon sx={{ pt: 1 }}>
-            <InboxIcon />
+            <SubscriberIcon />
             <Typography pl={1} variant="subtitle2">
               Subscribers
             </Typography>
@@ -91,6 +98,20 @@ function Task() {
               onClick={() => console.log("chip")}
             />
           ))}
+        </Box>
+      </ListItem>
+      <Divider />
+      <ListItem>
+        <Box width="40%">
+          <ListItemIcon sx={{ pt: 1 }}>
+            <SubtasksIcon />
+            <Typography pl={1} variant="subtitle2">
+              Subtasks
+            </Typography>
+          </ListItemIcon>
+        </Box>
+        <Box width="60%">
+          <ListItemText primary="Subtasks listed here" />
         </Box>
       </ListItem>
       <Divider />
