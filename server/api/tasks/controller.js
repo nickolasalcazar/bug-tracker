@@ -5,16 +5,19 @@ module.exports = {
   /**
    * Get a task by ID.
    */
-  getTaskById: (req, res) => {
-    const id = decodeURI(req.params.id);
-    db.query(queries.getTaskById, [id])
-      .then((result) => {
-        res.status(200).json(result.rows);
-      })
-      .catch((e) => {
-        console.log(e);
-        res.sendStatus(500);
-      });
+  getTaskById: async (req, res) => {
+    try {
+      const id = decodeURI(req.params.id);
+      const task = await db.query(queries.getTaskById, [id]);
+      if (task.rows.length === 0) sendStatus(404);
+      const subscribers = await db.query(queries.getSubscribers, [id]);
+      res
+        .status(200)
+        .json({ task: task.rows[0], subscribers: subscribers.rows });
+    } catch (e) {
+      console.log(e);
+      res.sendStatus(500);
+    }
   },
 
   /**
