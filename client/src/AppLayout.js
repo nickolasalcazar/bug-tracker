@@ -17,7 +17,7 @@ const drawerWidth = 185;
  * LeftDrawer, and the main content of the app contained in <main />.
  */
 // export default function AppLayout({ children, disableDrawer }) {
-export default function AppLayout({ children, renderDashboard = false }) {
+export default function AppLayout({ children, renderLeftDrawer = false }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -41,7 +41,7 @@ export default function AppLayout({ children, renderDashboard = false }) {
         profileMenuId={profileMenuId}
         handleProfileMenuOpen={handleProfileMenuOpen}
       />
-      {!renderDashboard ? null : (
+      {!renderLeftDrawer ? null : (
         <LeftDrawer
           handleDrawerToggle={handleDrawerToggle}
           drawerWidth={drawerWidth}
