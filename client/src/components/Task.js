@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   Box,
   Button,
   ButtonGroup,
   Chip,
   Divider,
-  IconButton,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
   Typography,
-  useTheme,
 } from "@mui/material";
 import { getTaskById } from "../services/task.api";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -31,7 +29,6 @@ import CloseIcon from "@mui/icons-material/CloseRounded";
  */
 function Task() {
   const { getAccessTokenSilently } = useAuth0();
-  const theme = useTheme();
   const { id } = useParams();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -52,6 +49,21 @@ function Task() {
 
   const truncateString = (str, len) =>
     str.length > len + 3 ? str.slice(0, len) + "..." : str;
+
+  const ButtonLink = ({ to, children }) => (
+    <Link
+      to={to}
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        alignContent: "center",
+        justifyContent: "center",
+      }}
+    >
+      {children}
+    </Link>
+  );
 
   if (loading) return <Typography component="h2">Loading task...</Typography>;
 
@@ -83,20 +95,27 @@ function Task() {
             </Typography>
           </Box>
           <ButtonGroup size="small">
-            {/* <Button color={theme.palette.grey.A100} variant="outlined"> */}
-            <Button color="secondary" variant="outlined">
-              Discard
-            </Button>
-            <Button color="secondary" variant="contained">
-              Edit
-            </Button>
+            <ButtonLink>
+              <Button color="secondary" variant="outlined">
+                Discard
+              </Button>
+            </ButtonLink>
+            <ButtonLink>
+              <Button color="secondary" variant="contained">
+                Edit
+              </Button>
+            </ButtonLink>
           </ButtonGroup>
           <ButtonGroup size="small" color="secondary">
             <Button variant="contained">
-              <OpenInNewIcon fontSize="small" />
+              <ButtonLink>
+                <OpenInNewIcon fontSize="small" />
+              </ButtonLink>
             </Button>
             <Button variant="contained">
-              <CloseIcon fontSize="small" />
+              <ButtonLink to="/dashboard">
+                <CloseIcon fontSize="small" />
+              </ButtonLink>
             </Button>
           </ButtonGroup>
         </Box>
