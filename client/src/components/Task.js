@@ -2,21 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   Box,
+  Chip,
   Divider,
-  Grid,
   List,
   ListItem,
-  ListItemButton,
   ListItemIcon,
   ListItemText,
-  Stack,
   Typography,
 } from "@mui/material";
 import { createTask, getTaskById } from "../services/task.api";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import InboxIcon from "@mui/icons-material/Inbox";
-import DraftsIcon from "@mui/icons-material/Drafts";
 
 /**
  * Component that displays all of the details of a task.
@@ -34,13 +31,15 @@ function Task() {
 
   // Listens for when a task ID is passed
   useEffect(() => {
-    console.log(`Task ${id}; fetch its data`);
     getTask().then((response) => {
-      console.log(response.data[0]);
-      setData(response.data[0]);
+      console.log(response.data);
+      setData(response.data);
       setLoading(false);
     });
   }, [id]);
+
+  const truncateString = (str, len) =>
+    str.length > len + 3 ? str.slice(0, len) + "..." : str;
 
   if (loading) return <Typography component="h2">Loading task...</Typography>;
 
@@ -48,13 +47,13 @@ function Task() {
     <List>
       <ListItem>
         <Typography variant="h6" component="h2">
-          {data.title}
+          {data.task.title}
         </Typography>
       </ListItem>
       <Divider />
       <ListItem>
         <Typography variant="p" sx={{ pt: 2, pb: 4 }}>
-          {data.description}
+          {data.task.description}
         </Typography>
       </ListItem>
       <Divider />
@@ -68,7 +67,9 @@ function Task() {
           </ListItemIcon>
         </Box>
         <Box width="60%">
-          <ListItemText primary={`${data.creator} (${data.date_created})`} />
+          <ListItemText
+            primary={`${data.task.creator} (${data.task.date_created})`}
+          />
         </Box>
       </ListItem>
       <Divider />
@@ -81,8 +82,15 @@ function Task() {
             </Typography>
           </ListItemIcon>
         </Box>
-        <Box width="60%">
-          <ListItemText primary="John Doe" />
+        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, width: "60%" }}>
+          {data.subscribers.map((subsciber, index) => (
+            <Chip
+              key={index}
+              label={truncateString(subsciber.username, 15)}
+              variant="outlined"
+              onClick={() => console.log("chip")}
+            />
+          ))}
         </Box>
       </ListItem>
       <Divider />
