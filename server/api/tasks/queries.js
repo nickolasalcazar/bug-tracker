@@ -7,8 +7,7 @@ module.exports = {
     SELECT
       tasks.task_id AS "Task ID",
       title AS "Title",
-      description AS "Description",
-      users.username AS "Owner",
+      users.username AS "Creator",
       TO_CHAR(date_created AT TIME ZONE 'UTC', 'MM/DD/YYYY') AS "Created"
       FROM tasks
     INNER JOIN task_subscribers ON tasks.task_id = task_subscribers.task_id
@@ -17,5 +16,16 @@ module.exports = {
     `,
   addSubscriber:
     "INSERT INTO task_subscribers (task_id, user_id) VALUES ($1, $2)",
-  getTaskById: "SELECT * FROM tasks WHERE task_id = $1",
+  getTaskById: `
+    SELECT
+      tasks.task_id,
+      title,
+      description,
+      users.username AS "creator",
+      TO_CHAR(date_created AT TIME ZONE 'UTC', 'MM/DD/YYYY') AS "date_created"
+      FROM tasks
+    INNER JOIN task_subscribers ON tasks.task_id = task_subscribers.task_id
+    INNER JOIN users ON tasks.owner_id = users.user_id 
+    WHERE tasks.task_id = $1
+    `,
 };

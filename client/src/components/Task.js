@@ -68,7 +68,7 @@ function Task() {
           </ListItemIcon>
         </Box>
         <Box width="60%">
-          <ListItemText primary="John Doe" />
+          <ListItemText primary={`${data.creator} (${data.date_created})`} />
         </Box>
       </ListItem>
       <Divider />
