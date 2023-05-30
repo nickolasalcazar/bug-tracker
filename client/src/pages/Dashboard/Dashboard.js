@@ -74,6 +74,7 @@ function Dashboard() {
             <Box
               sx={{
                 pt: { xs: 1, sm: 0 },
+                pb: { xs: 50, sm: 25, md: 0 },
                 width: { md: "100%", lg: "50%", xl: "40%" },
                 display: "block",
               }}
