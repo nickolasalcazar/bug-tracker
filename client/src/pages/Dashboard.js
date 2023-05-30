@@ -79,7 +79,7 @@ function Dashboard() {
                 display: "block",
               }}
             >
-              <Paper sx={{ py: 2, px: 0 }}>
+              <Paper sx={{ py: 0.5, px: 0 }}>
                 <Outlet />
               </Paper>
             </Box>
