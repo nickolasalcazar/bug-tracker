@@ -16,6 +16,7 @@ function Dashboard() {
   const { user, getAccessTokenSilently } = useAuth0();
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
+  const [renderTable, setRenderTable] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
@@ -61,21 +62,25 @@ function Dashboard() {
       }}
       justifyContent="space-around"
     >
-      <Box sx={{ width: "100%" }}>
-        <DataTable
-          columns={columns}
-          rows={rows}
-          handleOnRowClick={handleOnRowClick}
-        />
-      </Box>
+      {renderTable ? (
+        <Box sx={{ width: "100%" }}>
+          <DataTable
+            columns={columns}
+            rows={rows}
+            handleOnRowClick={handleOnRowClick}
+          />
+        </Box>
+      ) : null}
       <Routes>
         <Route
           element={
             <Box
               sx={{
                 pt: { xs: 1, sm: 0 },
-                pb: { xs: 50, sm: 25, md: 0 },
-                width: { md: "100%", lg: "50%", xl: "40%" },
+                pb: { xs: 15, sm: 15, md: 0 },
+                width: renderTable
+                  ? { md: "100%", lg: "50%", xl: "40%" }
+                  : "100%",
                 display: "block",
               }}
             >
@@ -86,7 +91,12 @@ function Dashboard() {
           }
         >
           <Route path="task/new" element={<NewTask />} />
-          <Route path="task/:id" element={<Task />} />
+          <Route
+            path="task/:id"
+            element={
+              <Task setRenderTable={setRenderTable} renderTable={renderTable} />
+            }
+          />
         </Route>
       </Routes>
     </Stack>

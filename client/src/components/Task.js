@@ -20,14 +20,16 @@ import PersonIcon from "@mui/icons-material/PersonOutlineOutlined";
 import SubtasksIcon from "@mui/icons-material/ListOutlined";
 import SubscriberIcon from "@mui/icons-material/Inbox";
 import StarOutlineIcon from "@mui/icons-material/StarOutlineRounded";
-import FullscreenIcon from "@mui/icons-material/OpenInFullRounded";
+// import FullscreenIcon from "@mui/icons-material/OpenInFullRounded";
 import OpenInNewIcon from "@mui/icons-material/OpenInNewRounded";
+import FullscreenIcon from "@mui/icons-material/OpenInFullRounded";
+import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreenRounded";
 import CloseIcon from "@mui/icons-material/CloseRounded";
 
 /**
  * Component that displays all of the details of a task.
  */
-function Task() {
+function Task({ setRenderTable = undefined, renderTable = undefined }) {
   const { getAccessTokenSilently } = useAuth0();
   const { id } = useParams();
   const [data, setData] = useState(null);
@@ -50,8 +52,9 @@ function Task() {
   const truncateString = (str, len) =>
     str.length > len + 3 ? str.slice(0, len) + "..." : str;
 
-  const ButtonLink = ({ to, children }) => (
+  const ButtonLink = ({ to, children, onClick }) => (
     <Link
+      onClick={onClick}
       to={to}
       style={{
         width: "100%",
@@ -95,34 +98,39 @@ function Task() {
             </Typography>
           </Box>
           <ButtonGroup size="small">
-            <ButtonLink>
-              <Button color="secondary" variant="outlined">
-                Discard
-              </Button>
-            </ButtonLink>
-            <ButtonLink>
-              <Button color="secondary" variant="contained">
-                Edit
-              </Button>
-            </ButtonLink>
+            <Button color="secondary" variant="contained">
+              <ButtonLink>Discard</ButtonLink>
+            </Button>
+            <Button color="secondary" variant="contained">
+              <ButtonLink>Edit</ButtonLink>
+            </Button>
           </ButtonGroup>
           <ButtonGroup size="small" color="secondary">
+            {renderTable ? (
+              <Button variant="contained" onClick={() => setRenderTable(false)}>
+                <FullscreenIcon fontSize="small" />
+              </Button>
+            ) : (
+              <Button variant="contained" onClick={() => setRenderTable(true)}>
+                <CloseFullscreenIcon fontSize="small" />
+              </Button>
+            )}
             <Button variant="contained">
-              <ButtonLink>
-                <OpenInNewIcon fontSize="small" />
-              </ButtonLink>
-            </Button>
-            <Button variant="contained">
-              <ButtonLink to="/dashboard">
+              <ButtonLink to="/dashboard" onClick={() => setRenderTable(true)}>
                 <CloseIcon fontSize="small" />
               </ButtonLink>
             </Button>
           </ButtonGroup>
         </Box>
       </ListItem>
-      <ListItem>
-        <Typography variant="h6" component="h2">
+      <ListItem sx={{ pb: 0 }}>
+        <Typography variant="h6" component="h2" fontWeight="medium">
           {data.task.title}
+        </Typography>
+      </ListItem>
+      <ListItem>
+        <Typography fontSize="14px" component="p">
+          Progress, Priority, and 'Size' go here
         </Typography>
       </ListItem>
       <Divider />
