@@ -14,7 +14,7 @@ import Projects from "./pages/Projects";
 import NewProject from "./pages/NewProject";
 
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
-import Dashboard from "./pages/Dashboard/Dashboard";
+import Dashboard from "./pages/Dashboard";
 
 export const UserContext = createContext(null);
 

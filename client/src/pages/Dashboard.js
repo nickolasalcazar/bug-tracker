@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import { getUserInfo, createUser } from "../../services/user.api";
-import { getAllSubscribedTasks } from "../../services/task.api";
+import { getUserInfo, createUser } from "../services/user.api";
+import { getAllSubscribedTasks } from "../services/task.api";
 
-import DataTable from "../../components/DataTable/DataTable";
+import DataTable from "../components/DataTable/DataTable";
 import { Box, Paper, Stack } from "@mui/material";
-import NewTask from "../../components/NewTask";
-import Task from "../../components/Task";
+import NewTask from "../components/NewTask";
+import Task from "../components/Task";
 
 /**
  * Renders the main dashboard that the user sees when they enter the app.

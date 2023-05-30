@@ -115,6 +115,19 @@ function Task() {
         </Box>
       </ListItem>
       <Divider />
+      <ListItem>
+        <Box width="40%">
+          <ListItemIcon sx={{ pt: 1 }}>
+            <SubtasksIcon />
+            <Typography pl={1} variant="subtitle2">
+              Subtasks
+            </Typography>
+          </ListItemIcon>
+        </Box>
+        <Box width="60%">
+          <ListItemText primary="Subtasks listed here" />
+        </Box>
+      </ListItem>
     </List>
   );
 }
