@@ -12,10 +12,16 @@ module.exports = {
       FROM tasks
     INNER JOIN task_subscribers ON tasks.task_id = task_subscribers.task_id
     INNER JOIN users ON tasks.owner_id = users.user_id 
-    WHERE task_subscribers.user_id = $1
-    `,
+    WHERE task_subscribers.user_id = $1`,
   addSubscriber:
     "INSERT INTO task_subscribers (task_id, user_id) VALUES ($1, $2)",
+  getSubscribers: `
+    SELECT
+      users.user_id,
+      users.username
+      FROM task_subscribers
+    INNER JOIN users ON task_subscribers.user_id = users.user_id
+    WHERE task_id = $1`,
   getTaskById: `
     SELECT
       tasks.task_id,
@@ -26,6 +32,5 @@ module.exports = {
       FROM tasks
     INNER JOIN task_subscribers ON tasks.task_id = task_subscribers.task_id
     INNER JOIN users ON tasks.owner_id = users.user_id 
-    WHERE tasks.task_id = $1
-    `,
+    WHERE tasks.task_id = $1`,
 };
