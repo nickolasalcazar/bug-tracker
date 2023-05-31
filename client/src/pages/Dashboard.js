@@ -9,10 +9,6 @@ import { Box, Paper, Stack } from "@mui/material";
 import NewTask from "../components/NewTask";
 import Task from "../components/Task";
 
-const TABLE_OFFSET_LIMIT = 250;
-const CANVAS_OFFSET_LIMIT = -210;
-const DRAG_COEFFICIENT = 2;
-
 /**
  * Renders the main dashboard that the user sees when they enter the app.
  */
@@ -58,17 +54,6 @@ function Dashboard() {
     console.log("Dashboard: row clicked");
   };
 
-  const dragBar = document.getElementById("drag-bar");
-  const onMouseUp = (e) => {
-    const x1 = parseInt(dragBar.dataset.xStart);
-    const x2 = e.clientX;
-    let y = x2 - x1 + dragOffset;
-    if (y < CANVAS_OFFSET_LIMIT) y = CANVAS_OFFSET_LIMIT;
-    else if (y > TABLE_OFFSET_LIMIT) y = TABLE_OFFSET_LIMIT;
-    console.log(y);
-    setDragOffset(y);
-  };
-
   return (
     <Stack
       direction={{ sx: "column", sm: "column", md: "column", lg: "row" }}
@@ -84,16 +69,11 @@ function Dashboard() {
           element={
             <Box
               sx={{
+                pt: { xs: 1, sm: 0 },
                 pb: { xs: 1, sm: 0, md: 0 },
-                width: {
-                  md: "100%",
-                  lg: renderTable
-                    ? `calc(100% + ${dragOffset}px * ${DRAG_COEFFICIENT})`
-                    : "100%",
-                  xl: renderTable
-                    ? `calc(100% + ${dragOffset}px * ${DRAG_COEFFICIENT})`
-                    : "100%",
-                },
+                width: renderTable
+                  ? { md: "100%", lg: "50%", xl: "40%" }
+                  : "100%",
                 display: "block",
               }}
             >
@@ -113,32 +93,10 @@ function Dashboard() {
           />
         </Route>
       </Routes>
-      <Box
-        component="div"
-        id="drag-bar"
-        data-x-start="null"
-        onMouseDown={(e) => {
-          dragBar.dataset.xStart = e.clientX;
-          document.addEventListener("mouseup", onMouseUp, {
-            once: true,
-          });
-        }}
-        sx={{
-          display: {
-            xs: "none",
-            sm: "none",
-            md: "none",
-            lg: renderTable ? "block" : "none",
-            xl: renderTable ? "block" : "none",
-          },
-        }}
-      >
-        ...
-      </Box>
       {renderTable ? (
         <Box
           sx={{
-            width: `calc(100% - ${dragOffset}px * ${DRAG_COEFFICIENT})`,
+            width: "100%",
           }}
         >
           <DataTable
