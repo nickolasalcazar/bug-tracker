@@ -62,7 +62,7 @@ function Dashboard() {
   const onMouseUp = (e) => {
     const x1 = parseInt(dragBar.dataset.xStart);
     const x2 = e.clientX;
-    let y = x2 - x1 + dragOffset;
+    let y = x2 - x1 + dragOffset; // Have different DRagOffsets in sx { xs, sm, md, lg }
     if (y < CANVAS_OFFSET_LIMIT) y = CANVAS_OFFSET_LIMIT;
     else if (y > TABLE_OFFSET_LIMIT) y = TABLE_OFFSET_LIMIT;
     console.log(y);
