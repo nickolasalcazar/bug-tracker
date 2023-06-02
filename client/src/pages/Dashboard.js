@@ -69,8 +69,6 @@ function Dashboard() {
           element={
             <Box
               sx={{
-                pt: { xs: 1, sm: 0 },
-                pb: { xs: 1, sm: 0, md: 0 },
                 width: renderTable
                   ? { md: "100%", lg: "50%", xl: "40%" }
                   : "100%",

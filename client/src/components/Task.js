@@ -28,6 +28,7 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNewRounded";
 import FullscreenIcon from "@mui/icons-material/OpenInFullRounded";
 import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreenRounded";
 import CloseIcon from "@mui/icons-material/CloseRounded";
+import TagIcon from "@mui/icons-material/LocalOfferOutlined";
 
 /**
  * Component that displays all of the details of a task.
@@ -55,22 +56,6 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
   const truncateString = (str, len) =>
     str.length > len + 3 ? str.slice(0, len) + "..." : str;
 
-  const ButtonLink = ({ to, children, onClick }) => (
-    <Link
-      onClick={onClick}
-      to={to}
-      style={{
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        alignContent: "center",
-        justifyContent: "center",
-      }}
-    >
-      {children}
-    </Link>
-  );
-
   if (loading) return <Typography component="h2">Loading task...</Typography>;
 
   return (
@@ -79,6 +64,7 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
         <Box
           sx={{
             width: "100%",
+            height: 30,
             display: "flex",
             flexDirection: "row",
             justifyContent: "flex-end",
@@ -127,11 +113,13 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
               <CloseFullscreenIcon />
             </IconButton>
           )}
-          <Link to="/dashboard">
-            <IconButton onClick={() => setRenderTable(true)}>
-              <CloseIcon />
-            </IconButton>
-          </Link>
+          <IconButton
+            component={Link}
+            to="/dashboard"
+            onClick={() => setRenderTable(true)}
+          >
+            <CloseIcon />
+          </IconButton>
         </Box>
       </ListItem>
       <ListItem sx={{ pb: 0 }}>
@@ -181,12 +169,34 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
             </Typography>
           </ListItemIcon>
         </Box>
-        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5, width: "60%" }}>
+        <Box width="60%" sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
           {data.subscribers.map((subsciber, index) => (
             <Chip
               key={index}
               icon={<AccountCircleIcon />}
               label={truncateString(subsciber.username, 15)}
+              variant="outlined"
+              onClick={() => console.log("chip")}
+              size="small"
+            />
+          ))}
+        </Box>
+      </ListItem>
+      <Divider />
+      <ListItem>
+        <Box width="40%">
+          <ListItemIcon sx={{ pt: 1 }}>
+            <TagIcon />
+            <Typography pl={1} variant="subtitle2" component="p">
+              Tags
+            </Typography>
+          </ListItemIcon>
+        </Box>
+        <Box width="60%" sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+          {["Tag 1", "Tag 2", "Tag 3"].map((tag, index) => (
+            <Chip
+              key={index}
+              label={truncateString(tag, 15)}
               variant="outlined"
               onClick={() => console.log("chip")}
               size="small"
