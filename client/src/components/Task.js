@@ -6,10 +6,12 @@ import {
   ButtonGroup,
   Chip,
   Divider,
+  IconButton,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
+  Stack,
   Typography,
 } from "@mui/material";
 import { getTaskById } from "../services/task.api";
@@ -17,6 +19,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import TaskIcon from "@mui/icons-material/AssignmentTurnedInOutlined";
 import PersonIcon from "@mui/icons-material/PersonOutlineOutlined";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SubtasksIcon from "@mui/icons-material/ListOutlined";
 import SubscriberIcon from "@mui/icons-material/Inbox";
 import StarOutlineIcon from "@mui/icons-material/StarOutlineRounded";
@@ -43,7 +46,7 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
   // Listens for when a task ID is passed
   useEffect(() => {
     getTask().then((response) => {
-      console.log(response.data);
+      console.log("getTask", response.data);
       setData(response.data);
       setLoading(false);
     });
@@ -97,32 +100,38 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
               {data.task.task_id}
             </Typography>
           </Box>
-          <ButtonGroup size="small">
-            <Button color="secondary" variant="contained">
-              <ButtonLink>Discard</ButtonLink>
-            </Button>
-            <Button color="secondary" variant="contained">
-              <ButtonLink to={`/dashboard/task/${data.task.task_id}/edit`}>
-                Edit
-              </ButtonLink>
-            </Button>
-          </ButtonGroup>
-          <ButtonGroup size="small" color="secondary">
-            {renderTable ? (
-              <Button variant="contained" onClick={() => setRenderTable(false)}>
-                <FullscreenIcon fontSize="small" />
-              </Button>
-            ) : (
-              <Button variant="contained" onClick={() => setRenderTable(true)}>
-                <CloseFullscreenIcon fontSize="small" />
-              </Button>
-            )}
-            <Button variant="contained">
-              <ButtonLink to="/dashboard" onClick={() => setRenderTable(true)}>
-                <CloseIcon fontSize="small" />
-              </ButtonLink>
-            </Button>
-          </ButtonGroup>
+          <Button
+            component={Link}
+            to={`/dashboard/task/${data.task.task_id}/edit`}
+            color="secondary"
+            variant="outlined"
+            size="small"
+          >
+            Discard
+          </Button>
+          <Button
+            component={Link}
+            to={`/dashboard/task/${data.task.task_id}/edit`}
+            color="secondary"
+            variant="outlined"
+            size="small"
+          >
+            Edit
+          </Button>
+          {renderTable ? (
+            <IconButton onClick={() => setRenderTable(false)}>
+              <FullscreenIcon />
+            </IconButton>
+          ) : (
+            <IconButton onClick={() => setRenderTable(true)}>
+              <CloseFullscreenIcon />
+            </IconButton>
+          )}
+          <Link to="/dashboard">
+            <IconButton onClick={() => setRenderTable(true)}>
+              <CloseIcon />
+            </IconButton>
+          </Link>
         </Box>
       </ListItem>
       <ListItem sx={{ pb: 0 }}>
@@ -131,9 +140,10 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
         </Typography>
       </ListItem>
       <ListItem>
-        <Typography fontSize="14px" component="p">
-          Progress, Priority, and 'Size' go here
-        </Typography>
+        <Stack direction="row" spacing={1}>
+          <Chip size="small" label={`Status: ${data.task.status}`} />
+          <Chip size="small" label={`Priority: ${data.task.priority}`} />
+        </Stack>
       </ListItem>
       <Divider />
       <ListItem>
@@ -175,9 +185,11 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
           {data.subscribers.map((subsciber, index) => (
             <Chip
               key={index}
+              icon={<AccountCircleIcon />}
               label={truncateString(subsciber.username, 15)}
               variant="outlined"
               onClick={() => console.log("chip")}
+              size="small"
             />
           ))}
         </Box>
