@@ -29,6 +29,7 @@ import FullscreenIcon from "@mui/icons-material/OpenInFullRounded";
 import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreenRounded";
 import CloseIcon from "@mui/icons-material/CloseRounded";
 import TagIcon from "@mui/icons-material/LocalOfferOutlined";
+import CalendarIcon from "@mui/icons-material/CalendarMonthOutlined";
 
 /**
  * Component that displays all of the details of a task.
@@ -215,21 +216,33 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
           </ListItemIcon>
         </Box>
         <Box width="60%">
-          <ListItemText primary="Subtasks listed here" />
+          <ListItemText
+            primary={
+              <Typography fontSize="14px" component="p">
+                Subtasks go here
+              </Typography>
+            }
+          />
         </Box>
       </ListItem>
       <Divider />
       <ListItem>
         <Box width="40%">
           <ListItemIcon sx={{ pt: 1 }}>
-            <SubtasksIcon />
+            <CalendarIcon />
             <Typography pl={1} variant="subtitle2" component="p">
-              Subtasks
+              Timeframe
             </Typography>
           </ListItemIcon>
         </Box>
         <Box width="60%">
-          <ListItemText primary="Subtasks listed here" />
+          <ListItemText
+            primary={
+              <Typography fontSize="14px" component="p">
+                06/02/2023 - 06/02/2023
+              </Typography>
+            }
+          />
         </Box>
       </ListItem>
     </List>
