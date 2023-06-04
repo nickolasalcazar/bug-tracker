@@ -3,7 +3,6 @@ import { Link, useParams } from "react-router-dom";
 import {
   Box,
   Button,
-  ButtonGroup,
   Chip,
   Divider,
   IconButton,
@@ -69,7 +68,6 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
             display: "flex",
             flexDirection: "row",
             justifyContent: "flex-end",
-            alignContent: "center",
             gap: 1,
           }}
         >

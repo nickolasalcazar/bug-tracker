@@ -73,6 +73,7 @@ function Dashboard() {
                   ? { md: "100%", lg: "50%", xl: "40%" }
                   : "100%",
                 display: "block",
+                pb: { xs: 1, sm: 0 },
               }}
             >
               <Paper sx={{ py: 0.5, px: 0 }}>
