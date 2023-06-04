@@ -3,7 +3,6 @@ import { Link, useParams } from "react-router-dom";
 import {
   Box,
   Button,
-  Chip,
   Divider,
   IconButton,
   InputLabel,
@@ -13,16 +12,14 @@ import {
   ListItemIcon,
   ListItemText,
   MenuItem,
-  OutlinedInput,
   Select,
-  Stack,
   TextField,
   Typography,
-  useTheme,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { MuiChipsInput } from "mui-chips-input";
 
 import { getTaskById } from "../services/task.api";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -53,8 +50,8 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
     status: null,
     priority: null,
     description: null,
-    subscribers: null,
-    tags: null,
+    subscribers: [],
+    tags: [],
     subtasks: null, // array of ids
     date_start: null,
     date_end: null,
@@ -70,10 +67,16 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
   useEffect(() => {
     getTask().then((response) => {
       console.log("getTask", response.data);
-      setData(response.data);
+
+      if (response.status === 200) setData(response.data);
+
       setLoading(false);
     });
   }, [id]);
+
+  useEffect(() => {
+    console.log("data:", data);
+  }, [data]);
 
   const truncateString = (str, len) =>
     str.length > len + 3 ? str.slice(0, len) + "..." : str;
@@ -256,15 +259,22 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
             </ListItemIcon>
           </Box>
           <Box width="60%" sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-            {["Tag 1", "Tag 2", "Tag 3"].map((tag, index) => (
-              <Chip
-                key={index}
-                label={truncateString(tag, 15)}
-                variant="outlined"
-                onClick={() => console.log("chip")}
-                size="small"
-              />
-            ))}
+            <MuiChipsInput
+              value={data.tags}
+              onChange={(newChips) => {
+                setData((data) => ({
+                  ...data,
+                  tags: newChips.map((c) => c.toLowerCase()),
+                }));
+              }}
+              validate={(chipValue) => {
+                if (data.tags.includes(chipValue.toLowerCase())) return false;
+                return {
+                  isError: chipValue.length > 8 || chipValue.length < 3,
+                  textError: "Tag must be between 3 and 8 characters long",
+                };
+              }}
+            />
           </Box>
         </ListItem>
         <Divider />
