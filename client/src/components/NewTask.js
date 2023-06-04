@@ -133,7 +133,8 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
           </IconButton>
         </Box>
       </ListItem>
-      <ListItem sx={{ pb: 0 }}>
+      {/* Title field */}
+      <ListItem>
         <TextField
           variant="standard"
           placeholder="Task title"
@@ -142,8 +143,15 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
           required
         />
       </ListItem>
+      {/* Status and Priority fields */}
       <ListItem
-        sx={{ display: "flex", flexDirection: "row", gap: 1, maxWidth: 600 }}
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          gap: 1,
+          maxWidth: 600,
+          pb: 2,
+        }}
       >
         <FormControl sx={{ flex: 1 }}>
           <InputLabel id="status-select-label">Status</InputLabel>
@@ -185,10 +193,27 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
         </FormControl>
       </ListItem>
       <Divider />
+      {/* Description field */}
       <ListItem>
-        <Typography variant="p" sx={{ pt: 2, pb: 4 }}>
-          DESCRIPTION
-        </Typography>
+        <TextField
+          id="description"
+          name="description"
+          label="Description"
+          placeholder="Enter task description"
+          onChange={(e) => {
+            setData((data) => {
+              return {
+                ...data,
+                description: e.target.value,
+              };
+            });
+          }}
+          multiline
+          minRows={5}
+          maxRows={Infinity}
+          required
+          fullWidth
+        />
       </ListItem>
       <Divider />
       <ListItem>
