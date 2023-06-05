@@ -3,8 +3,24 @@ const endpoint = process.env.REACT_APP_API_SERVER_URL;
 
 /**
  * Create a new task.
+ *
  * @param {string} accessToken  JWT.
  * @param {object} task         Object containing task data.
+ * @example
+ *   const response = await createTask(token, {
+ *     title,
+ *     status,
+ *     priority,
+ *     description,
+ *     subscribers: [id1, id2],
+ *     tags: [tag1, tag2],
+ *     project_id,
+ *     subtasks: [id1, id2]
+ *     parent_task_id,
+ *     date_created, // ISO 8601
+ *     date_start,   // ISO 8601
+ *     date_end      // ISO 8601
+ *   })
  */
 export const createTask = async (accessToken, task) =>
   await callExternalApi({

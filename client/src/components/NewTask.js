@@ -24,6 +24,7 @@ import { MuiChipsInput } from "mui-chips-input";
 
 import { getTaskById } from "../services/task.api";
 import { useAuth0 } from "@auth0/auth0-react";
+import { createTask } from "../services/task.api";
 
 import TaskIcon from "@mui/icons-material/AssignmentTurnedInOutlined";
 import PersonIcon from "@mui/icons-material/PersonOutlineOutlined";
@@ -43,7 +44,7 @@ import CalendarIcon from "@mui/icons-material/CalendarMonthOutlined";
  * Component that displays all of the details of a task.
  */
 function Task({ setRenderTable = undefined, renderTable = undefined }) {
-  const { getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently, user } = useAuth0();
   const { id } = useParams();
   const [data, setData] = useState({
     id: null,
@@ -53,7 +54,9 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
     description: null,
     subscribers: [],
     tags: [],
-    subtasks: null, // array of ids
+    project_id: null,
+    subtasks: [], // array of ids
+    dateCreateed: null,
     date_start: null,
     date_end: null,
   });
@@ -89,10 +92,9 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
     // Before submting do validation checks
     // Check if dates can be converted to ISO properly
 
-    console.log(data);
+    console.log("Submitting", data);
 
-    // const response = await createTask(accessToken, formData);
-    // const response = await createTask(accessToken, data);
+    const response = await createTask(accessToken, data);
     // console.log(response);
   };
 
@@ -253,7 +255,7 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
           <Box flex={2} sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
             <MuiChipsInput
               placeholder="Add subscriber"
-              helperText="Enter Username or Email"
+              helperText="Enter username or email"
               fullWidth
               value={data.subscribers}
               onChange={(newChips) => {

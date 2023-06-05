@@ -82,7 +82,15 @@ function Dashboard() {
             </Box>
           }
         >
-          <Route path="task/new" element={<NewTask />} />
+          <Route
+            path="task/new"
+            element={
+              <NewTask
+                setRenderTable={setRenderTable}
+                renderTable={renderTable}
+              />
+            }
+          />
           <Route path="task/:id/edit" element={"Edit a task"} />
           <Route
             path="task/:id"
