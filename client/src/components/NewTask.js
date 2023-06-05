@@ -241,7 +241,9 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
           </Box>
           <Box width="60%" sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
             <MuiChipsInput
-              placeholder="Username or Email"
+              placeholder="Add subscriber"
+              helperText="Enter Username or Email"
+              fullWidth
               value={data.subscribers}
               onChange={(newChips) => {
                 setData((data) => ({
@@ -275,7 +277,8 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
           </Box>
           <Box width="60%" sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
             <MuiChipsInput
-              placeholder="Tag"
+              placeholder="Add tag"
+              fullWidth
               value={data.tags}
               onChange={(newChips) => {
                 setData((data) => ({
