@@ -12,7 +12,7 @@ module.exports = {
     db.query(queries.getUserById, [id]).then((result) => {
       result.rows.length === 0
         ? res.sendStatus(404)
-        : res.status(200).json(result.rows);
+        : res.status(200).json(result.rows[0]);
     });
   },
 
