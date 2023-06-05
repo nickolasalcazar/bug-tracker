@@ -16,6 +16,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -84,6 +85,9 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const accessToken = await getAccessTokenSilently();
+
+    // Before submting do validation checks
+    // Check if dates can be converted to ISO properly
 
     console.log(data);
 
@@ -230,8 +234,15 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
         </ListItem>
         <Divider />
         {/* Subscribers field */}
-        <ListItem>
-          <Box width="40%">
+        <ListItem
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            gap: 1,
+          }}
+        >
+          <Box flex={1} minWidth={160}>
             <ListItemIcon sx={{ pt: 1 }}>
               <SubscriberIcon />
               <Typography pl={1} variant="subtitle2" component="p">
@@ -239,7 +250,7 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
               </Typography>
             </ListItemIcon>
           </Box>
-          <Box width="60%" sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+          <Box flex={2} sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
             <MuiChipsInput
               placeholder="Add subscriber"
               helperText="Enter Username or Email"
@@ -266,8 +277,15 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
         </ListItem>
         <Divider />
         {/* Tags field */}
-        <ListItem>
-          <Box width="40%">
+        <ListItem
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            gap: 1,
+          }}
+        >
+          <Box flex={1} minWidth={160}>
             <ListItemIcon sx={{ pt: 1 }}>
               <TagIcon />
               <Typography pl={1} variant="subtitle2" component="p">
@@ -275,7 +293,7 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
               </Typography>
             </ListItemIcon>
           </Box>
-          <Box width="60%" sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+          <Box flex={2} sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
             <MuiChipsInput
               placeholder="Add tag"
               fullWidth
@@ -318,42 +336,47 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
           </Box>
         </ListItem>
         <Divider />
-        {/* Timeframe field */}
-        <ListItem>
-          <Box width="40%">
+        {/* Schedule field */}
+        {/* DatePicker elements use dayjs dates; results in crash when switching between mobile in dev */}
+        <ListItem
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            gap: 1,
+          }}
+        >
+          <Box flex={1} minWidth={160}>
             <ListItemIcon sx={{ pt: 1 }}>
               <CalendarIcon />
               <Typography pl={1} variant="subtitle2" component="p">
-                Timeframe
+                Schedule
               </Typography>
             </ListItemIcon>
           </Box>
           <Box
-            width="60%"
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              gap: 1,
-              flexWrap: "wrap",
-            }}
+            flex={2}
+            sx={{ display: "flex", flexWrap: "wrap", gap: 1, minWidth: 200 }}
           >
             <DatePicker
               flex={1}
-              label="Start"
+              label="Start date"
               value={data.date_start}
               onChange={(date) => {
+                if (!date) return;
                 setData((data) => {
-                  return { ...data, date_start: date.$d.toISOString() };
+                  return { ...data, date_start: date.$d };
                 });
               }}
             />
             <DatePicker
               flex={1}
-              label="End"
+              label="End date"
               value={data.date_end}
               onChange={(date) => {
+                if (!date) return;
                 setData((data) => {
-                  return { ...data, date_end: date.$d.toISOString() };
+                  return { ...data, date_end: date.$d };
                 });
               }}
             />
