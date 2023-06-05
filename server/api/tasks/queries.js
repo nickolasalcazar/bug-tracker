@@ -35,6 +35,8 @@ module.exports = {
       FROM task_subscribers
     INNER JOIN users ON task_subscribers.user_id = users.user_id
     WHERE task_id = $1`,
+  addTag: "INSERT INTO task_tags (task_id, tag_str) VALUES ($1, $2)",
+  getTags: "SELECT tag_str FROM task_tags WHERE task_id = $1",
   getTaskById: `
     SELECT
       tasks.task_id,
