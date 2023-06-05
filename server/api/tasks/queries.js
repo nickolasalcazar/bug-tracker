@@ -46,7 +46,8 @@ module.exports = {
       TO_CHAR(date_created AT TIME ZONE 'UTC', 'MM/DD/YYYY HH:MI AM') AS "date_created",
       date_start,
       date_end,
-      status
+      status,
+      priority
       FROM tasks
     INNER JOIN task_subscribers ON tasks.task_id = task_subscribers.task_id
     INNER JOIN users ON tasks.owner_id = users.user_id 
