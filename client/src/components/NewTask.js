@@ -234,17 +234,26 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
             </ListItemIcon>
           </Box>
           <Box width="60%" sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-            {/* {data.subscribers.map((subsciber, index) => (
-            <Chip
-              key={index}
-              icon={<AccountCircleIcon />}
-              label={truncateString(subsciber.username, 15)}
-              variant="outlined"
-              onClick={() => console.log("chip")}
-              size="small"
+            <MuiChipsInput
+              placeholder="Username or Email"
+              value={data.subscribers}
+              onChange={(newChips) => {
+                setData((data) => ({
+                  ...data,
+                  subscribers: newChips.map((c) => c.toLowerCase()),
+                }));
+              }}
+              validate={(chipValue) => {
+                if (data.tags.includes(chipValue.toLowerCase())) return false;
+
+                // Do validation check to see if user exists; throw errors
+
+                return {
+                  isError: chipValue.length > 254 || chipValue.length < 3,
+                  textError: "Value must be at least 3 characters long",
+                };
+              }}
             />
-          ))} */}
-            ADD SUBSCRIBERS
           </Box>
         </ListItem>
         <Divider />
@@ -260,6 +269,7 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
           </Box>
           <Box width="60%" sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
             <MuiChipsInput
+              placeholder="Tag"
               value={data.tags}
               onChange={(newChips) => {
                 setData((data) => ({
