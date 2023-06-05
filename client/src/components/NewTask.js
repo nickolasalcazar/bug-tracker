@@ -148,6 +148,11 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
             size="medium"
             fullWidth
             required
+            onChange={(e) => {
+              setData((data) => {
+                return { ...data, title: e.target.value };
+              });
+            }}
           />
         </ListItem>
         {/* Status and Priority fields */}
@@ -332,9 +337,9 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
               flex={1}
               label="Start"
               value={data.date_start}
-              onChange={(value) => {
-                setData(data, () => {
-                  return { ...data, date_start: value };
+              onChange={(date) => {
+                setData((data) => {
+                  return { ...data, date_start: date.$d.toISOString() };
                 });
               }}
             />
@@ -342,9 +347,9 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
               flex={1}
               label="End"
               value={data.date_end}
-              onChange={(value) => {
-                setData(data, () => {
-                  return { ...data, date_end: value };
+              onChange={(date) => {
+                setData((data) => {
+                  return { ...data, date_end: date.$d.toISOString() };
                 });
               }}
             />
