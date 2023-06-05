@@ -54,6 +54,13 @@ INSERT INTO task_statuses(status_value)
     ('in progress'), ('not started'), ('completed'),
     ('in review'), ('canceled'), ('archived');
 
+CREATE TABLE task_priorities (
+  priority_value VARCHAR(50) NOT NULL PRIMARY KEY
+);
+
+INSERT INTO task_priorities(priority_value)
+  VALUES ('low'), ('medium'), ('high'), ('urgent'), ('critical');
+
 CREATE TABLE tasks (
   task_id SERIAL PRIMARY KEY,
   parent_task_id SERIAL REFERENCES tasks(task_id) ON DELETE CASCADE,
@@ -64,7 +71,8 @@ CREATE TABLE tasks (
   date_created TIMESTAMP NOT NULL DEFAULT NOW(),
   date_start TIMESTAMP DEFAULT NULL,
   date_end TIMESTAMP DEFAULT NULL,
-  "status" VARCHAR(50) REFERENCES task_statuses(status_value) DEFAULT NULL
+  "status" VARCHAR(50) REFERENCES task_statuses(status_value) DEFAULT NULL,
+  "priority" VARCHAR(50) REFERENCES task_priorities(priority_value) DEFAULT NULL
 );
 
 -- Alter table tasks to make foreign keys nullable
@@ -76,7 +84,7 @@ ALTER TABLE tasks
 CREATE TABLE task_tags (
   task_id SERIAL REFERENCES tasks(task_id) NOT NULL,
   tag_id SERIAL PRIMARY KEY,
-  tag_str VARCHAR(16) NOT NULL
+  tag_str VARCHAR(8) NOT NULL
 );
 
 CREATE TABLE task_subscribers (

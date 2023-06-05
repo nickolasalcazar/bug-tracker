@@ -53,31 +53,53 @@ module.exports = {
    * Create a new task.
    */
   createTask: async (req, res) => {
-    const {
-      title,
-      description,
-      ownerId = req.auth.payload.sub,
-      projectId = null,
-      parentTaskId = null,
+    const ownerId = req.auth.payload.sub;
+    let {
+      title = null,
+      status = null,
+      priority = null,
+      description = null,
+      subscribers = [],
+      tags = [],
+      project_id = null,
+      subtasks: [],
+      parent_task_id = null,
+      date_created = null,
+      date_start = null,
+      date_end = null,
     } = req.body;
 
     const client = await db.getClient();
 
     try {
       await client.query("BEGIN");
-      // Create the task
+      // Validate inputs
+      if (date_created === null) date_created = new Date().toISOString();
+
+      // Insert the new task
+      // Note that tags, subtasks, and subscribers
+      // need to be inserted in their own queries
       const { rows } = await client.query(queries.createTask, [
-        title,
-        description,
         ownerId,
-        projectId,
-        parentTaskId,
+        title,
+        status,
+        priority,
+        description,
+        project_id,
+        parent_task_id,
+        date_created,
+        date_start,
+        date_end,
       ]);
+      console.log("createTask rows", rows);
 
-      console.log("rows[0].task_id =", rows[0].task_id);
+      // Insert tags, if there are any
 
-      // Add author as subscriber to task
+      // Insert subtasks, if there are any
+
+      // Insert subscribers
       await client.query(queries.addSubscriber, [rows[0].task_id, ownerId]);
+
       await client.query("COMMIT");
       res.sendStatus(201);
     } catch (e) {
