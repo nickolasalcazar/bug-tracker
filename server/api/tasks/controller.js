@@ -11,9 +11,14 @@ module.exports = {
       const task = await db.query(queries.getTaskById, [id]);
       if (task.rows.length === 0) sendStatus(404);
       const subscribers = await db.query(queries.getSubscribers, [id]);
-      res
-        .status(200)
-        .json({ task: task.rows[0], subscribers: subscribers.rows });
+      const tags = await db.query(queries.getTags, [id]);
+      task.rows[0].subscribers = subscribers.rows;
+      task.rows[0].tags = tags.rows;
+
+      // res
+      //   .status(200)
+      //   .json({ task: task.rows[0], subscribers: subscribers.rows });
+      res.status(200).json(task.rows[0]);
     } catch (e) {
       console.log(e);
       res.sendStatus(500);
@@ -91,14 +96,20 @@ module.exports = {
         date_start,
         date_end,
       ]);
+      const task_id = rows[0].task_id;
+
       console.log("createTask rows", rows);
 
       // Insert tags, if there are any
+      // *** tags.forEach is NOT OPTIMAL
+      tags.forEach(async (tag) => {
+        await client.query(queries.addTag, [task_id, tag]);
+      });
 
       // Insert subtasks, if there are any
 
       // Insert subscribers
-      await client.query(queries.addSubscriber, [rows[0].task_id, ownerId]);
+      await client.query(queries.addSubscriber, [task_id, ownerId]);
 
       await client.query("COMMIT");
       res.sendStatus(201);

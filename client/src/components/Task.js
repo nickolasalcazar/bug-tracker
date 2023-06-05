@@ -82,12 +82,12 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
               component="p"
             >
               <TaskIcon fontSize="small" sx={{ pr: 0.5, pt: "2.5px" }} />
-              {data.task.task_id}
+              {data.task_id}
             </Typography>
           </Box>
           <Button
             component={Link}
-            to={`/dashboard/task/${data.task.task_id}/edit`}
+            to={`/dashboard/task/${data.task_id}/edit`}
             color="secondary"
             variant="outlined"
             size="small"
@@ -96,7 +96,7 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
           </Button>
           <Button
             component={Link}
-            to={`/dashboard/task/${data.task.task_id}/edit`}
+            to={`/dashboard/task/${data.task_id}/edit`}
             color="secondary"
             variant="outlined"
             size="small"
@@ -123,19 +123,19 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
       </ListItem>
       <ListItem sx={{ pb: 0 }}>
         <Typography variant="h6" component="h2" fontWeight="medium">
-          {data.task.title}
+          {data.title}
         </Typography>
       </ListItem>
       <ListItem>
         <Stack direction="row" spacing={1}>
-          <Chip size="small" label={`Status: ${data.task.status}`} />
-          <Chip size="small" label={`Priority: ${data.task.priority}`} />
+          <Chip size="small" label={`Status: ${data.status}`} />
+          <Chip size="small" label={`Priority: ${data.priority}`} />
         </Stack>
       </ListItem>
       <Divider />
       <ListItem>
         <Typography variant="p" sx={{ pt: 2, pb: 4 }}>
-          {data.task.description}
+          {data.description}
         </Typography>
       </ListItem>
       <Divider />
@@ -152,7 +152,7 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
           <ListItemText
             primary={
               <Typography fontSize="14px" component="p">
-                {data.task.creator} ({data.task.date_created})
+                {data.creator} ({data.date_created})
               </Typography>
             }
           />
@@ -192,10 +192,10 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
           </ListItemIcon>
         </Box>
         <Box width="60%" sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-          {["Tag 1", "Tag 2", "Tag 3"].map((tag, index) => (
+          {data.tags.map((tag, index) => (
             <Chip
               key={index}
-              label={truncateString(tag, 15)}
+              label={truncateString(tag.tag_str, 15)}
               variant="outlined"
               onClick={() => console.log("chip")}
               size="small"
