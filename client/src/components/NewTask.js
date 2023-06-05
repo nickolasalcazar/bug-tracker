@@ -168,6 +168,7 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
           <FormControl sx={{ flex: 1 }}>
             <InputLabel id="status-select-label">Status</InputLabel>
             <Select
+              required
               labelId="status-select-label"
               label="Status"
               value={data.status ? data.status : ""}
@@ -187,6 +188,7 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
           <FormControl sx={{ flex: 1 }}>
             <InputLabel id="priority-select-label">Priority</InputLabel>
             <Select
+              required
               labelId="priority-select-label"
               label="Priority"
               value={data.priority ? data.priority : ""}
@@ -223,7 +225,6 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
             multiline
             minRows={5}
             maxRows={Infinity}
-            required
             fullWidth
           />
         </ListItem>
