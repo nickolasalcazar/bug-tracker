@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Box,
   Button,
@@ -13,8 +13,6 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { getTaskById } from "../services/task.api";
-import { useAuth0 } from "@auth0/auth0-react";
 
 import TaskIcon from "@mui/icons-material/AssignmentTurnedInOutlined";
 import PersonIcon from "@mui/icons-material/PersonOutlineOutlined";
@@ -29,34 +27,21 @@ import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreenRounded";
 import CloseIcon from "@mui/icons-material/CloseRounded";
 import TagIcon from "@mui/icons-material/LocalOfferOutlined";
 import CalendarIcon from "@mui/icons-material/CalendarMonthOutlined";
+import useGetTaskByParam from "../hooks/useGetTaskByParam";
 
 /**
  * Component that displays all of the details of a task.
  */
 function Task({ setRenderTable = undefined, renderTable = undefined }) {
-  const { getAccessTokenSilently } = useAuth0();
-  const { id } = useParams();
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { task, isLoading, error } = useGetTaskByParam();
 
-  const getTask = async () => {
-    const token = await getAccessTokenSilently();
-    return await getTaskById(token, id);
-  };
-
-  // Listens for when a task ID is passed
   useEffect(() => {
-    getTask().then((response) => {
-      console.log("getTask", response.data);
-      setData(response.data);
-      setLoading(false);
-    });
-  }, [id]);
+    setData(task);
+  }, [task, isLoading, error]);
 
-  const truncateString = (str, len) =>
-    str.length > len + 3 ? str.slice(0, len) + "..." : str;
-
-  if (loading) return <Typography component="h2">Loading task...</Typography>;
+  if (data === null)
+    return <Typography component="h2">Loading task...</Typography>;
 
   return (
     <List>
@@ -87,7 +72,7 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
           </Box>
           <Button
             component={Link}
-            to={`/dashboard/task/${data.task_id}/edit`}
+            to={`/dashboard/task/form/${data.task_id}`}
             color="secondary"
             variant="outlined"
             size="small"
@@ -96,7 +81,7 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
           </Button>
           <Button
             component={Link}
-            to={`/dashboard/task/${data.task_id}/edit`}
+            to={`/dashboard/task/form/${data.task_id}`}
             color="secondary"
             variant="outlined"
             size="small"
@@ -169,11 +154,11 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
           </ListItemIcon>
         </Box>
         <Box width="60%" sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-          {data.subscribers.map((subsciber, index) => (
+          {data.subscribers.map((subscriber, index) => (
             <Chip
               key={index}
               icon={<AccountCircleIcon />}
-              label={truncateString(subsciber.username, 15)}
+              label={subscriber.username}
               variant="outlined"
               onClick={() => console.log("chip")}
               size="small"
@@ -195,7 +180,7 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
           {data.tags.map((tag, index) => (
             <Chip
               key={index}
-              label={truncateString(tag.tag_str, 15)}
+              label={tag}
               variant="outlined"
               onClick={() => console.log("chip")}
               size="small"
