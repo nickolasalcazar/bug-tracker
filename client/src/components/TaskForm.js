@@ -22,7 +22,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { MuiChipsInput } from "mui-chips-input";
 
 import useUserProfile from "../hooks/useUserProfile";
-import useGetTask from "../hooks/useGetTask";
+import useGetTaskByParam from "../hooks/useGetTaskByParam";
 import { useAuth0 } from "@auth0/auth0-react";
 import { createTask } from "../services/task.api";
 
@@ -48,7 +48,7 @@ export default function TaskForm({
 }) {
   const { getAccessTokenSilently, user } = useAuth0();
   const { userProfile } = useUserProfile();
-  const { task, isLoading, error } = useGetTask();
+  const { task, isLoading, error } = useGetTaskByParam();
 
   const [data, setData] = useState({
     id: null,

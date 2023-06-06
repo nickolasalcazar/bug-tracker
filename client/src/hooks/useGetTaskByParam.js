@@ -6,7 +6,7 @@ import { getTaskById } from "../services/task.api";
 /**
  * Fetches a single task. The ID of the task is obtained as a URL parameter.
  */
-export default function useGetTask() {
+export default function useGetTaskByParam() {
   const { getAccessTokenSilently } = useAuth0();
   const [task, setTask] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
