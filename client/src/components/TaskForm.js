@@ -46,7 +46,7 @@ export default function TaskForm({
   setRenderTable = undefined,
   renderTable = undefined,
 }) {
-  const { getAccessTokenSilently, user } = useAuth0();
+  const { getAccessTokenSilently } = useAuth0();
   const { userProfile } = useUserProfile();
   const { task, isLoading, error } = useGetTaskByParam();
 
@@ -68,18 +68,17 @@ export default function TaskForm({
   // When task loads, save to data
   useEffect(() => {
     if (isLoading || error) return;
+    console.log("task", task);
     setData(task);
   }, [task]);
 
+  // Add logged in user as default subscriber
   useEffect(() => {
     if (!userProfile) return;
     setData((data) => {
       return { ...data, subscribers: [userProfile.username] };
     });
   }, [userProfile]);
-
-  const truncateString = (str, len) =>
-    str.length > len + 3 ? str.slice(0, len) + "..." : str;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -93,7 +92,28 @@ export default function TaskForm({
     console.log(response);
   };
 
-  if (isLoading) return <Typography component="h2">Loading task...</Typography>;
+  useEffect(() => {
+    setData(task);
+  }, [task, isLoading, error]);
+
+  // Converts an ISO date string to a dayjs object
+  // Because DatePicker component requires dayjs format
+  const convertIsoToDayjs = (iso) => {
+    const d = new Date(iso);
+    // eslint-disable-next-line no-undef
+    return dayjs({
+      year: d.getFullYear(),
+      month: d.getMonth() + 1,
+      day: d.getDate(),
+      // hour: d.getHours(),
+      // minute: d.getMinutes(),
+      // second: d.getSeconds(),
+      // millisecond: d.getMilliseconds(),
+    });
+  };
+
+  if (data === null)
+    return <Typography component="h2">Loading task...</Typography>;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -144,6 +164,7 @@ export default function TaskForm({
         {/* Title field */}
         <ListItem>
           <TextField
+            value={data.title ?? ""}
             variant="standard"
             placeholder="Task title"
             size="medium"
@@ -211,6 +232,7 @@ export default function TaskForm({
         {/* Description field */}
         <ListItem>
           <TextField
+            value={data.description ?? ""}
             id="description"
             name="description"
             label="Description"
@@ -252,7 +274,7 @@ export default function TaskForm({
               placeholder="Add subscriber"
               helperText="Enter username or email"
               fullWidth
-              value={data.subscribers}
+              value={data.subscribers.map((s) => s.username)}
               onChange={(newChips) => {
                 setData((data) => ({
                   ...data,
@@ -355,10 +377,11 @@ export default function TaskForm({
             flex={2}
             sx={{ display: "flex", flexWrap: "wrap", gap: 1, minWidth: 200 }}
           >
+            {/* Breaks because dates are not formatted to dayjs */}
             <DatePicker
               flex={1}
               label="Start date"
-              value={data.date_start}
+              value={convertIsoToDayjs(data.date_start)}
               onChange={(date) => {
                 if (!date) return;
                 setData((data) => {
@@ -369,7 +392,7 @@ export default function TaskForm({
             <DatePicker
               flex={1}
               label="End date"
-              value={data.date_end}
+              value={convertIsoToDayjs(data.date_end)}
               onChange={(date) => {
                 if (!date) return;
                 setData((data) => {
