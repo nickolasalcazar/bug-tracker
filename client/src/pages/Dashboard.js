@@ -80,8 +80,9 @@ function Dashboard() {
             </Box>
           }
         >
+          {/* Use one oath task/form & task/form/:id */}
           <Route
-            path="task/new"
+            path="task/form"
             element={
               <TaskForm
                 setRenderTable={setRenderTable}
@@ -89,7 +90,16 @@ function Dashboard() {
               />
             }
           />
-          <Route path="task/:id/edit" element={"Edit a task"} />
+          {/* <Route path="task/:id/edit" element={"Edit a task"} /> */}
+          <Route
+            path="task/form/:id"
+            element={
+              <TaskForm
+                setRenderTable={setRenderTable}
+                renderTable={renderTable}
+              />
+            }
+          />
           <Route
             path="task/:id"
             element={

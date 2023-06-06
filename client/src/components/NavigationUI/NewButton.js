@@ -96,7 +96,7 @@ export default function NewButton() {
       >
         <MenuItem onClick={handleClose} disableRipple>
           <TaskIcon />
-          <Link to="/dashboard/task/new">Task</Link>
+          <Link to="/dashboard/task/form">Task</Link>
         </MenuItem>
         <MenuItem onClick={handleClose} disableRipple>
           <ProjectIcon />

@@ -8,17 +8,15 @@ module.exports = {
   getTaskById: async (req, res) => {
     try {
       const id = decodeURI(req.params.id);
-      const task = await db.query(queries.getTaskById, [id]);
-      if (task.rows.length === 0) sendStatus(404);
+      const response = await db.query(queries.getTaskById, [id]);
+      if (response.rows.length === 0) sendStatus(404);
+      const task = response.rows[0];
       const subscribers = await db.query(queries.getSubscribers, [id]);
       const tags = await db.query(queries.getTags, [id]);
-      task.rows[0].subscribers = subscribers.rows;
-      task.rows[0].tags = tags.rows;
-
-      // res
-      //   .status(200)
-      //   .json({ task: task.rows[0], subscribers: subscribers.rows });
-      res.status(200).json(task.rows[0]);
+      task.subscribers = subscribers.rows;
+      // task.rows[0].tags = tags.rows;
+      task.tags = tags.rows.map((tag) => tag.tag_str);
+      res.status(200).json(task);
     } catch (e) {
       console.log(e);
       res.sendStatus(500);
