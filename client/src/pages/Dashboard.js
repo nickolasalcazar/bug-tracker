@@ -6,7 +6,7 @@ import { getAllSubscribedTasks } from "../services/task.api";
 
 import DataTable from "../components/DataTable/DataTable";
 import { Box, Paper, Stack } from "@mui/material";
-import NewTask from "../components/NewTask";
+import TaskForm from "../components/TaskForm";
 import Task from "../components/Task";
 
 /**
@@ -85,7 +85,7 @@ function Dashboard() {
           <Route
             path="task/new"
             element={
-              <NewTask
+              <TaskForm
                 setRenderTable={setRenderTable}
                 renderTable={renderTable}
               />

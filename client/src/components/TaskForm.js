@@ -42,7 +42,10 @@ import CalendarIcon from "@mui/icons-material/CalendarMonthOutlined";
 /**
  * Component that displays all of the details of a task.
  */
-function Task({ setRenderTable = undefined, renderTable = undefined }) {
+export default function TaskForm({
+  setRenderTable = undefined,
+  renderTable = undefined,
+}) {
   const { getAccessTokenSilently, user } = useAuth0();
   const { userProfile } = useUserProfile();
   const { task, isLoading, error } = useGetTask();
@@ -412,5 +415,3 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
     </LocalizationProvider>
   );
 }
-
-export default Task;

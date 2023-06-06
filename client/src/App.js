@@ -6,7 +6,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import { AuthenticationGuard } from "./components/auth0/AuthenticationGuard";
 import AppLayout from "./AppLayout";
-import NewTask from "./components/NewTask";
+import TaskForm from "./components/TaskForm";
 import PageLoader from "./components/PageLoader";
 import Homepage from "./pages/Homepage";
 import Profile from "./pages/Profile";
@@ -83,7 +83,7 @@ function App() {
           <Route element={<LayoutWrapper />}>
             <Route path="/projects" element={<Projects />} />
             <Route path="/projects/new" element={<NewProject />} />
-            <Route path="/tasks/new" element={<NewTask />} />
+            <Route path="/tasks/new" element={<TaskForm />} />
             <Route path="/profile" element={<Profile />} />
           </Route>
           <Route element={<LayoutWrapper requireAuth={false} />}>
