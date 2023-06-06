@@ -45,7 +45,7 @@ import CalendarIcon from "@mui/icons-material/CalendarMonthOutlined";
 function Task({ setRenderTable = undefined, renderTable = undefined }) {
   const { getAccessTokenSilently, user } = useAuth0();
   const { userProfile } = useUserProfile();
-  const { task, isLoading } = useGetTask();
+  const { task, isLoading, error } = useGetTask();
 
   const [data, setData] = useState({
     id: null,
@@ -64,12 +64,12 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
 
   // When task loads, save to data
   useEffect(() => {
+    if (isLoading || error) return;
     setData(task);
   }, [task]);
 
   useEffect(() => {
     if (!userProfile) return;
-    console.log(userProfile.username);
     setData((data) => {
       return { ...data, subscribers: [userProfile.username] };
     });
