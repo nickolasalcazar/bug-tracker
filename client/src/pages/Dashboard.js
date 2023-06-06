@@ -3,6 +3,7 @@ import { Routes, Route, Outlet } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getUserInfo, createUser } from "../services/user.api";
 import { getAllSubscribedTasks } from "../services/task.api";
+import useGetTasks from "../hooks/useGetTasks";
 
 import DataTable from "../components/DataTable/DataTable";
 import { Box, Paper, Stack } from "@mui/material";
@@ -14,11 +15,21 @@ import Task from "../components/Task";
  */
 function Dashboard() {
   const { user, getAccessTokenSilently } = useAuth0();
+  const { tasks, isLoading, error } = useGetTasks();
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
   const [renderTable, setRenderTable] = useState(true);
-  const [renderDragBar, setRenderDragBar] = useState(false);
-  const [dragOffset, setDragOffset] = useState(0);
+  // const [renderDragBar, setRenderDragBar] = useState(false);
+  // const [dragOffset, setDragOffset] = useState(0);
+
+  // Fetch tasks, transform them into rows & columns
+  useEffect(() => {
+    if (isLoading || error) return;
+    const rows = tasks.map((row) => Object.values(row));
+    const columns = Object.keys(tasks[0]);
+    setColumns(columns);
+    setRows(rows);
+  }, [tasks]);
 
   useEffect(() => {
     let isMounted = true;
@@ -32,19 +43,6 @@ function Dashboard() {
       if (!isMounted) return;
     };
     newUserCheck();
-
-    const getSubscribedTasks = async () => {
-      const accessToken = await getAccessTokenSilently();
-      const res = await getAllSubscribedTasks(accessToken);
-      // console.log("res.data", res.data);
-      const columns = Object.keys(res.data[0]);
-      const rows = res.data.map((row) => Object.values(row));
-
-      setColumns(columns);
-      setRows(rows);
-    };
-    getSubscribedTasks();
-
     return () => {
       isMounted = false;
     };
