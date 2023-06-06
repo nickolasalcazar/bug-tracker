@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Box,
   Button,
@@ -22,7 +22,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { MuiChipsInput } from "mui-chips-input";
 
 import useUserProfile from "../hooks/useUserProfile";
-import { getTaskById } from "../services/task.api";
+import useGetTask from "../hooks/useGetTask";
 import { useAuth0 } from "@auth0/auth0-react";
 import { createTask } from "../services/task.api";
 
@@ -45,8 +45,8 @@ import CalendarIcon from "@mui/icons-material/CalendarMonthOutlined";
 function Task({ setRenderTable = undefined, renderTable = undefined }) {
   const { getAccessTokenSilently, user } = useAuth0();
   const { userProfile } = useUserProfile();
+  const { task, isLoading } = useGetTask();
 
-  const { id } = useParams();
   const [data, setData] = useState({
     id: null,
     title: null,
@@ -61,27 +61,11 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
     date_start: null,
     date_end: null,
   });
-  const [loading, setLoading] = useState(true);
 
-  const getTask = async () => {
-    const token = await getAccessTokenSilently();
-    return await getTaskById(token, id);
-  };
-
-  // Listens for when a task ID is passed
+  // When task loads, save to data
   useEffect(() => {
-    getTask().then((response) => {
-      console.log("getTask", response.data);
-
-      if (response.status === 200) setData(response.data);
-
-      setLoading(false);
-    });
-  }, [id]);
-
-  useEffect(() => {
-    console.log("data:", data);
-  }, [data]);
+    setData(task);
+  }, [task]);
 
   useEffect(() => {
     if (!userProfile) return;
@@ -100,14 +84,13 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
 
     // Before submting do validation checks
     // Check if dates can be converted to ISO properly
-
     console.log("Submitting", data);
 
     const response = await createTask(accessToken, data);
-    // console.log(response);
+    console.log(response);
   };
 
-  if (loading) return <Typography component="h2">Loading task...</Typography>;
+  if (isLoading) return <Typography component="h2">Loading task...</Typography>;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
