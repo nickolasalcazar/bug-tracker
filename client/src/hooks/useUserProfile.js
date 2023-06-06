@@ -11,11 +11,11 @@ export default function useUserProfile() {
     const fetchUserProfile = async () => {
       try {
         const token = await getAccessTokenSilently();
-        const profile = await getUserInfo(token, user.sub);
-        console.log("profile", profile);
-        setUserProfile(profile);
+        const response = await getUserInfo(token, user.sub);
+        setUserProfile(response.data);
       } catch (e) {
         setUserProfile(null);
+      } finally {
         setIsLoading(false);
       }
     };

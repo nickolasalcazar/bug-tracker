@@ -16,12 +16,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { MuiChipsInput } from "mui-chips-input";
 
+import useUserProfile from "../hooks/useUserProfile";
 import { getTaskById } from "../services/task.api";
 import { useAuth0 } from "@auth0/auth0-react";
 import { createTask } from "../services/task.api";
@@ -32,7 +32,6 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SubtasksIcon from "@mui/icons-material/ListOutlined";
 import SubscriberIcon from "@mui/icons-material/Inbox";
 import StarOutlineIcon from "@mui/icons-material/StarOutlineRounded";
-// import FullscreenIcon from "@mui/icons-material/OpenInFullRounded";
 import OpenInNewIcon from "@mui/icons-material/OpenInNewRounded";
 import FullscreenIcon from "@mui/icons-material/OpenInFullRounded";
 import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreenRounded";
@@ -45,6 +44,8 @@ import CalendarIcon from "@mui/icons-material/CalendarMonthOutlined";
  */
 function Task({ setRenderTable = undefined, renderTable = undefined }) {
   const { getAccessTokenSilently, user } = useAuth0();
+  const { userProfile } = useUserProfile();
+
   const { id } = useParams();
   const [data, setData] = useState({
     id: null,
@@ -55,8 +56,8 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
     subscribers: [],
     tags: [],
     project_id: null,
-    subtasks: [], // array of ids
-    dateCreateed: null,
+    subtasks: [],
+    date_created: null,
     date_start: null,
     date_end: null,
   });
@@ -81,6 +82,14 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
   useEffect(() => {
     console.log("data:", data);
   }, [data]);
+
+  useEffect(() => {
+    if (!userProfile) return;
+    console.log(userProfile.username);
+    setData((data) => {
+      return { ...data, subscribers: [userProfile.username] };
+    });
+  }, [userProfile]);
 
   const truncateString = (str, len) =>
     str.length > len + 3 ? str.slice(0, len) + "..." : str;
@@ -339,7 +348,7 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
         </ListItem>
         <Divider />
         {/* Schedule field */}
-        {/* DatePicker elements use dayjs dates; results in crash when switching between mobile in dev */}
+        {/* DatePicker dates use dayjs; results in crash when switching between mobile/desktop (only?) in development */}
         <ListItem
           sx={{
             display: "flex",
