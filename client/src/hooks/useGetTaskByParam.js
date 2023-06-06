@@ -32,6 +32,6 @@ export default function useGetTaskByParam() {
       }
     };
     fetchTask();
-  }, [id]);
+  }, [id, getAccessTokenSilently]);
   return { task, isLoading, error };
 }
