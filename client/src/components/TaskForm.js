@@ -103,7 +103,7 @@ export default function TaskForm({
     // eslint-disable-next-line no-undef
     return dayjs({
       year: d.getFullYear(),
-      month: d.getMonth() + 1,
+      month: d.getMonth(),
       day: d.getDate(),
     });
   };
