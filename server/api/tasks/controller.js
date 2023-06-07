@@ -13,8 +13,7 @@ module.exports = {
       const task = response.rows[0];
       const subscribers = await db.query(queries.getSubscribers, [id]);
       const tags = await db.query(queries.getTags, [id]);
-      task.subscribers = subscribers.rows;
-      // task.rows[0].tags = tags.rows;
+      task.subscribers = subscribers.rows.map((sub) => sub.username);
       task.tags = tags.rows.map((tag) => tag.tag_str);
       res.status(200).json(task);
     } catch (e) {

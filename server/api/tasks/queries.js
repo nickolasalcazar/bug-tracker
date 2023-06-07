@@ -30,7 +30,6 @@ module.exports = {
     "INSERT INTO task_subscribers (task_id, user_id) VALUES ($1, $2)",
   getSubscribers: `
     SELECT
-      users.user_id,
       users.username
       FROM task_subscribers
     INNER JOIN users ON task_subscribers.user_id = users.user_id
