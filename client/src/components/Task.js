@@ -40,6 +40,13 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
     setData(task);
   }, [task, isLoading, error]);
 
+  const formatIsoString = (str) =>
+    new Date(str).toLocaleDateString({
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
+    });
+
   if (data === null)
     return <Typography component="h2">Loading task...</Typography>;
 
@@ -222,7 +229,9 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
           <ListItemText
             primary={
               <Typography fontSize="14px" component="p">
-                06/02/2023 - 06/02/2023
+                {`${formatIsoString(data.date_start)} - ${formatIsoString(
+                  data.date_end
+                )}`}
               </Typography>
             }
           />
