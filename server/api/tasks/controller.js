@@ -65,7 +65,7 @@ module.exports = {
       subscribers = [],
       tags = [],
       project_id = null,
-      subtasks: [],
+      subtasks = [],
       parent_task_id = null,
       date_created = null,
       date_start = null,
@@ -107,7 +107,7 @@ module.exports = {
       // Insert subtasks, if there are any
 
       // Insert subscribers
-      await client.query(queries.addSubscriber, [task_id, ownerId]);
+      // await client.query(queries.addSubscriber, [task_id, ownerId]); // Do not automatically add creator as subscriber
 
       await client.query("COMMIT");
       res.sendStatus(201);
