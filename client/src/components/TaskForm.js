@@ -67,18 +67,21 @@ export default function TaskForm({
 
   // When task loads, save to data
   useEffect(() => {
-    if (isLoading || error) return;
+    if (isLoading) return;
+    else if (error) {
+      // Add logged in user as default subscriber
+      if (userProfile) {
+        console.log(userProfile);
+        setData((data) => {
+          return { ...data, subscribers: [userProfile.username] };
+        });
+        console.log(data);
+      }
+      return;
+    }
     console.log("task", task);
     setData(task);
-  }, [task]);
-
-  // Add logged in user as default subscriber
-  useEffect(() => {
-    if (!userProfile) return;
-    setData((data) => {
-      return { ...data, subscribers: [userProfile.username] };
-    });
-  }, [userProfile]);
+  }, [task, userProfile]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -92,23 +95,16 @@ export default function TaskForm({
     console.log(response);
   };
 
-  useEffect(() => {
-    setData(task);
-  }, [task, isLoading, error]);
-
   // Converts an ISO date string to a dayjs object
   // Because DatePicker component requires dayjs format
   const convertIsoToDayjs = (iso) => {
+    if (!iso) return null;
     const d = new Date(iso);
     // eslint-disable-next-line no-undef
     return dayjs({
       year: d.getFullYear(),
       month: d.getMonth() + 1,
       day: d.getDate(),
-      // hour: d.getHours(),
-      // minute: d.getMinutes(),
-      // second: d.getSeconds(),
-      // millisecond: d.getMilliseconds(),
     });
   };
 
@@ -140,7 +136,7 @@ export default function TaskForm({
                 component="p"
               >
                 <TaskIcon fontSize="small" sx={{ pr: 0.5, pt: "2.5px" }} />
-                ID
+                {data.task_id ?? "New Task"}
               </Typography>
             </Box>
             {renderTable ? (
@@ -274,7 +270,7 @@ export default function TaskForm({
               placeholder="Add subscriber"
               helperText="Enter username or email"
               fullWidth
-              value={data.subscribers.map((s) => s.username)}
+              value={data.subscribers.map((subscriber) => subscriber)}
               onChange={(newChips) => {
                 setData((data) => ({
                   ...data,
@@ -381,7 +377,7 @@ export default function TaskForm({
             <DatePicker
               flex={1}
               label="Start date"
-              value={convertIsoToDayjs(data.date_start)}
+              value={convertIsoToDayjs(data.date_start) ?? null}
               onChange={(date) => {
                 if (!date) return;
                 setData((data) => {
@@ -392,7 +388,7 @@ export default function TaskForm({
             <DatePicker
               flex={1}
               label="End date"
-              value={convertIsoToDayjs(data.date_end)}
+              value={convertIsoToDayjs(data.date_end) ?? null}
               onChange={(date) => {
                 if (!date) return;
                 setData((data) => {

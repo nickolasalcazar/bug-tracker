@@ -38,6 +38,7 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
 
   useEffect(() => {
     setData(task);
+    console.log("task", task);
   }, [task, isLoading, error]);
 
   const formatIsoString = (str) =>
@@ -165,7 +166,7 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
             <Chip
               key={index}
               icon={<AccountCircleIcon />}
-              label={subscriber.username}
+              label={subscriber}
               variant="outlined"
               onClick={() => console.log("chip")}
               size="small"
