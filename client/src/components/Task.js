@@ -202,7 +202,7 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
           <ListItemIcon sx={{ pt: 1 }}>
             <SubtasksIcon />
             <Typography pl={1} variant="subtitle2" component="p">
-              Subtasks
+              Parent Task
             </Typography>
           </ListItemIcon>
         </Box>
@@ -210,7 +210,7 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
           <ListItemText
             primary={
               <Typography fontSize="14px" component="p">
-                Subtasks go here
+                Parent Task Title goes here
               </Typography>
             }
           />

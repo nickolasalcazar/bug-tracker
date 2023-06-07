@@ -328,13 +328,13 @@ export default function TaskForm({
           </Box>
         </ListItem>
         <Divider />
-        {/* Subtasks field */}
+        {/* Parent Task field */}
         <ListItem>
           <Box width="40%">
             <ListItemIcon sx={{ pt: 1 }}>
               <SubtasksIcon />
               <Typography pl={1} variant="subtitle2" component="p">
-                Subtasks
+                Parent Task
               </Typography>
             </ListItemIcon>
           </Box>
@@ -342,7 +342,7 @@ export default function TaskForm({
             <ListItemText
               primary={
                 <Typography fontSize="14px" component="p">
-                  Subtasks go here
+                  Parent task id is inputted here
                 </Typography>
               }
             />
