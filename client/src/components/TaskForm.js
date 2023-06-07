@@ -51,7 +51,7 @@ export default function TaskForm({
   const { task, isLoading, error } = useGetTaskByParam();
 
   const [data, setData] = useState({
-    id: null,
+    task_id: null,
     title: null,
     status: null,
     priority: null,
@@ -71,15 +71,13 @@ export default function TaskForm({
     else if (error) {
       // Add logged in user as default subscriber
       if (userProfile) {
-        console.log(userProfile);
         setData((data) => {
           return { ...data, subscribers: [userProfile.username] };
         });
-        console.log(data);
       }
       return;
     }
-    console.log("task", task);
+    // console.log("task", task);
     setData(task);
   }, [task, userProfile]);
 
