@@ -266,7 +266,7 @@ export default function TaskForm({
           <Box flex={2} sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
             <MuiChipsInput
               placeholder="Add subscriber"
-              helperText="Enter username or email"
+              helperText="Enter username"
               fullWidth
               value={data.subscribers.map((subscriber) => subscriber)}
               onChange={(newChips) => {
