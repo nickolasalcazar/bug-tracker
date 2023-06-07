@@ -320,8 +320,8 @@ export default function TaskForm({
               validate={(chipValue) => {
                 if (data.tags.includes(chipValue.toLowerCase())) return false;
                 return {
-                  isError: chipValue.length > 8 || chipValue.length < 3,
-                  textError: "Tag must be between 3 and 8 characters long",
+                  isError: chipValue.length > 16 || chipValue.length < 3,
+                  textError: "Tag must be between 3 and 16 characters long",
                 };
               }}
             />
