@@ -216,28 +216,32 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
           />
         </Box>
       </ListItem>
-      <Divider />
-      <ListItem>
-        <Box width="40%">
-          <ListItemIcon sx={{ pt: 1 }}>
-            <CalendarIcon />
-            <Typography pl={1} variant="subtitle2" component="p">
-              Timeframe
-            </Typography>
-          </ListItemIcon>
-        </Box>
-        <Box width="60%">
-          <ListItemText
-            primary={
-              <Typography fontSize="14px" component="p">
-                {`${formatIsoString(data.date_start)} - ${formatIsoString(
-                  data.date_end
-                )}`}
-              </Typography>
-            }
-          />
-        </Box>
-      </ListItem>
+      {!data.date_start || !data.date_end ? null : (
+        <>
+          <Divider />
+          <ListItem>
+            <Box width="40%">
+              <ListItemIcon sx={{ pt: 1 }}>
+                <CalendarIcon />
+                <Typography pl={1} variant="subtitle2" component="p">
+                  Timeframe
+                </Typography>
+              </ListItemIcon>
+            </Box>
+            <Box width="60%">
+              <ListItemText
+                primary={
+                  <Typography fontSize="14px" component="p">
+                    {`${formatIsoString(data.date_start)} - ${formatIsoString(
+                      data.date_end
+                    )}`}
+                  </Typography>
+                }
+              />
+            </Box>
+          </ListItem>
+        </>
+      )}
     </List>
   );
 }
