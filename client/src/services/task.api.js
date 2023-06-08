@@ -44,6 +44,16 @@ export const updateTask = async (accessToken, task) =>
     data: task,
   });
 
+export const deleteTask = async (accessToken, task_id) =>
+  await callExternalApi({
+    url: `${endpoint}/api/tasks/delete/${task_id}`,
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
 /**
  * Get all subscribed tasks.
  * @param {string} accessToken  JWT.

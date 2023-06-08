@@ -34,6 +34,7 @@ module.exports = {
       subscribers = $12
     WHERE task_id = $1
     RETURNING task_id`,
+  deleteTask: "DELETE FROM tasks WHERE task_id = $1",
   getAllOwnedTasks: "SELECT * FROM tasks WHERE owner_id = $1",
   getAllSubscribedTasks: `
     SELECT

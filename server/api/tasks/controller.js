@@ -132,6 +132,12 @@ module.exports = {
   },
 
   deleteTask: (req, res) => {
-    console.log("Delete task");
+    const id = decodeURI(req.params.id);
+    try {
+      const result = db.query(queries.deleteTask, [id]);
+      res.status(202).json(result);
+    } catch (e) {
+      res.sendStatus(400);
+    }
   },
 };
