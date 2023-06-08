@@ -44,6 +44,18 @@ module.exports = {
    * Check out a client from the pool to run several queries in a row in a transaction.
    * @returns client object
    * @link    https://node-postgres.com/guides/project-structure
+   * @example
+   *   const client = await db.getClient(); // Open client
+   *   try {
+   *     await client.query("BEGIN");
+   *     await client.query(...);
+   *     await client.query(...);
+   *     await client.query("COMMIT");
+   *   } catch (e) {
+   *     await client.query("ROLLBACK");
+   *   } finally {
+   *     client.release(); // Close client
+   *   }
    */
   async getClient() {
     const client = await pool.connect();
