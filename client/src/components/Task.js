@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -38,6 +38,7 @@ import { useAuth0 } from "@auth0/auth0-react";
  * Component that displays all of the details of a task.
  */
 function Task({ setRenderTable = undefined, renderTable = undefined }) {
+  const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
   const { task, isLoading, error } = useGetTaskByParam();
   const [data, setData] = useState(null);
@@ -64,10 +65,16 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
   };
 
   const handleDeleteTask = async () => {
-    const token = await getAccessTokenSilently();
-    console.log("data.task_id", data.task_id);
-    const response = await deleteTask(token, data.task_id);
-    console.log("handleDelete response", response);
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await deleteTask(token, data.task_id);
+      // console.log("handleDelete response", response);
+      if (response.status === 202) {
+        navigate("/dashboard");
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   if (data === null)
