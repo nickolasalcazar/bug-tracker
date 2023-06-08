@@ -81,8 +81,8 @@ module.exports = {
         tags,
         subscribers,
       ]);
-      // const task_id = rows[0].task_id;
-      res.sendStatus(201);
+      const task_id = rows[0].task_id;
+      res.status(201).json({ task_id: task_id });
     } catch (e) {
       res.sendStatus(500);
       throw e;
@@ -124,7 +124,7 @@ module.exports = {
         tags,
         subscribers,
       ]);
-      res.sendStatus(201);
+      res.status(201).json({ task_id: task_id });
     } catch (e) {
       res.sendStatus(500);
       throw e;

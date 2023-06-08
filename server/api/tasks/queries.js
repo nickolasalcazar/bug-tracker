@@ -32,7 +32,8 @@ module.exports = {
       date_end = $10,
       tags = $11,
       subscribers = $12
-    WHERE task_id = $1`,
+    WHERE task_id = $1
+    RETURNING task_id`,
   getAllOwnedTasks: "SELECT * FROM tasks WHERE owner_id = $1",
   getAllSubscribedTasks: `
     SELECT
