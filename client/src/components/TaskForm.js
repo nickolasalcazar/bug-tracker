@@ -77,15 +77,18 @@ export default function TaskForm({
       }
       return;
     }
-    // console.log("task", task);
+    // console.log("TaskForm useEffect task", task);
     setData(task);
   }, [task, userProfile]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const accessToken = await getAccessTokenSilently();
-
-    // Before submting do validation checks
+    const now = new Date().toISOString();
+    setData((data) => {
+      return { ...data, date_created: now };
+    });
+    // Perform validation checks here
     // Check if dates can be converted to ISO properly
     console.log("Submitting", data);
 
@@ -106,7 +109,7 @@ export default function TaskForm({
     });
   };
 
-  if (data === null)
+  if (data === null || data === undefined)
     return <Typography component="h2">Loading task...</Typography>;
 
   return (
