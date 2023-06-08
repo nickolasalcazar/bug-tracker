@@ -69,6 +69,7 @@ CREATE TABLE tasks (
   title TEXT NOT NULL,
   "description" TEXT DEFAULT 'No description',
   date_created TIMESTAMP NOT NULL DEFAULT NOW(),
+  date_modified TIMESTAMP NOT NULL DEFAULT NOW(),
   date_start TIMESTAMP DEFAULT NULL,
   date_end TIMESTAMP DEFAULT NULL,
   "status" VARCHAR(50) REFERENCES task_statuses(status_value) DEFAULT NULL,

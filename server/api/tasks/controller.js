@@ -80,6 +80,7 @@ module.exports = {
         project_id,
         parent_task_id,
         date_created,
+        (date_modified = date_created),
         date_start,
         date_end,
         tags,
