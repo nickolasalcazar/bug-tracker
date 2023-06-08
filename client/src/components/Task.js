@@ -152,7 +152,9 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
         <Divider />
         <ListItem>
           <Typography variant="p" sx={{ pt: 2, pb: 4 }}>
-            {data.description}
+            {data.description ?? (
+              <Typography fontStyle="italic" children="No description" />
+            )}
           </Typography>
         </ListItem>
         <Divider />
