@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -46,6 +46,7 @@ export default function TaskForm({
   setRenderTable = undefined,
   renderTable = undefined,
 }) {
+  const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
   const { userProfile } = useUserProfile();
   const { task, isLoading, error } = useGetTaskByParam();
@@ -98,6 +99,8 @@ export default function TaskForm({
         ? await createTask(accessToken, data)
         : await updateTask(accessToken, data);
       console.log(response);
+      if (response.status === 201)
+        navigate(`/dashboard/task/${response.data.task_id}`);
     } catch (e) {
       console.log(e);
     } finally {
