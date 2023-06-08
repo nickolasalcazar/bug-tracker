@@ -24,7 +24,7 @@ import { MuiChipsInput } from "mui-chips-input";
 import useUserProfile from "../hooks/useUserProfile";
 import useGetTaskByParam from "../hooks/useGetTaskByParam";
 import { useAuth0 } from "@auth0/auth0-react";
-import { createTask } from "../services/task.api";
+import { createTask, updateTask } from "../services/task.api";
 
 import TaskIcon from "@mui/icons-material/AssignmentTurnedInOutlined";
 import PersonIcon from "@mui/icons-material/PersonOutlineOutlined";
@@ -61,6 +61,7 @@ export default function TaskForm({
     project_id: null,
     subtasks: [],
     date_created: null,
+    date_modified: null,
     date_start: null,
     date_end: null,
   });
@@ -83,17 +84,24 @@ export default function TaskForm({
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const taskIsNew = data.task_id === null;
     const accessToken = await getAccessTokenSilently();
     const now = new Date().toISOString();
-    setData((data) => {
-      return { ...data, date_created: now };
-    });
+    data[taskIsNew ? "date_created" : "date_modified"] = now;
+
     // Perform validation checks here
     // Check if dates can be converted to ISO properly
     console.log("Submitting", data);
 
-    const response = await createTask(accessToken, data);
-    console.log(response);
+    try {
+      const response = taskIsNew
+        ? await createTask(accessToken, data)
+        : await updateTask(accessToken, data);
+      console.log(response);
+    } catch (e) {
+      console.log(e);
+    } finally {
+    }
   };
 
   // Converts an ISO date string to a dayjs object

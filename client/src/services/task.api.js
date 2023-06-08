@@ -33,6 +33,17 @@ export const createTask = async (accessToken, task) =>
     data: task,
   });
 
+export const updateTask = async (accessToken, task) =>
+  await callExternalApi({
+    url: `${endpoint}/api/tasks/update`,
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    data: task,
+  });
+
 /**
  * Get all subscribed tasks.
  * @param {string} accessToken  JWT.
