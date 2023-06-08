@@ -11,10 +11,6 @@ module.exports = {
       const response = await db.query(queries.getTaskById, [id]);
       if (response.rows.length === 0) sendStatus(404);
       const task = response.rows[0];
-      const subscribers = await db.query(queries.getSubscribers, [id]);
-      const tags = await db.query(queries.getTags, [id]);
-      task.subscribers = subscribers.rows.map((sub) => sub.username);
-      task.tags = tags.rows.map((tag) => tag.tag_str);
       res.status(200).json(task);
     } catch (e) {
       console.log(e);
@@ -64,24 +60,18 @@ module.exports = {
       subscribers = [],
       tags = [],
       project_id = null,
-      subtasks = [],
       parent_task_id = null,
       date_created = null,
       date_start = null,
       date_end = null,
     } = req.body;
 
-    const client = await db.getClient();
-
     try {
-      await client.query("BEGIN");
       // Validate inputs
       if (date_created === null) date_created = new Date().toISOString();
 
       // Insert the new task
-      // Note that tags, subtasks, and subscribers
-      // need to be inserted in their own queries
-      const { rows } = await client.query(queries.createTask, [
+      const { rows } = await db.query(queries.createTask, [
         ownerId,
         title,
         status,
@@ -92,30 +82,14 @@ module.exports = {
         date_created,
         date_start,
         date_end,
+        tags,
+        subscribers,
       ]);
-      const task_id = rows[0].task_id;
-
-      console.log("createTask rows", rows);
-
-      // Insert tags, if there are any
-      // *** tags.forEach is NOT OPTIMAL
-      tags.forEach(async (tag) => {
-        await client.query(queries.addTag, [task_id, tag]);
-      });
-
-      // Insert subtasks, if there are any
-
-      // Insert subscribers
-      // await client.query(queries.addSubscriber, [task_id, ownerId]); // Do not automatically add creator as subscriber
-
-      await client.query("COMMIT");
+      // const task_id = rows[0].task_id;
       res.sendStatus(201);
     } catch (e) {
-      await client.query("ROLLBACK");
       res.sendStatus(500);
       throw e;
-    } finally {
-      client.release();
     }
   },
 

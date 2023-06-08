@@ -72,7 +72,9 @@ CREATE TABLE tasks (
   date_start TIMESTAMP DEFAULT NULL,
   date_end TIMESTAMP DEFAULT NULL,
   "status" VARCHAR(50) REFERENCES task_statuses(status_value) DEFAULT NULL,
-  "priority" VARCHAR(50) REFERENCES task_priorities(priority_value) DEFAULT NULL
+  "priority" VARCHAR(50) REFERENCES task_priorities(priority_value) DEFAULT NULL,
+  tags VARCHAR(16) ARRAY[8],   -- 8 max
+  subscribers TEXT ARRAY[256] -- 256 max
 );
 
 -- Alter table tasks to make foreign keys nullable
@@ -80,17 +82,6 @@ ALTER TABLE tasks
   ALTER COLUMN parent_task_id DROP NOT NULL;
 ALTER TABLE tasks
   ALTER COLUMN project_id DROP NOT NULL;
-
-CREATE TABLE task_tags (
-  task_id SERIAL REFERENCES tasks(task_id) NOT NULL,
-  tag_id SERIAL PRIMARY KEY,
-  tag_str VARCHAR(8) NOT NULL
-);
-
-CREATE TABLE task_subscribers (
-  task_id SERIAL REFERENCES tasks(task_id),
-  user_id TEXT REFERENCES users(user_id)
-);
 
 CREATE TABLE task_comments (
   comment_id SERIAL PRIMARY KEY,
