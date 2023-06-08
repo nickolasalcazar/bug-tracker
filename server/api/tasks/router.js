@@ -8,5 +8,6 @@ tasksRouter.use(jwtCheck);
 tasksRouter.get("/subscribed", controller.getAllSubscribedTasks);
 tasksRouter.get("/:id", controller.getTaskById);
 tasksRouter.post("/", controller.createTask);
+tasksRouter.post("/update", controller.updateTask);
 
 module.exports = tasksRouter;

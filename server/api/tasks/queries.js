@@ -18,6 +18,21 @@ module.exports = {
         )
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
     RETURNING task_id`,
+  updateTask: `
+    UPDATE tasks
+    SET
+      title = $2,
+      status = $3,
+      priority = $4,
+      description = $5,
+      project_id = $6,
+      parent_task_id = $7,
+      date_modified = $8,
+      date_start = $9,
+      date_end = $10,
+      tags = $11,
+      subscribers = $12
+    WHERE task_id = $1`,
   getAllOwnedTasks: "SELECT * FROM tasks WHERE owner_id = $1",
   getAllSubscribedTasks: `
     SELECT
