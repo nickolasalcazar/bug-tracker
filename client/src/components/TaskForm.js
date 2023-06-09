@@ -3,6 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Divider,
   IconButton,
   InputLabel,
@@ -52,6 +57,7 @@ export default function TaskForm({
   const { getAccessTokenSilently } = useAuth0();
   const { userProfile } = useUserProfile();
   const { task, isLoading, error } = useGetTaskByParam();
+  const [open, setOpen] = useState(false); // Close form button dialog
 
   const [data, setData] = useState({
     task_id: null,
@@ -81,7 +87,6 @@ export default function TaskForm({
       }
       return;
     }
-    // console.log("TaskForm useEffect task", task);
     setData(task);
   }, [task, userProfile]);
 
@@ -109,6 +114,14 @@ export default function TaskForm({
       console.log(e);
     } finally {
     }
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   // Converts an ISO date string to a dayjs object
@@ -164,11 +177,7 @@ export default function TaskForm({
                 <CloseFullscreenIcon />
               </IconButton>
             )}
-            <IconButton
-              component={Link}
-              to="/dashboard"
-              onClick={() => setRenderTable(true)}
-            >
+            <IconButton component={Link} onClick={handleClickOpen}>
               <CloseIcon />
             </IconButton>
           </Box>
@@ -428,12 +437,12 @@ export default function TaskForm({
           >
             <Button
               component={Link}
-              // to={`/dashboard/task/${data.task.task_id}/edit`}
+              onClick={handleClickOpen}
               color="secondary"
               variant="outlined"
               size="large"
             >
-              Discard
+              Cancel
             </Button>
             <Button
               component="button"
@@ -447,6 +456,34 @@ export default function TaskForm({
           </Box>
         </ListItem>
       </List>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Unsaved changes"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to exit? Any unsaved changes will be lost.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} variant="outlined">
+            Cancel
+          </Button>
+          <Button
+            onClick={() => {
+              handleClose();
+              navigate(-1);
+            }}
+            variant="contained"
+            autoFocus
+          >
+            Exit
+          </Button>
+        </DialogActions>
+      </Dialog>
     </LocalizationProvider>
   );
 }
