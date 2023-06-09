@@ -10,13 +10,10 @@ export const TasksProvider = ({ children }) => {
     isLoading: true,
     error: false,
   };
-
   const [tasksContext, setTasksContext] = useState(initialVal);
   const { getAccessTokenSilently } = useAuth0();
 
-  /**
-   * Fetch up-to-date tasks and update the current tasks context.
-   */
+  // Fetch up-to-date tasks and update the current tasks context
   const updateTasksContext = async () => {
     try {
       const token = await getAccessTokenSilently();
