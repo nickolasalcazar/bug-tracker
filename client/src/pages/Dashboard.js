@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getUserInfo, createUser } from "../services/user.api";
-import { getAllSubscribedTasks } from "../services/task.api";
-import useGetTasks from "../hooks/useGetTasks";
+import { TasksContext } from "../context/TasksContext";
 
 import DataTable from "../components/DataTable/DataTable";
 import { Box, Paper, Stack } from "@mui/material";
@@ -15,7 +14,7 @@ import Task from "../components/Task";
  */
 function Dashboard() {
   const { user, getAccessTokenSilently } = useAuth0();
-  const { tasks, isLoading, error } = useGetTasks();
+  const { tasksContext } = useContext(TasksContext);
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
   const [renderTable, setRenderTable] = useState(true);
@@ -24,13 +23,12 @@ function Dashboard() {
 
   // Fetch tasks, transform them into rows & columns
   useEffect(() => {
-    if (isLoading || error) return;
-    if (tasks.length === 0) return;
-    const rows = tasks.map((row) => Object.values(row));
-    const columns = Object.keys(tasks[0]);
+    if (tasksContext.tasks === null) return;
+    const rows = tasksContext.tasks.map((row) => Object.values(row));
+    const columns = Object.keys(tasksContext.tasks[0]);
     setColumns(columns);
     setRows(rows);
-  }, [tasks]);
+  }, [tasksContext]);
 
   useEffect(() => {
     let isMounted = true;

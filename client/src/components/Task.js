@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
@@ -33,16 +33,18 @@ import CalendarIcon from "@mui/icons-material/CalendarMonthOutlined";
 import useGetTaskByParam from "../hooks/useGetTaskByParam";
 import { deleteTask } from "../services/task.api";
 import { useAuth0 } from "@auth0/auth0-react";
+import { TasksContext } from "../context/TasksContext";
 
 /**
  * Component that displays all of the details of a task.
  */
 function Task({ setRenderTable = undefined, renderTable = undefined }) {
   const navigate = useNavigate();
+  const { updateTasksContext } = useContext(TasksContext);
   const { getAccessTokenSilently } = useAuth0();
   const { task, isLoading, error } = useGetTaskByParam();
   const [data, setData] = useState(null);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     setData(task);
@@ -68,8 +70,8 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
     try {
       const token = await getAccessTokenSilently();
       const response = await deleteTask(token, data.task_id);
-      // console.log("handleDelete response", response);
       if (response.status === 202) {
+        updateTasksContext(); // Reload tasks
         navigate("/dashboard");
       }
     } catch (e) {
@@ -110,7 +112,6 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
             </Box>
             <Button
               component={Link}
-              // to={`/dashboard/task/form/${data.task_id}`}
               onClick={handleClickOpen}
               color="secondary"
               variant="outlined"

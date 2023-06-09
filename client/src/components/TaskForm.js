@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
@@ -25,6 +25,7 @@ import useUserProfile from "../hooks/useUserProfile";
 import useGetTaskByParam from "../hooks/useGetTaskByParam";
 import { useAuth0 } from "@auth0/auth0-react";
 import { createTask, updateTask } from "../services/task.api";
+import { TasksContext } from "../context/TasksContext";
 
 import TaskIcon from "@mui/icons-material/AssignmentTurnedInOutlined";
 import PersonIcon from "@mui/icons-material/PersonOutlineOutlined";
@@ -47,6 +48,7 @@ export default function TaskForm({
   renderTable = undefined,
 }) {
   const navigate = useNavigate();
+  const { updateTasksContext } = useContext(TasksContext);
   const { getAccessTokenSilently } = useAuth0();
   const { userProfile } = useUserProfile();
   const { task, isLoading, error } = useGetTaskByParam();
@@ -99,8 +101,10 @@ export default function TaskForm({
         ? await createTask(accessToken, data)
         : await updateTask(accessToken, data);
       console.log(response);
-      if (response.status === 201)
+      if (response.status === 201) {
+        updateTasksContext();
         navigate(`/dashboard/task/${response.data.task_id}`);
+      }
     } catch (e) {
       console.log(e);
     } finally {
