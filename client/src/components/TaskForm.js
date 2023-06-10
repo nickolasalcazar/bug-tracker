@@ -33,12 +33,10 @@ import { createTask, updateTask } from "../services/task.api";
 import { TasksContext } from "../context/TasksContext";
 
 import TaskIcon from "@mui/icons-material/AssignmentTurnedInOutlined";
-import PersonIcon from "@mui/icons-material/PersonOutlineOutlined";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SubtasksIcon from "@mui/icons-material/ListOutlined";
 import SubscriberIcon from "@mui/icons-material/Inbox";
 import StarOutlineIcon from "@mui/icons-material/StarOutlineRounded";
-import OpenInNewIcon from "@mui/icons-material/OpenInNewRounded";
 import FullscreenIcon from "@mui/icons-material/OpenInFullRounded";
 import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreenRounded";
 import CloseIcon from "@mui/icons-material/CloseRounded";
@@ -67,7 +65,7 @@ export default function TaskForm({
     description: null,
     subscribers: [],
     tags: [],
-    project_id: null,
+    parent_task_id: null,
     subtasks: [],
     date_created: null,
     date_modified: null,
@@ -356,8 +354,15 @@ export default function TaskForm({
         </ListItem>
         <Divider />
         {/* Parent Task field */}
-        <ListItem>
-          <Box width="40%">
+        <ListItem
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            gap: 1,
+          }}
+        >
+          <Box flex={1} minWidth={160}>
             <ListItemIcon sx={{ pt: 1 }}>
               <SubtasksIcon />
               <Typography pl={1} variant="subtitle2" component="p">
@@ -365,13 +370,18 @@ export default function TaskForm({
               </Typography>
             </ListItemIcon>
           </Box>
-          <Box width="60%">
-            <ListItemText
-              primary={
-                <Typography fontSize="14px" component="p">
-                  Parent task id is inputted here
-                </Typography>
-              }
+          <Box flex={2} sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+            <TextField
+              type="text"
+              placeholder="Parent task ID"
+              onChange={(e) => {
+                setData((data) => {
+                  return {
+                    ...data,
+                    parent_task_id: e.target.value,
+                  };
+                });
+              }}
             />
           </Box>
         </ListItem>
