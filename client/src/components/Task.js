@@ -219,15 +219,21 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
             </ListItemIcon>
           </Box>
           <Box width="60%" sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-            {data.tags.map((tag, index) => (
-              <Chip
-                key={index}
-                label={tag}
-                variant="outlined"
-                onClick={() => console.log("chip")}
-                size="small"
-              />
-            ))}
+            {data.tags === null || data.tags.length === 0 ? (
+              <Typography fontSize="14px" component="p" fontStyle="italic">
+                No tags assigned
+              </Typography>
+            ) : (
+              data.tags.map((tag, index) => (
+                <Chip
+                  key={index}
+                  label={tag}
+                  variant="outlined"
+                  onClick={() => console.log("chip")}
+                  size="small"
+                />
+              ))
+            )}
           </Box>
         </ListItem>
         <Divider />
@@ -243,13 +249,20 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
           <Box width="60%">
             <ListItemText
               primary={
-                <Typography fontSize="14px" component="p">
-                  Parent Task Title goes here
-                </Typography>
+                data.parent_task_id ? (
+                  <Typography fontSize="14px" component="p">
+                    {data.parent_task_id}
+                  </Typography>
+                ) : (
+                  <Typography fontSize="14px" component="p" fontStyle="italic">
+                    No parent task
+                  </Typography>
+                )
               }
             />
           </Box>
         </ListItem>
+
         {!data.date_start || !data.date_end ? null : (
           <>
             <Divider />
