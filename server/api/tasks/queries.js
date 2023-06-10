@@ -47,20 +47,22 @@ module.exports = {
     WHERE users.username = ANY (subscribers)`,
   getTaskById: `
     SELECT
-      task_id,
-      parent_task_id,
-      project_id,
-      title,
-      description,
+      sub.task_id,
+      parent.task_id AS parent_task_id,
+      parent.title AS parent_title,
+      sub.project_id,
+      sub.title,
+      sub.description,
       users.username AS "creator",
-      TO_CHAR(date_created AT TIME ZONE 'UTC', 'MM/DD/YYYY HH:MI AM') AS "date_created",
-      date_start,
-      date_end,
-      status,
-      priority,
-      tags,
-      subscribers
-    FROM tasks
-    INNER JOIN users ON tasks.owner_id = users.user_id 
-    WHERE tasks.task_id = $1`,
+      TO_CHAR(sub.date_created AT TIME ZONE 'UTC', 'MM/DD/YYYY HH:MI AM') AS "date_created",
+      sub.date_start,
+      sub.date_end,
+      sub.status,
+      sub.priority,
+      sub.tags,
+      sub.subscribers
+    FROM tasks sub
+    INNER JOIN users ON sub.owner_id = users.user_id 
+    LEFT JOIN tasks parent ON parent.task_id = sub.parent_task_id 
+    WHERE sub.task_id = $1`,
 };
