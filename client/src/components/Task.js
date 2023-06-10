@@ -29,6 +29,8 @@ import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreenRounded";
 import CloseIcon from "@mui/icons-material/CloseRounded";
 import TagIcon from "@mui/icons-material/LocalOfferOutlined";
 import CalendarIcon from "@mui/icons-material/CalendarMonthOutlined";
+// import OpenInNewIcon from "@mui/icons-material/OpenInNewRounded";
+import LinkIcon from "@mui/icons-material/InsertLinkOutlined";
 
 import useGetTaskByParam from "../hooks/useGetTaskByParam";
 import { deleteTask } from "../services/task.api";
@@ -250,9 +252,15 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
             <ListItemText
               primary={
                 data.parent_task_id ? (
-                  <Typography fontSize="14px" component="p">
-                    {data.parent_task_id}
-                  </Typography>
+                  <Link to={`/dashboard/task/${data.parent_task_id}`}>
+                    <Chip
+                      clickable
+                      label={data.parent_title}
+                      icon={<LinkIcon fontSize="small" />}
+                      variant="outlined"
+                      color="secondary"
+                    />
+                  </Link>
                 ) : (
                   <Typography fontSize="14px" component="p" fontStyle="italic">
                     No parent task
