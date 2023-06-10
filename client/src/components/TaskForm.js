@@ -373,6 +373,7 @@ export default function TaskForm({
           <Box flex={2} sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
             <TextField
               type="text"
+              value={data.parent_task_id ?? ""}
               placeholder="Parent task ID"
               onChange={(e) => {
                 setData((data) => {
