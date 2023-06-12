@@ -9,7 +9,7 @@ import AppLayout from "./AppLayout";
 import TaskForm from "./components/TaskForm";
 import PageLoader from "./components/PageLoader";
 import Homepage from "./pages/Homepage";
-import Profile from "./pages/Profile";
+import User from "./pages/User";
 import Projects from "./pages/Projects";
 import NewProject from "./pages/NewProject";
 
@@ -92,7 +92,11 @@ function App() {
             <Route path="/projects" element={<Projects />} />
             <Route path="/projects/new" element={<NewProject />} />
             <Route path="/tasks/new" element={<TaskForm />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/user/*">
+              <Route path=":username" element={<User />} />
+              <Route path="" element={<User />} />
+              <Route path="*" element={<User />} />
+            </Route>
           </Route>
           <Route element={<LayoutWrapper requireAuth={false} />}>
             <Route path="/" element={<Homepage />} />

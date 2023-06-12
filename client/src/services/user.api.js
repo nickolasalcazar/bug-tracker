@@ -8,7 +8,17 @@ const endpoint = process.env.REACT_APP_API_SERVER_URL;
  */
 export const getUserInfo = async (accessToken, id) =>
   await callExternalApi({
-    url: `${endpoint}/api/user/${id}`,
+    url: `${endpoint}/api/user/id/${id}`,
+    method: "GET",
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+export const getUserByUsername = async (accessToken, username) =>
+  await callExternalApi({
+    url: `${endpoint}/api/user/${username}`,
     method: "GET",
     headers: {
       "content-type": "application/json",
