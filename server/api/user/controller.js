@@ -4,10 +4,7 @@ const queries = require("./queries");
 const { appendUniqueSuffix } = require("./utils");
 
 module.exports = {
-  /**
-   * Get user by ID.
-   */
-  getUser: (req, res) => {
+  getUserById: (req, res) => {
     const id = decodeURI(req.params.id);
     db.query(queries.getUserById, [id]).then((result) => {
       result.rows.length === 0
@@ -16,9 +13,15 @@ module.exports = {
     });
   },
 
-  /**
-   * Create a new user.
-   */
+  getUserByUsername: (req, res) => {
+    const username = decodeURI(req.params.username);
+    db.query(queries.getUserByUsername, [username]).then((result) => {
+      result.rows.length === 0
+        ? res.sendStatus(404)
+        : res.status(200).json(result.rows[0]);
+    });
+  },
+
   createUser: (req, res) => {
     const { sub, email, name, nickname, picture } = req.body;
 
