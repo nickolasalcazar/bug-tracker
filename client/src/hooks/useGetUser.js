@@ -15,10 +15,11 @@ export default function useGetUser(username) {
     try {
       const token = await getAccessTokenSilently();
       const response = await getUserByUsername(token, username);
-      // console.log("useGetUser response", response);
+      if (response.status === 404) setError("Error 404: User not found. Typo?");
+      else if (response.status !== 200) throw Error(response.statusText);
       setUser(response.data);
     } catch (e) {
-      setError(true);
+      setError("An error occurred loading the profile");
     } finally {
       setIsLoading(false);
     }
