@@ -2,6 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { Menu, MenuItem } from "@mui/material";
 import LogoutButton from "../Logout";
+import useUserProfile from "../../hooks/useUserProfile";
 
 /**
  * The meny that is rendered when the profile picture of the NavBar is clicked.
@@ -17,6 +18,7 @@ export default function ProfileMenu({
   isMenuOpen,
   handleMenuClose,
 }) {
+  const { userProfile } = useUserProfile();
   return (
     <Menu
       anchorEl={anchorEl}
@@ -42,9 +44,11 @@ export default function ProfileMenu({
       >
         <NavLink to="/dashboard">Dashboard</NavLink>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
-        <NavLink to="/profile">Profile</NavLink>
-      </MenuItem>
+      {userProfile === null ? null : (
+        <MenuItem onClick={handleMenuClose}>
+          <NavLink to={`/user/${userProfile.username}`}>Profile</NavLink>
+        </MenuItem>
+      )}
       <MenuItem>
         <LogoutButton />
       </MenuItem>
