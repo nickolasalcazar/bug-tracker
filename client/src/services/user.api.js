@@ -47,3 +47,33 @@ export const createUser = async (accessToken, user) =>
       picture: user.picture,
     },
   });
+
+export const addConnection = async (accessToken, user_id) =>
+  await callExternalApi({
+    url: `${endpoint}/api/connections/add/${user_id}`,
+    method: "GET",
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+export const acceptConnection = async (accessToken, user_id) =>
+  await callExternalApi({
+    url: `${endpoint}/api/user/connections/accept/${user_id}`,
+    method: "GET",
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+export const removeConnection = async (accessToken, user_id) =>
+  await callExternalApi({
+    url: `${endpoint}/api/connections/remove/${user_id}`,
+    method: "GET",
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
