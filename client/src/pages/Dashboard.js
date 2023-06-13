@@ -24,6 +24,7 @@ function Dashboard() {
   // Fetch tasks, transform them into rows & columns
   useEffect(() => {
     if (tasksContext.error || tasksContext.isLoading) return;
+    else if (tasksContext.tasks.length === 0) return;
     const rows = tasksContext.tasks.map((row) => Object.values(row));
     const columns = Object.keys(tasksContext.tasks[0]);
     setColumns(columns);
