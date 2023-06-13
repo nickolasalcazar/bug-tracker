@@ -21,6 +21,6 @@ module.exports = {
     "DELETE FROM user_connections WHERE ($1 = sender AND $2 = receiver) OR ($1 = receiver AND $2 = sender)",
   acceptConnection: `
     UPDATE user_connections
-    SET pending = FALSE, connected = TRUE
-    WHERE $1 = receiver AND $2 = sender`,
+    SET pending = FALSE, connected = TRUE, date_accepted = NOW()
+    WHERE sender = $1 AND receiver = $2`,
 };

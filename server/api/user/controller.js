@@ -77,22 +77,21 @@ module.exports = {
     const receiver = req.params.id;
     try {
       await db.query(queries.removeConnection, [sender, receiver]);
-      res.sendStatus(201);
-      console.log("response removeConnection: ", response);
+      res.sendStatus(200);
     } catch (e) {
       res.sendStatus(500);
     }
   },
 
   acceptConnection: async (req, res) => {
-    const sender = req.auth.payload.sub;
-    const receiver = req.params.id;
+    // Note that sender & reciever are reversed in addConnection
+    const sender = req.params.id;
+    const receiver = req.auth.payload.sub;
     try {
-      await db.query(queries.acceptConnection, [receiver, sender]);
-      res.sendStatus(201);
-      console.log("response acceptConnection: ", response);
+      await db.query(queries.acceptConnection, [sender, receiver]);
+      res.sendStatus(200);
     } catch (e) {
-      console.log("PRINT", e);
+      res.sendStatus(400);
     }
   },
 };
