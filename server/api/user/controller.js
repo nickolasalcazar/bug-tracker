@@ -59,6 +59,10 @@ module.exports = {
   addConnection: async (req, res) => {
     const sender = req.auth.payload.sub;
     const receiver = req.params.id;
+    if (sender === receiver) {
+      sendStatus(400);
+      return;
+    }
     try {
       await db.query(queries.addConnection, [sender, receiver]);
       res.sendStatus(201);
