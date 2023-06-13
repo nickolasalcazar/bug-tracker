@@ -58,38 +58,37 @@ module.exports = {
 
   addConnection: async (req, res) => {
     const sender = req.auth.payload.sub;
-    const { id: receiver } = decodeURI(req.params.id);
-
+    const receiver = req.params.id;
     try {
-      const response = await db.query(queries.addConnection, [
-        sender,
-        receiver,
-      ]);
-      console.log("response addConnection: ", response);
-    } catch (e) {}
+      await db.query(queries.addConnection, [sender, receiver]);
+      res.sendStatus(201);
+    } catch (e) {
+      if (e.code == 23505) res.sendStatus(400);
+      else res.sendStatus(500);
+    }
   },
 
   removeConnection: async (req, res) => {
     const sender = req.auth.payload.sub;
-    const { id: receiver } = decodeURI(req.params.id);
+    const receiver = req.params.id;
     try {
-      const response = await db.query(queries.removeConnection, [
-        sender,
-        receiver,
-      ]);
+      await db.query(queries.removeConnection, [sender, receiver]);
+      res.sendStatus(201);
       console.log("response removeConnection: ", response);
-    } catch (e) {}
+    } catch (e) {
+      res.sendStatus(500);
+    }
   },
 
   acceptConnection: async (req, res) => {
-    const receiver = req.auth.payload.sub;
-    const { id: sender } = decodeURI(req.params.id);
+    const sender = req.auth.payload.sub;
+    const receiver = req.params.id;
     try {
-      const response = await db.query(queries.acceptConnection, [
-        receiver,
-        sender,
-      ]);
+      await db.query(queries.acceptConnection, [receiver, sender]);
+      res.sendStatus(201);
       console.log("response acceptConnection: ", response);
-    } catch (e) {}
+    } catch (e) {
+      console.log("PRINT", e);
+    }
   },
 };
