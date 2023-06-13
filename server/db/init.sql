@@ -4,7 +4,8 @@ CREATE TABLE users (
   email TEXT NOT NULL UNIQUE,
   "name" TEXT NOT NULL,
   nickname TEXT,
-  picture TEXT
+  picture TEXT,
+  date_joined TIMESTAMP DEFAULT NOW()
 );
 
 -- Connections with other users, i.e. 'friends'.
@@ -12,7 +13,10 @@ CREATE TABLE user_connections (
   sender TEXT REFERENCES users(user_id), -- Initiates connection
   receiver TEXT REFERENCES users(user_id), -- Accepts connection
   pending BOOLEAN DEFAULT TRUE,
-  connected BOOLEAN DEFAULT FALSE
+  connected BOOLEAN DEFAULT FALSE,
+  date_requested TIMESTAMP DEFAULT NOW(),
+  date_accepted TIMESTAMP DEFAULT NULL,
+  UNIQUE (sender, receiver)
 );
 -- Query connections from user1 and user2 like so:
 -- SELECT * FROM User WHERE User.UserId IN (
