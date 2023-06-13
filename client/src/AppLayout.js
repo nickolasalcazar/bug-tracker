@@ -58,7 +58,7 @@ export default function AppLayout({ children, renderLeftDrawer = false }) {
         }}
       >
         <ToolbarPadding />
-        {children}
+        <Box pt={{ xs: 1, sm: 0 }}>{children}</Box>
       </Container>
       <ProfileMenu
         anchorEl={anchorEl}

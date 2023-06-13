@@ -58,7 +58,6 @@ function Dashboard() {
       spacing={1}
       sx={{
         m: "none",
-        pt: { xs: 1, sm: 0 },
       }}
       justifyContent="space-around"
     >
