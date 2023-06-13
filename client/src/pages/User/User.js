@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Avatar, Container } from "@mui/material";
+import { Avatar, Container, Stack } from "@mui/material";
 import useGetUserByParam from "../../hooks/useGetUserByParam";
 import ConnectionButton from "./ConnectionButton";
 
@@ -23,13 +23,13 @@ export default function User() {
         width: "100%",
         display: "flex",
         flexDirection: "column",
-        alignContent: "center",
-        justifyContent: "center",
+        alignItems: "center",
+        gap: 1,
       }}
     >
       <Avatar src={user.picture} sx={{ width: 100, height: 100 }} />
-      <h2>@{user.username}</h2>
-      <h3>{user.nickname}</h3>
+      <h2>{user.nickname}</h2>
+      <h3>@{user.username}</h3>
       <ConnectionButton user={user} />
     </Container>
   );
