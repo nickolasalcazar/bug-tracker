@@ -16,9 +16,10 @@ import {
  * Button for requesting, accepting/rejecting to connect with another user.
  */
 export default function ConnectionButton({ user }) {
-  console.log("ConnectionButton user", user);
+  const { getAccessTokenSilently, user: loggedInUser } = useAuth0();
 
-  const { getAccessTokenSilently, user: userAuth0 } = useAuth0();
+  // If the profile belongs to logged in user, return null
+  if (user.user_id === loggedInUser.sub) return null;
 
   const handleAddConnection = async () => {
     console.log("handleAddConnection");
@@ -50,7 +51,7 @@ export default function ConnectionButton({ user }) {
 
   const options = {
     notConnected: {
-      label: "notConnected",
+      key: "notConnected",
       handler: handleAddConnection,
       label: "Connect",
       icon: <AddUserIcon />,
@@ -58,23 +59,23 @@ export default function ConnectionButton({ user }) {
       disabled: false,
     },
     connected: {
-      label: "connected",
+      key: "connected",
       handler: handleRemoveConnection,
       label: "Remove Connection",
       icon: <RemoveUserIcon />,
       variant: "outline",
       disabled: false,
     },
-    requested: {
-      label: "requested",
+    respond: {
+      key: "respond",
       handler: handleAcceptConnection,
-      label: "Remove Connection",
-      icon: <RemoveUserIcon />,
+      label: "Respond",
+      icon: <AddUserIcon />,
       variant: "outline",
       disabled: false,
     },
     pending: {
-      label: "pending",
+      key: "pending",
       handler: null,
       label: "Requested",
       icon: <PendingIcon />,
@@ -85,10 +86,15 @@ export default function ConnectionButton({ user }) {
 
   let option;
 
+  console.log(user);
+
   if (user.connected === null) option = options.notConnected;
   else if (user.connected === true) option = options.connected;
-  else if (user.sender === userAuth0.sub) option = options.pending;
-  else option = options.requested;
+  else if (user.connection_pending === true)
+    if (user.sender === loggedInUser.sub) option = options.pending;
+    else option = options.respond;
+
+  console.log("option", option);
 
   return (
     <Button
