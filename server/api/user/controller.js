@@ -13,9 +13,12 @@ module.exports = {
     });
   },
 
+  // Fetches profile info of a particular user given a username, in addition
+  // to the connection (i.e. 'friend') status in relation to the logged in user.
   getUserByUsername: (req, res) => {
     const username = decodeURI(req.params.username);
-    db.query(queries.getUserByUsername, [username]).then((result) => {
+    const user_id = req.auth.payload.sub;
+    db.query(queries.getUserByUsername, [username, user_id]).then((result) => {
       result.rows.length === 0
         ? res.sendStatus(404)
         : res.status(200).json(result.rows[0]);
@@ -55,7 +58,7 @@ module.exports = {
 
   addConnection: async (req, res) => {
     const sender = req.auth.payload.sub;
-    const { id: receiver } = req.params.id;
+    const { id: receiver } = decodeURI(req.params.id);
 
     try {
       const response = await db.query(queries.addConnection, [
@@ -68,7 +71,7 @@ module.exports = {
 
   removeConnection: async (req, res) => {
     const sender = req.auth.payload.sub;
-    const { id: receiver } = req.params.id;
+    const { id: receiver } = decodeURI(req.params.id);
     try {
       const response = await db.query(queries.removeConnection, [
         sender,
@@ -80,7 +83,7 @@ module.exports = {
 
   acceptConnection: async (req, res) => {
     const receiver = req.auth.payload.sub;
-    const { id: sender } = req.params.id;
+    const { id: sender } = decodeURI(req.params.id);
     try {
       const response = await db.query(queries.acceptConnection, [
         receiver,

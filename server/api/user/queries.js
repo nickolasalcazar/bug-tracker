@@ -1,6 +1,18 @@
 module.exports = {
   getUserById: "SELECT * FROM users WHERE user_id = $1",
-  getUserByUsername: "SELECT * FROM users WHERE username = $1",
+  getUserByUsername: `
+    SELECT 
+      user_id,
+      username,
+      nickname,
+      picture,
+      conn.pending AS "connection_pending",
+      conn.connected AS "connected",
+      conn.sender AS "sender"
+    FROM users
+    LEFT JOIN user_connections conn
+      ON (user_id = sender AND $2 = receiver) OR (user_id = receiver AND $2 = sender)
+    WHERE username = $1`,
   createUser:
     "INSERT INTO users(user_id, username, email, name, nickname, picture) VALUES ($1, $2, $3, $4, $5, $6)",
   addConnection:
