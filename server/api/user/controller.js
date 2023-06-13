@@ -52,4 +52,32 @@ module.exports = {
   updateUser: (req, res) => {
     console.log("Update user");
   },
+
+  addConnection: async (req, res) => {
+    const user1 = req.auth.payload.sub;
+    const { id: user2 } = req.params.id;
+
+    try {
+      const response = await db.query(queries.addConnection, [user1, user2]);
+      console.log("response addConnection: ", response);
+    } catch (e) {}
+  },
+
+  removeConnection: async (req, res) => {
+    const user1 = req.auth.payload.sub;
+    const { id: user2 } = req.params.id;
+    try {
+      const response = await db.query(queries.removeConnection, [user1, user2]);
+      console.log("response removeConnection: ", response);
+    } catch (e) {}
+  },
+
+  acceptConnection: async (req, res) => {
+    const user1 = req.auth.payload.sub;
+    const { id: user2 } = req.params.id;
+    try {
+      const response = await db.query(queries.acceptConnection, [user1, user2]);
+      console.log("response acceptConnection: ", response);
+    } catch (e) {}
+  },
 };

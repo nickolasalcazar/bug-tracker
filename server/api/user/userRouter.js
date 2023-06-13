@@ -11,4 +11,9 @@ userRouter.post("/", controller.createUser);
 // userRouter.delete("/:id", controller.deleteUser);
 // userRouter.put("/:id", controller.updateUser);
 
+// Connections
+userRouter.get("/connections/add/:id", controller.addConnection);
+userRouter.get("/connections/remove/:id", controller.removeConnection);
+userRouter.get("/connections/accept/:id", controller.acceptConnection);
+
 module.exports = userRouter;
