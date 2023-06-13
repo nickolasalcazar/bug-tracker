@@ -7,6 +7,20 @@ CREATE TABLE users (
   picture TEXT
 );
 
+-- Connections with other users, i.e. 'friends'.
+CREATE TABLE user_connections (
+  user1 TEXT REFERENCES users(user_id),
+  user2 TEXT REFERENCES users(user_id),
+  pending BOOLEAN DEFAULT TRUE,
+  connected BOOLEAN DEFAULT FALSE
+);
+-- Query connections from user1 and user2 like so:
+-- SELECT * FROM User WHERE User.UserId IN (
+--     (SELECT User1_Id FROM Friend WHERE User2_Id = MY_USER_ID)
+--     UNION
+--     (SELECT User2_Id FROM Friend WHERE User1_Id = MY_USER_ID)
+-- )
+
 -- User groups are named collections of users.
 -- E.g. 'Household', 'Computer Science Club'.
 CREATE TABLE user_groups (
@@ -76,6 +90,7 @@ CREATE TABLE tasks (
   "priority" VARCHAR(50) REFERENCES task_priorities(priority_value) DEFAULT NULL,
   tags VARCHAR(16) ARRAY[8],   -- 8 max
   subscribers TEXT ARRAY[256] -- 256 max
+  --invited_subscribers
 );
 
 -- Alter table tasks to make foreign keys nullable
