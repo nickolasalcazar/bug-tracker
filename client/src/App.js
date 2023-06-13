@@ -60,7 +60,7 @@ function App() {
   });
 
   // Specify auth for route; determine layout for route
-  const LayoutWrapper = ({ requireAuth = true, renderLeftDrawer = false }) => {
+  const LayoutWrapper = ({ requireAuth = true, renderLeftDrawer = true }) => {
     const layoutComponent = () => (
       <AppLayout renderLeftDrawer={renderLeftDrawer}>
         <Outlet />
@@ -78,7 +78,7 @@ function App() {
       <div className="App">
         <CssBaseline />
         <Routes>
-          <Route element={<LayoutWrapper renderLeftDrawer={true} />}>
+          <Route element={<LayoutWrapper />}>
             <Route
               path="/dashboard/*"
               element={
