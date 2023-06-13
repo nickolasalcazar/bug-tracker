@@ -9,7 +9,7 @@ import AppLayout from "./AppLayout";
 import TaskForm from "./components/TaskForm";
 import PageLoader from "./components/PageLoader";
 import Homepage from "./pages/Homepage";
-import User from "./pages/User";
+import User from "./pages/User/User";
 import Projects from "./pages/Projects";
 import NewProject from "./pages/NewProject";
 

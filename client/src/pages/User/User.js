@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import useGetUserByUsername from "../hooks/useGetUserByUsername";
+import { Avatar, Container } from "@mui/material";
 
-import { Avatar, Button, Container } from "@mui/material";
+import useGetUserByUsername from "../../hooks/useGetUserByUsername";
+import ConnectionButton from "./ConnectionButton";
 
 /**
  * Component that displays info about a user, and provides inputs for managing
@@ -16,18 +17,14 @@ export default function User() {
   const [isMe, setIsMe] = useState(false); // True if profile belongs to user
 
   useEffect(() => {
-    if (isLoading) return;
+    if (isLoading || error) return;
     if (user.user_id === userAuth0.sub) setIsMe(true);
+
+    console.log("user", user);
   }, [user, isLoading]);
 
   if (isLoading) return <div>Loading profile...</div>;
   else if (error) return <div>{error}</div>;
-
-  const handleAddConnection = () => {};
-
-  const handleAcceptConnection = () => {};
-
-  const handleRemoveConnection = () => {};
 
   return (
     <Container
@@ -42,11 +39,7 @@ export default function User() {
       <Avatar src={user.picture} sx={{ width: 100, height: 100 }} />
       <h2>@{user.username}</h2>
       <h3>{user.nickname}</h3>
-      {isMe ? null : (
-        <Button variant="contained" color="secondary">
-          Connect
-        </Button>
-      )}
+      <ConnectionButton user={user} />
     </Container>
   );
 }
