@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import { Button, ButtonGroup } from "@mui/material";
+import { Button, ButtonGroup, Menu, MenuItem, Typography } from "@mui/material";
+
 import AddUserIcon from "@mui/icons-material/PersonAddRounded";
 import RemoveUserIcon from "@mui/icons-material/PersonRemoveRounded";
 import PendingIcon from "@mui/icons-material/TimerRounded";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import {
   addConnection,
@@ -36,7 +38,7 @@ export default function ConnectionButton({ user }) {
     console.log("handleAcceptConnection");
     try {
       const accessToken = await getAccessTokenSilently();
-      const response = await addConnection(accessToken, user.user_id);
+      const response = await acceptConnection(accessToken, user.user_id);
       console.log("response", response);
     } catch (e) {}
   };
@@ -46,7 +48,7 @@ export default function ConnectionButton({ user }) {
     console.log("handleRemoveConnection");
     try {
       const accessToken = await getAccessTokenSilently();
-      const response = await addConnection(accessToken, user.user_id);
+      const response = await removeConnection(accessToken, user.user_id);
       console.log("response", response);
     } catch (e) {}
   };
@@ -98,7 +100,7 @@ export default function ConnectionButton({ user }) {
 
   // console.log("option", option);
 
-  if ((option.key = "respond"))
+  const RespondButton = () => {
     return (
       <ButtonGroup
         variant="contained"
@@ -119,6 +121,7 @@ export default function ConnectionButton({ user }) {
           Ignore
         </Button>
         <Button
+          onClick={handleAcceptConnection}
           startIcon={options.notConnected.icon}
           style={{
             maxWidth: WIDTH + 50,
@@ -129,6 +132,45 @@ export default function ConnectionButton({ user }) {
         </Button>
       </ButtonGroup>
     );
+  };
+
+  const ConnectedButton = () => {
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
+
+    return (
+      <>
+        <Button
+          variant="contained"
+          color="secondary"
+          disableElevation
+          onClick={handleClick}
+          endIcon={<KeyboardArrowDownIcon />}
+          style={{
+            maxWidth: WIDTH,
+            minWidth: WIDTH,
+          }}
+        >
+          Connected
+        </Button>
+        <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+          <MenuItem onClick={handleClose} disableRipple>
+            <RemoveUserIcon pr={3} />
+            <Typography pl={2}>Remove</Typography>
+          </MenuItem>
+        </Menu>
+      </>
+    );
+  };
+
+  if (option.key === "respond") return <RespondButton />;
+  else if (option.key === "connected") return <ConnectedButton />;
   else
     return (
       <Button
