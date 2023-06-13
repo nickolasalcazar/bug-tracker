@@ -5,7 +5,7 @@ import { getUserByUsername } from "../services/user.api";
 /**
  * Hook for fetching public details of particular user by their username.
  */
-export default function useGetUser(username) {
+export default function useGetUserByUsername(username) {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
