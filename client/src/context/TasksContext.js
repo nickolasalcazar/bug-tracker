@@ -15,21 +15,14 @@ export const TasksProvider = ({ children }) => {
 
   // Fetch up-to-date tasks and update the current tasks context
   const updateTasksContext = async () => {
-    try {
-      const token = await getAccessTokenSilently();
-      const response = await getAllSubscribedTasks(token);
-      setTasksContext({
-        tasks: response.data,
-        isLoading: false,
-        error: false,
-      });
-    } catch (e) {
-      setTasksContext({
-        tasks: null,
-        isLoading: false,
-        error: true,
-      });
-    }
+    const token = await getAccessTokenSilently();
+    const response = await getAllSubscribedTasks(token);
+
+    setTasksContext({
+      tasks: response.data,
+      isLoading: false,
+      error: response.status !== 200,
+    });
   };
 
   useEffect(() => {
