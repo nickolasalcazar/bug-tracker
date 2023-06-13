@@ -2,7 +2,7 @@ import { callExternalApi } from "./external-api";
 const endpoint = process.env.REACT_APP_API_SERVER_URL;
 
 /**
- * Fetches profile info of user.
+ * Fetches profile info of the logged in user.
  * @param {string} accessToken  JWT.
  * @param {string} id           User ID or sub.
  */
@@ -16,6 +16,10 @@ export const getUserInfo = async (accessToken, id) =>
     },
   });
 
+/**
+ * Fetches profile info of a particular user given a username, in addition
+ * to the connection (i.e. 'friend') status in relation to the logged in user.
+ */
 export const getUserByUsername = async (accessToken, username) =>
   await callExternalApi({
     url: `${endpoint}/api/user/${username}`,
@@ -50,7 +54,7 @@ export const createUser = async (accessToken, user) =>
 
 export const addConnection = async (accessToken, user_id) =>
   await callExternalApi({
-    url: `${endpoint}/api/connections/add/${user_id}`,
+    url: `${endpoint}/api/user/connections/add/${user_id}`,
     method: "GET",
     headers: {
       "content-type": "application/json",
@@ -70,7 +74,7 @@ export const acceptConnection = async (accessToken, user_id) =>
 
 export const removeConnection = async (accessToken, user_id) =>
   await callExternalApi({
-    url: `${endpoint}/api/connections/remove/${user_id}`,
+    url: `${endpoint}/api/user/connections/remove/${user_id}`,
     method: "GET",
     headers: {
       "content-type": "application/json",
