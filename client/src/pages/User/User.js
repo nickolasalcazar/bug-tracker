@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
+import React, { useEffect } from "react";
 import { Avatar, Container } from "@mui/material";
-
-import useGetUserByUsername from "../../hooks/useGetUserByUsername";
+import useGetUserByParam from "../../hooks/useGetUserByParam";
 import ConnectionButton from "./ConnectionButton";
 
 /**
@@ -11,16 +8,10 @@ import ConnectionButton from "./ConnectionButton";
  * user relationships.
  */
 export default function User() {
-  const { user: userAuth0 } = useAuth0();
-  const { username } = useParams();
-  const { user, isLoading, error } = useGetUserByUsername(username);
-  const [isMe, setIsMe] = useState(false); // True if profile belongs to user
+  const { user, isLoading, error } = useGetUserByParam();
 
   useEffect(() => {
     if (isLoading || error) return;
-    if (user.user_id === userAuth0.sub) setIsMe(true);
-
-    console.log("user", user);
   }, [user, isLoading]);
 
   if (isLoading) return <div>Loading profile...</div>;
