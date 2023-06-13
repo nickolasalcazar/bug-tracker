@@ -39,7 +39,8 @@ function NavBar({ handleDrawerToggle, profileMenuId, handleProfileMenuOpen }) {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { lg: "none" } }}
+            // sx={{ mr: 2, display: { lg: "none" } }}
+            sx={{ mr: 2, display: { xl: "none" } }}
           >
             <MenuIcon fontSize="large" />
           </IconButton>
