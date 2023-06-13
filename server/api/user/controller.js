@@ -54,29 +54,38 @@ module.exports = {
   },
 
   addConnection: async (req, res) => {
-    const user1 = req.auth.payload.sub;
-    const { id: user2 } = req.params.id;
+    const sender = req.auth.payload.sub;
+    const { id: receiver } = req.params.id;
 
     try {
-      const response = await db.query(queries.addConnection, [user1, user2]);
+      const response = await db.query(queries.addConnection, [
+        sender,
+        receiver,
+      ]);
       console.log("response addConnection: ", response);
     } catch (e) {}
   },
 
   removeConnection: async (req, res) => {
-    const user1 = req.auth.payload.sub;
-    const { id: user2 } = req.params.id;
+    const sender = req.auth.payload.sub;
+    const { id: receiver } = req.params.id;
     try {
-      const response = await db.query(queries.removeConnection, [user1, user2]);
+      const response = await db.query(queries.removeConnection, [
+        sender,
+        receiver,
+      ]);
       console.log("response removeConnection: ", response);
     } catch (e) {}
   },
 
   acceptConnection: async (req, res) => {
-    const user1 = req.auth.payload.sub;
-    const { id: user2 } = req.params.id;
+    const receiver = req.auth.payload.sub;
+    const { id: sender } = req.params.id;
     try {
-      const response = await db.query(queries.acceptConnection, [user1, user2]);
+      const response = await db.query(queries.acceptConnection, [
+        receiver,
+        sender,
+      ]);
       console.log("response acceptConnection: ", response);
     } catch (e) {}
   },

@@ -9,8 +9,8 @@ CREATE TABLE users (
 
 -- Connections with other users, i.e. 'friends'.
 CREATE TABLE user_connections (
-  user1 TEXT REFERENCES users(user_id),
-  user2 TEXT REFERENCES users(user_id),
+  sender TEXT REFERENCES users(user_id), -- Initiates connection
+  receiver TEXT REFERENCES users(user_id), -- Accepts connection
   pending BOOLEAN DEFAULT TRUE,
   connected BOOLEAN DEFAULT FALSE
 );
