@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import { Button } from "@mui/material";
+import { Button, ButtonGroup } from "@mui/material";
 import AddUserIcon from "@mui/icons-material/PersonAddRounded";
 import RemoveUserIcon from "@mui/icons-material/PersonRemoveRounded";
 import PendingIcon from "@mui/icons-material/TimerRounded";
@@ -11,6 +11,8 @@ import {
   acceptConnection,
   removeConnection,
 } from "../../services/user.api";
+
+const WIDTH = 150;
 
 /**
  * Button for requesting, accepting/rejecting to connect with another user.
@@ -94,18 +96,54 @@ export default function ConnectionButton({ user }) {
     if (user.sender === loggedInUser.sub) option = options.pending;
     else option = options.respond;
 
-  console.log("option", option);
+  // console.log("option", option);
 
-  return (
-    <Button
-      onClick={option.handler}
-      variant="contained"
-      color="secondary"
-      endIcon={option.icon}
-      size="small"
-      disabled={option.disabled}
-    >
-      {option.label}
-    </Button>
-  );
+  if ((option.key = "respond"))
+    return (
+      <ButtonGroup
+        variant="contained"
+        color="secondary"
+        size="small"
+        style={{
+          maxWidth: WIDTH * 2,
+          minWidth: WIDTH * 2,
+        }}
+      >
+        <Button
+          variant="outlined"
+          style={{
+            maxWidth: WIDTH - 50,
+            minWidth: WIDTH - 50,
+          }}
+        >
+          Ignore
+        </Button>
+        <Button
+          startIcon={options.notConnected.icon}
+          style={{
+            maxWidth: WIDTH + 50,
+            minWidth: WIDTH + 50,
+          }}
+        >
+          Accept Connection
+        </Button>
+      </ButtonGroup>
+    );
+  else
+    return (
+      <Button
+        onClick={option.handler}
+        variant="contained"
+        color="secondary"
+        endIcon={option.icon}
+        size="small"
+        disabled={option.disabled}
+        style={{
+          maxWidth: WIDTH,
+          minWidth: WIDTH,
+        }}
+      >
+        {option.label}
+      </Button>
+    );
 }
