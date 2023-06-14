@@ -1,11 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-
 import { Button, ButtonGroup, Menu, MenuItem, Typography } from "@mui/material";
-
 import AddUserIcon from "@mui/icons-material/PersonAddRounded";
 import RemoveUserIcon from "@mui/icons-material/PersonRemoveRounded";
-import PendingIcon from "@mui/icons-material/TimerRounded";
+import CancelIcon from "@mui/icons-material/CloseRounded";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import {
@@ -14,12 +12,12 @@ import {
   removeConnection,
 } from "../../services/user.api";
 
-const WIDTH = 150;
+const WIDTH = 165;
 
 /**
  * Button for requesting, accepting/rejecting to connect with another user.
  */
-export default function ConnectionButton({ user }) {
+export default function ConnectionButton({ user, refreshUser }) {
   const { getAccessTokenSilently, user: loggedInUser } = useAuth0();
 
   // If the profile belongs to logged in user, return null
@@ -31,6 +29,7 @@ export default function ConnectionButton({ user }) {
       const accessToken = await getAccessTokenSilently();
       const response = await addConnection(accessToken, user.user_id);
       console.log("response", response);
+      refreshUser();
     } catch (e) {}
   };
 
@@ -40,6 +39,7 @@ export default function ConnectionButton({ user }) {
       const accessToken = await getAccessTokenSilently();
       const response = await acceptConnection(accessToken, user.user_id);
       console.log("response", response);
+      refreshUser();
     } catch (e) {}
   };
 
@@ -50,6 +50,7 @@ export default function ConnectionButton({ user }) {
       const accessToken = await getAccessTokenSilently();
       const response = await removeConnection(accessToken, user.user_id);
       console.log("response", response);
+      refreshUser();
     } catch (e) {}
   };
 
@@ -67,7 +68,7 @@ export default function ConnectionButton({ user }) {
       handler: handleRemoveConnection,
       label: "Remove Connection",
       icon: <RemoveUserIcon />,
-      variant: "outline",
+      variant: "contained",
       disabled: false,
     },
     respond: {
@@ -75,16 +76,18 @@ export default function ConnectionButton({ user }) {
       handler: handleAcceptConnection,
       label: "Respond",
       icon: <AddUserIcon />,
-      variant: "outline",
+      variant: "contined",
       disabled: false,
     },
     pending: {
       key: "pending",
-      handler: null,
-      label: "Requested",
-      icon: <PendingIcon />,
-      variant: "outline",
-      disabled: true,
+      // handler: null,
+      handler: handleRemoveConnection,
+      // label: "Requested",
+      label: "Cancel Request",
+      icon: <CancelIcon />,
+      variant: "outlined",
+      disabled: false,
     },
   };
 
@@ -182,7 +185,7 @@ export default function ConnectionButton({ user }) {
     return (
       <Button
         onClick={option.handler}
-        variant="contained"
+        variant={option.variant}
         color="secondary"
         endIcon={option.icon}
         size="small"

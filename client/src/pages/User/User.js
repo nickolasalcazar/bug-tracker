@@ -8,7 +8,7 @@ import ConnectionButton from "./ConnectionButton";
  * user relationships.
  */
 export default function User() {
-  const { user, isLoading, error } = useGetUserByParam();
+  const { user, isLoading, error, refreshUser } = useGetUserByParam();
 
   useEffect(() => {
     if (isLoading || error) return;
@@ -30,7 +30,7 @@ export default function User() {
       <Avatar src={user.picture} sx={{ width: 100, height: 100 }} />
       <h2>{user.nickname}</h2>
       <h3>@{user.username}</h3>
-      <ConnectionButton user={user} />
+      <ConnectionButton user={user} refreshUser={refreshUser} />
     </Container>
   );
 }

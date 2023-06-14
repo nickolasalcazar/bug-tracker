@@ -4,9 +4,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { getUserByUsername } from "../services/user.api";
 
 /**
- * A hook that listens for a username passed as a URL parameter in order to
- * return associated public user info and connection status in relation to the
- * current logged-in user.
+ * This hook listens for a username passed as a URL parameter and returns the
+ * public user information and connection status in relation to the logged-in user.
  */
 function useGetUserByParam() {
   const { username } = useParams();
@@ -29,11 +28,15 @@ function useGetUserByParam() {
     }
   };
 
+  const refreshUser = () => {
+    fetchUser();
+  };
+
   useEffect(() => {
     fetchUser();
   }, [username]);
 
-  return { user, isLoading, error };
+  return { user, isLoading, error, refreshUser };
 }
 
 export default useGetUserByParam;
