@@ -112,6 +112,7 @@ export default function ConnectionButton({ user }) {
         }}
       >
         <Button
+          onClick={handleRemoveConnection}
           variant="outlined"
           style={{
             maxWidth: WIDTH - 50,
@@ -160,7 +161,13 @@ export default function ConnectionButton({ user }) {
           Connected
         </Button>
         <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-          <MenuItem onClick={handleClose} disableRipple>
+          <MenuItem
+            onClick={() => {
+              handleRemoveConnection();
+              handleClose();
+            }}
+            disableRipple
+          >
             <RemoveUserIcon pr={3} />
             <Typography pl={2}>Remove</Typography>
           </MenuItem>
