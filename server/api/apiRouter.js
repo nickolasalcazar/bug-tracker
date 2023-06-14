@@ -7,6 +7,7 @@ const messagesRouter = require("./messages/messagesRouter");
 
 apiRouter.use("/user", userRouter);
 apiRouter.use("/tasks", tasksRouter);
+apiRouter.use("/notifs", notifsRouter);
 apiRouter.use("/messages", messagesRouter);
 
 module.exports = apiRouter;
