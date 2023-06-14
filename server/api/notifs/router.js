@@ -1,10 +1,13 @@
 const { Router } = require("express");
 const jwtCheck = require("../../utils/jwtCheck");
-const tasksRouter = Router();
+const notifsRouter = Router();
 
 const controller = require("./controller");
 
-tasksRouter.use(jwtCheck);
-tasksRouter.get("/", controller.getTasks);
+notifsRouter.use(jwtCheck);
+// notifsRouter.get("/", controller.getTasks);
+notifsRouter.get("/", (req, res) => {
+  res.sendStatus(200);
+});
 
-module.exports = tasksRouter;
+module.exports = notifsRouter;
