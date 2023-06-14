@@ -11,6 +11,7 @@ import { NavLink } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import LoginButton from "../Login";
 import SignupButton from "../SignUp";
+import NotificationBell from "../NotificationBell";
 
 /**
  * The navigation bar that resides at the top of the application.
@@ -39,7 +40,6 @@ function NavBar({ handleDrawerToggle, profileMenuId, handleProfileMenuOpen }) {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            // sx={{ mr: 2, display: { lg: "none" } }}
             sx={{ mr: 2, display: { xl: "none" } }}
           >
             <MenuIcon fontSize="large" />
@@ -67,6 +67,7 @@ function NavBar({ handleDrawerToggle, profileMenuId, handleProfileMenuOpen }) {
                 <Button sx={{ display: { sm: "block", xs: "none" } }}>
                   <NavLink to="/dashboard">Dashboard</NavLink>
                 </Button>
+                <NotificationBell />
                 <IconButton
                   size="large"
                   edge="end"
