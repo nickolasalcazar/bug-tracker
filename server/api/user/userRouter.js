@@ -12,7 +12,7 @@ userRouter.get("/connections/remove/:id", controller.removeConnection);
 userRouter.get("/connections/accept/:id", controller.acceptConnection);
 
 userRouter.get("/id/:id", controller.getUserById);
-userRouter.get("/:username", controller.getUserByUsername);
+userRouter.get("/username/:username", controller.getUserByUsername);
 userRouter.post("/", controller.createUser);
 // userRouter.delete("/:id", controller.deleteUser);
 // userRouter.put("/:id", controller.updateUser);

@@ -22,7 +22,7 @@ export const getUserInfo = async (accessToken, id) =>
  */
 export const getUserByUsername = async (accessToken, username) =>
   await callExternalApi({
-    url: `${endpoint}/api/user/${username}`,
+    url: `${endpoint}/api/user/username/${username}`,
     method: "GET",
     headers: {
       "content-type": "application/json",
