@@ -73,10 +73,10 @@ module.exports = {
   },
 
   removeConnection: async (req, res) => {
-    const sender = req.auth.payload.sub;
-    const receiver = req.params.id;
+    const user1 = req.auth.payload.sub;
+    const user2 = req.params.id;
     try {
-      await db.query(queries.removeConnection, [sender, receiver]);
+      await db.query(queries.removeConnection, [user1, user2]);
       res.sendStatus(200);
     } catch (e) {
       res.sendStatus(500);
