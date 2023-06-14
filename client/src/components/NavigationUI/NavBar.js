@@ -4,14 +4,13 @@ import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/MenuRounded";
 import Toolbar from "@mui/material/Toolbar";
-import { Avatar, Button, Stack } from "@mui/material";
+import { Stack } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import { NavLink } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import LoginButton from "../Login";
-import SignupButton from "../SignUp";
 import NotificationBell from "../NotificationBell";
+import ProfileNavButton from "../ProfileNavButton";
 
 /**
  * The navigation bar that resides at the top of the application.
@@ -20,7 +19,7 @@ import NotificationBell from "../NotificationBell";
  * @param {string} profileMenuId
  * @param {function} handleProfileMenuOpen
  */
-function NavBar({ handleDrawerToggle, profileMenuId, handleProfileMenuOpen }) {
+function NavBar({ handleDrawerToggle }) {
   const { isAuthenticated, user } = useAuth0();
 
   return (
@@ -62,7 +61,10 @@ function NavBar({ handleDrawerToggle, profileMenuId, handleProfileMenuOpen }) {
             />
           </Stack>
           <Stack direction="row" spacing={2}>
-            {isAuthenticated ? (
+            <NotificationBell />
+            <ProfileNavButton />
+
+            {/* {isAuthenticated ? (
               <>
                 <Button sx={{ display: { sm: "block", xs: "none" } }}>
                   <NavLink to="/dashboard">Dashboard</NavLink>
@@ -100,7 +102,7 @@ function NavBar({ handleDrawerToggle, profileMenuId, handleProfileMenuOpen }) {
                   <MoreVertIcon />
                 </IconButton>
               </>
-            )}
+            )} */}
           </Stack>
         </Box>
       </Toolbar>
