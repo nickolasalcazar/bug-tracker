@@ -4,9 +4,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import useUserProfile from "../hooks/useUserProfile";
 import LogoutButton from "./Logout";
 import LoginButton from "./Login";
-import { Avatar, IconButton, Menu, MenuItem } from "@mui/material";
+import { Avatar, Box, IconButton, Menu, MenuItem } from "@mui/material";
 
-export default function ProfileNavButton(props) {
+export default function ProfileNavButton({ sx }) {
   const { isAuthenticated, userAuth0 } = useAuth0();
   const { userProfile: user } = useUserProfile();
 
@@ -26,7 +26,7 @@ export default function ProfileNavButton(props) {
   }, [user]);
 
   return (
-    <>
+    <Box sx={sx}>
       <IconButton
         size="large"
         edge="end"
@@ -46,7 +46,7 @@ export default function ProfileNavButton(props) {
         isOpen={isOpen}
         handleClose={handleClose}
       />
-    </>
+    </Box>
   );
 }
 

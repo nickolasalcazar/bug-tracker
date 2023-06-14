@@ -38,15 +38,21 @@ export default function NavBar({ handleDrawerToggle }) {
               aria-label="open drawer"
               edge="start"
               onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { xl: "none" } }}
+              sx={{ display: { xl: "none" } }}
             >
               <MenuIcon fontSize="large" />
             </IconButton>
             <LogoFull />
           </Stack>
           <LogoSmall />
-          <Stack direction="row" spacing={1}>
-            <NotificationBell />
+          <Stack direction="row" spacing={2}>
+            <NotificationBell
+              display={{
+                xs: "none",
+                sm: "none",
+                md: "block",
+              }}
+            />
             <ProfileNavButton />
           </Stack>
         </Box>

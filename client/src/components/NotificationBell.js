@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { IconButton, Menu, MenuItem } from "@mui/material";
+import { Box, IconButton, Menu, MenuItem } from "@mui/material";
 import NotifNoneIcon from "@mui/icons-material/NotificationsNoneRounded";
 import NotifIcon from "@mui/icons-material/NotificationsActiveRounded";
 
 /**
  * Renders a bell icon for accessing notifications.
  */
-export default function NotificationBell() {
+export default function NotificationBell({ display }) {
   const menuId = "notif-menu";
   const [anchorEl, setAnchorEl] = useState(null);
   const isOpen = Boolean(anchorEl);
@@ -29,6 +29,7 @@ export default function NotificationBell() {
         aria-haspopup="true"
         onClick={handleOpen}
         color="inherit"
+        sx={{ display: display }}
       >
         <NotifNoneIcon />
         {/* <NotifIcon /> */}
