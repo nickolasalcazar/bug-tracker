@@ -23,6 +23,7 @@ export default function AppLayout({ children, renderLeftDrawer = false }) {
     setMobileOpen(!mobileOpen);
   };
 
+  // TODO: Refactor code related ProfileMenu and NavBar
   const profileMenuId = "profile-menu";
   const [anchorEl, setAnchorEl] = useState(null);
   const isProfileMenuOpen = Boolean(anchorEl);
