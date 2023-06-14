@@ -8,20 +8,18 @@ import { Stack } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import { NavLink } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
 import NotificationBell from "../NotificationBell";
 import ProfileNavButton from "../ProfileNavButton";
+import useUserProfile from "../../hooks/useUserProfile";
+
+const logoSize = "50px";
 
 /**
  * The navigation bar that resides at the top of the application.
  *
  * @param {function} handleDrawerToggle
- * @param {string} profileMenuId
- * @param {function} handleProfileMenuOpen
  */
-function NavBar({ handleDrawerToggle }) {
-  const { isAuthenticated, user } = useAuth0();
-
+export default function NavBar({ handleDrawerToggle }) {
   return (
     <AppBar
       position="fixed"
@@ -34,75 +32,22 @@ function NavBar({ handleDrawerToggle }) {
           justifyContent="space-between"
           alignItems="center"
         >
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { xl: "none" } }}
-          >
-            <MenuIcon fontSize="large" />
-          </IconButton>
           <Stack direction="row" spacing={1}>
-            <Box
-              component="img"
-              src="/logo-icon-dark.png"
-              style={{ width: "50px", height: "50px" }}
-            />
-            <Box
-              component="img"
-              src="/logo-text-alt.png"
-              sx={{
-                width: "auto",
-                height: "50px",
-                pt: "3px",
-                display: { xs: "none", sm: "block", md: "block" },
-              }}
-            />
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2, display: { xl: "none" } }}
+            >
+              <MenuIcon fontSize="large" />
+            </IconButton>
+            <LogoFull />
           </Stack>
-          <Stack direction="row" spacing={2}>
+          <LogoSmall />
+          <Stack direction="row" spacing={1}>
             <NotificationBell />
             <ProfileNavButton />
-
-            {/* {isAuthenticated ? (
-              <>
-                <Button sx={{ display: { sm: "block", xs: "none" } }}>
-                  <NavLink to="/dashboard">Dashboard</NavLink>
-                </Button>
-                <NotificationBell />
-                <IconButton
-                  size="large"
-                  edge="end"
-                  aria-label="more navigation options"
-                  aria-controls={profileMenuId}
-                  aria-haspopup="true"
-                  onClick={handleProfileMenuOpen}
-                  color="inherit"
-                >
-                  <Avatar src={user.picture} alt={user.nickname} />
-                </IconButton>
-              </>
-            ) : (
-              <>
-                <Button sx={{ display: { sm: "block", xs: "none" } }}>
-                  <LoginButton />
-                </Button>
-                <Button sx={{ display: { sm: "block", xs: "none" } }}>
-                  <SignupButton />
-                </Button>
-                <IconButton
-                  size="large"
-                  edge="end"
-                  aria-label="more navigation options"
-                  aria-controls={profileMenuId}
-                  aria-haspopup="true"
-                  onClick={handleProfileMenuOpen}
-                  color="inherit"
-                >
-                  <MoreVertIcon />
-                </IconButton>
-              </>
-            )} */}
           </Stack>
         </Box>
       </Toolbar>
@@ -110,4 +55,34 @@ function NavBar({ handleDrawerToggle }) {
   );
 }
 
-export default NavBar;
+const LogoFull = () => (
+  <>
+    <Box
+      component="img"
+      src="/logo-icon-dark.png"
+      width={logoSize}
+      height={logoSize}
+      sx={{ display: { xs: "none", sm: "block", md: "block" } }}
+    />
+    <Box
+      component="img"
+      src="/logo-text-alt.png"
+      sx={{
+        width: "auto",
+        height: logoSize,
+        pt: "3px",
+        display: { xs: "none", sm: "block", md: "block" },
+      }}
+    />
+  </>
+);
+
+const LogoSmall = () => (
+  <Box
+    component="img"
+    src="/logo-icon-dark.png"
+    width={logoSize}
+    height={logoSize}
+    sx={{ display: { xs: "block", sm: "none", md: "none" } }}
+  />
+);

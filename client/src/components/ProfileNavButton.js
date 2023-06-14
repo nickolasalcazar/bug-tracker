@@ -1,26 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-
 import useUserProfile from "../hooks/useUserProfile";
 import LogoutButton from "./Logout";
 import LoginButton from "./Login";
-
-import {
-  Avatar,
-  Button,
-  Box,
-  IconButton,
-  Menu,
-  MenuItem,
-  Stack,
-} from "@mui/material";
-
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-
-import { NavLink } from "react-router-dom";
+import { Avatar, IconButton, Menu, MenuItem } from "@mui/material";
 
 export default function ProfileNavButton(props) {
-  const { isAuthenticated, user } = useAuth0();
+  const { isAuthenticated, userAuth0 } = useAuth0();
+  const { userProfile: user } = useUserProfile();
 
   const menuId = "profile-menu";
   const [anchorEl, setAnchorEl] = useState(null);
@@ -33,6 +21,10 @@ export default function ProfileNavButton(props) {
     setAnchorEl(null);
   };
 
+  useEffect(() => {
+    console.log("user", user);
+  }, [user]);
+
   return (
     <>
       <IconButton
@@ -42,9 +34,13 @@ export default function ProfileNavButton(props) {
         onClick={handleOpen}
         color="inherit"
       >
-        <Avatar src={user.picture} alt={user.nickname} />
+        <Avatar
+          src={user === null ? null : user.picture}
+          alt={user === null ? null : user.nickname}
+        />
       </IconButton>
       <ProfileMenu
+        user={user}
         anchorEl={anchorEl}
         menuId={menuId}
         isOpen={isOpen}
@@ -62,9 +58,7 @@ export default function ProfileNavButton(props) {
  * @param {bool}      isOpen
  * @param {function}  handleClose
  */
-function ProfileMenu({ anchorEl, menuId, isOpen, handleClose }) {
-  const { userProfile } = useUserProfile();
-
+function ProfileMenu({ user, anchorEl, menuId, isOpen, handleClose }) {
   return (
     <Menu
       anchorEl={anchorEl}
@@ -90,9 +84,9 @@ function ProfileMenu({ anchorEl, menuId, isOpen, handleClose }) {
       >
         <NavLink to="/dashboard">Dashboard</NavLink>
       </MenuItem>
-      {userProfile === null ? null : (
+      {user === null ? null : (
         <MenuItem onClick={handleClose}>
-          <NavLink to={`/user/${userProfile.username}`}>Profile</NavLink>
+          <NavLink to={`/user/${user.username}`}>Profile</NavLink>
         </MenuItem>
       )}
       <MenuItem>
