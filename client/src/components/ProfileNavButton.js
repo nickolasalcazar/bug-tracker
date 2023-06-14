@@ -1,13 +1,23 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
+import {
+  Avatar,
+  Badge,
+  Box,
+  IconButton,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+} from "@mui/material";
+
+import PersonIcon from "@mui/icons-material/PersonOutlineOutlined";
+import NotifNoneIcon from "@mui/icons-material/NotificationsNoneRounded";
+import NotifIcon from "@mui/icons-material/NotificationsActiveRounded";
 import useUserProfile from "../hooks/useUserProfile";
 import LogoutButton from "./Logout";
-import LoginButton from "./Login";
-import { Avatar, Box, IconButton, Menu, MenuItem } from "@mui/material";
+import LogoutIcon from "@mui/icons-material/LogoutRounded";
 
 export default function ProfileNavButton({ sx }) {
-  const { isAuthenticated, userAuth0 } = useAuth0();
   const { userProfile: user } = useUserProfile();
 
   const menuId = "profile-menu";
@@ -34,10 +44,27 @@ export default function ProfileNavButton({ sx }) {
         onClick={handleOpen}
         color="inherit"
       >
-        <Avatar
-          src={user === null ? null : user.picture}
-          alt={user === null ? null : user.nickname}
-        />
+        <Badge
+          overlap="circular"
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          badgeContent={
+            <NotifIcon
+              fontSize="small"
+              sx={{
+                display: {
+                  xs: "block",
+                  sm: "block",
+                  md: "none",
+                },
+              }}
+            />
+          }
+        >
+          <Avatar
+            src={user === null ? null : user.picture}
+            alt={user === null ? null : user.nickname}
+          />
+        </Badge>
       </IconButton>
       <ProfileMenu
         user={user}
@@ -59,6 +86,7 @@ export default function ProfileNavButton({ sx }) {
  * @param {function}  handleClose
  */
 function ProfileMenu({ user, anchorEl, menuId, isOpen, handleClose }) {
+  if (user === null) return;
   return (
     <Menu
       anchorEl={anchorEl}
@@ -78,18 +106,26 @@ function ProfileMenu({ user, anchorEl, menuId, isOpen, handleClose }) {
         mt: "45px",
       }}
     >
-      <MenuItem
-        onClick={handleClose}
-        sx={{ display: { md: "none", sm: "none" } }}
-      >
-        <NavLink to="/dashboard">Dashboard</NavLink>
-      </MenuItem>
-      {user === null ? null : (
-        <MenuItem onClick={handleClose}>
-          <NavLink to={`/user/${user.username}`}>Profile</NavLink>
+      <NavLink to="/dashboard" ml={2}>
+        <MenuItem onClick={handleClose} divider>
+          <ListItemIcon>
+            <NotifNoneIcon fontSize="small" />
+          </ListItemIcon>
+          Notifications
         </MenuItem>
-      )}
+      </NavLink>
+      <NavLink to={`/user/${user.username}`} ml={2}>
+        <MenuItem onClick={handleClose} divider>
+          <ListItemIcon>
+            <PersonIcon fontSize="small" />
+          </ListItemIcon>
+          Profile
+        </MenuItem>
+      </NavLink>
       <MenuItem>
+        <ListItemIcon>
+          <LogoutIcon fontSize="small" />
+        </ListItemIcon>
         <LogoutButton />
       </MenuItem>
     </Menu>
