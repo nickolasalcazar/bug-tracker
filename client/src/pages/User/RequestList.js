@@ -9,7 +9,7 @@ import {
   ListItemAvatar,
 } from "@mui/material";
 
-export default function ConnectionList({ connections }) {
+export default function RequestList({ connections }) {
   if (connections === null) return;
   return (
     <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>

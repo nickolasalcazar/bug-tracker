@@ -6,6 +6,7 @@ import useNotifs from "../../hooks/useNotifs";
 import useConnections from "../../hooks/useConnections";
 import ConnectionButton from "./ConnectionButton";
 import ConnectionList from "./ConnectionList";
+import RequestList from "./RequestList";
 
 /**
  * Component that displays info about a user, and provides inputs for managing
@@ -73,7 +74,7 @@ export default function User() {
             />
             <Route
               path="requests"
-              element={<ConnectionList connections={connections} />}
+              element={<RequestList connections={notifs.pendingConnections} />}
             />
           </Routes>
         </Stack>
