@@ -14,7 +14,7 @@ import UserList from "./UserList";
 export default function User() {
   const { user, isLoading, error, refreshUser } = useGetUserByParam();
   const { notifs } = useNotifs();
-  const { connections } = useConnections();
+  const { connections, reloadConnections } = useConnections();
 
   const [tabIndex, setTabIndex] = React.useState(0);
   const matchConn = useMatch("/user/:user/connections");
@@ -70,7 +70,13 @@ export default function User() {
             />
             <Route
               path="requests"
-              element={<UserList users={notifs.pendingConnections} />}
+              element={
+                <UserList
+                  users={notifs?.pendingConnections}
+                  reloadConnections={reloadConnections}
+                  renderOptions={true}
+                />
+              }
             />
           </Routes>
         </Stack>
