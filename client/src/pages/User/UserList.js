@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Avatar,
   Box,
@@ -88,6 +89,8 @@ export default function UserList({
     );
   };
 
+  // to={`/user/${user.username}`}
+
   if (!users) return;
   if (users.length === 0) return;
   return (
@@ -96,14 +99,18 @@ export default function UserList({
         return (
           <Box key={user.user_id}>
             <ListItem alignItems="flex-start">
-              <ListItemAvatar>
-                <Avatar alt={user.nickname} src={user.picture} />
-              </ListItemAvatar>
-              <ListItemText
-                primary={user.nickname}
-                secondary={`@${user.username}`}
-              />
-              <SecondaryActions user_id={user.user_id} />
+              <Link to={`/user/${user.username}`}>
+                <ListItemAvatar>
+                  <Avatar alt={user.nickname} src={user.picture} />
+                </ListItemAvatar>
+              </Link>
+              <Link to={`/user/${user.username}`}>
+                <ListItemText
+                  primary={user.nickname}
+                  secondary={`@${user.username}`}
+                />
+                <SecondaryActions user_id={user.user_id} />
+              </Link>
             </ListItem>
             {index === users.length - 1 ? null : (
               <Divider variant="inset" component="li" />
