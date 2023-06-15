@@ -4,23 +4,43 @@ import {
   addConnection as doAdd,
   acceptConnection as doAccept,
   getConnections,
+  getConnectionsByUsername,
   removeConnection as doRemove,
 } from "../services/user.api";
 
 /**
- * This hook provides methods and state variables for reading and managing user
- * connections.
+ * The useConnections hook facilitates reading and managing user connections.
+ * It fetches connections based on the provided username. If no username is
+ * provided, it fetches connections belonging to the logged-in user.
+ *
+ * @param {string} username Optional.
  */
-export default function useConnections() {
+export default function useConnections(username) {
   const { getAccessTokenSilently } = useAuth0();
   const [connections, setConnections] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  // Fetch connections belonging to the logged in user.
   const fetchConnections = async () => {
     try {
       const token = await getAccessTokenSilently();
       const response = await getConnections(token);
+      if (response.status === 200) setConnections(response.data);
+      else throw Error();
+    } catch (e) {
+      setError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Fetch connections belonging to a username.
+  const fetchConnectionsByUsername = async () => {
+    try {
+      if (username === null || username === undefined) throw Error();
+      const token = await getAccessTokenSilently();
+      const response = await getConnectionsByUsername(token, username);
       if (response.status === 200) setConnections(response.data);
       else throw Error();
     } catch (e) {
@@ -55,11 +75,13 @@ export default function useConnections() {
   };
 
   const reloadConnections = () => {
-    fetchConnections();
+    if (username === null) return null;
+    else if (username === undefined) fetchConnections();
+    else fetchConnectionsByUsername();
   };
 
   useEffect(() => {
-    fetchConnections();
+    reloadConnections();
   }, []);
 
   return {
