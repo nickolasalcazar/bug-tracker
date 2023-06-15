@@ -15,21 +15,17 @@ export default function SearchBar() {
       }}
     >
       <Search>
-        {/* <IconButton onClick={() => setActive(true)}> */}
         <SearchIconWrapper
           disableRipple
           onClick={(e) => {
             setActive(true);
-            // e.target.focus();
-            document.getElementById("nav-search-bar").focus();
+            // document.getElementById("nav-search-bar").focus();
           }}
         >
           <SearchIcon />
         </SearchIconWrapper>
-        {/* </IconButton> */}
         <StyledInputBase
           sx={{ display: active ? "block" : "none" }}
-          id="nav-search-bar"
           placeholder="Search…"
           inputProps={{ "aria-label": "search" }}
         />

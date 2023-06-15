@@ -25,15 +25,7 @@ export default function NavBar({ handleDrawerToggle }) {
           alignItems="center"
         >
           <Stack direction="row" spacing={1}>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              sx={{ display: { xl: "none" } }}
-            >
-              <MenuIcon fontSize="large" />
-            </IconButton>
+            <ToggleDrawer handleDrawerToggle={handleDrawerToggle} />
             <LogoFull />
           </Stack>
           <LogoSmall />
@@ -52,6 +44,18 @@ export default function NavBar({ handleDrawerToggle }) {
     </AppBar>
   );
 }
+
+const ToggleDrawer = ({ handleDrawerToggle }) => (
+  <IconButton
+    color="inherit"
+    aria-label="open drawer"
+    edge="start"
+    onClick={handleDrawerToggle}
+    sx={{ display: { xl: "none" } }}
+  >
+    <MenuIcon fontSize="large" />
+  </IconButton>
+);
 
 const LogoFull = () => (
   <>
