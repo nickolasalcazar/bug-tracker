@@ -93,8 +93,6 @@ export default function ConnectionButton({ user, refreshUser }) {
 
   let option;
 
-  console.log(user);
-
   if (user.connected === null) option = options.notConnected;
   else if (user.connected === true) option = options.connected;
   else if (user.connection_pending === true)
