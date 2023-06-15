@@ -109,8 +109,8 @@ export default function UserList({
                   primary={user.nickname}
                   secondary={`@${user.username}`}
                 />
-                <SecondaryActions user_id={user.user_id} />
               </Link>
+              <SecondaryActions user_id={user.user_id} />
             </ListItem>
             {index === users.length - 1 ? null : (
               <Divider variant="inset" component="li" />
