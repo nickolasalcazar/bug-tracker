@@ -5,9 +5,6 @@ const notifsRouter = Router();
 const controller = require("./controller");
 
 notifsRouter.use(jwtCheck);
-// notifsRouter.get("/", controller.getTasks);
-notifsRouter.get("/", (req, res) => {
-  res.sendStatus(200);
-});
+notifsRouter.get("/", controller.getNotifs);
 
 module.exports = notifsRouter;
