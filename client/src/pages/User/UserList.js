@@ -2,6 +2,7 @@ import * as React from "react";
 import {
   Avatar,
   Box,
+  Button,
   Divider,
   IconButton,
   List,
@@ -16,14 +17,17 @@ import useConnections from "../../hooks/useConnections";
 
 /**
  * Renders a list of users.
- * @param {array}     users         Array containing user data.
- * @param {function}  users         Callback for reloading connections.
- * @param {boolean}   renderOptions Renders options for managing connection.
+ * @param {array}    users              Array containing user data.
+ * @param {function} reloadConnections  Callback for reloading state.
+ * @param {object}   options            Options.
  */
 export default function UserList({
   users,
   reloadConnections,
-  renderOptions = false,
+  options = {
+    manageStatus: false,
+    viewProfile: true,
+  },
 }) {
   const { acceptConnection, removeConnection } = useConnections();
 
@@ -41,12 +45,21 @@ export default function UserList({
 
     return (
       <ListItemSecondaryAction>
-        <IconButton onClick={handleAdd}>
-          <AddIcon />
-        </IconButton>
-        <IconButton onClick={handleRemove}>
-          <RemoveIcon />
-        </IconButton>
+        {options.manageStatus ? (
+          <>
+            <IconButton onClick={handleAdd}>
+              <AddIcon />
+            </IconButton>
+            <IconButton onClick={handleRemove}>
+              <RemoveIcon />
+            </IconButton>
+          </>
+        ) : null}
+        {options.viewProfile ? (
+          <Button color="secondary" variant="outlined" size="small">
+            Profile
+          </Button>
+        ) : null}
       </ListItemSecondaryAction>
     );
   };
@@ -66,9 +79,7 @@ export default function UserList({
                 primary={user.nickname}
                 secondary={`@${user.username}`}
               />
-              {renderOptions ? (
-                <SecondaryActions user_id={user.user_id} />
-              ) : null}
+              <SecondaryActions user_id={user.user_id} />
             </ListItem>
             {index === users.length - 1 ? null : (
               <Divider variant="inset" component="li" />

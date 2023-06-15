@@ -74,7 +74,7 @@ export default function User() {
                 <UserList
                   users={notifs?.pendingConnections}
                   reloadConnections={reloadConnections}
-                  renderOptions={true}
+                  options={{ manageStatus: true }}
                 />
               }
             />
