@@ -56,6 +56,17 @@ module.exports = {
     console.log("Update user");
   },
 
+  getConnections: async (req, res) => {
+    const user_id = req.auth.payload.sub;
+    try {
+      const response = await db.query(queries.getConnections, [user_id]);
+      res.status(200).json(response.rows);
+    } catch (e) {
+      if (e.code == 23505) res.sendStatus(400);
+      else res.sendStatus(500);
+    }
+  },
+
   addConnection: async (req, res) => {
     const sender = req.auth.payload.sub;
     const receiver = req.params.id;
