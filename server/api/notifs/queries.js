@@ -1,9 +1,10 @@
 module.exports = {
   getPendingConnections: `
     SELECT                                        
-      sender AS sender_id,
-      sender.username AS sender_username,
-      sender.nickname AS sender_nickname,
+      sender AS user_id,
+      sender.username AS username,
+      sender.nickname AS nickname,
+      sender.picture AS picture,
       date_requested
     FROM user_connections c
     JOIN users u ON u.user_id = receiver
