@@ -1,8 +1,7 @@
-import * as React from "react";
+import { useState } from "react";
 import {
   Avatar,
   Box,
-  Button,
   Divider,
   IconButton,
   List,
@@ -10,9 +9,14 @@ import {
   ListItemAvatar,
   ListItemText,
   ListItemSecondaryAction,
+  Menu,
+  MenuItem,
+  Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import RemoveUserIcon from "@mui/icons-material/PersonRemoveRounded";
+import OptionsIcon from "@mui/icons-material/MoreVert";
 import useConnections from "../../hooks/useConnections";
 
 /**
@@ -25,14 +29,25 @@ export default function UserList({
   users,
   reloadConnections,
   options = {
-    manageStatus: false,
-    viewProfile: true,
+    pending: false,
+    connected: true,
   },
 }) {
   const { acceptConnection, removeConnection } = useConnections();
 
   // Additional options that are rendered when renderOptions = true.
   const SecondaryActions = ({ user_id }) => {
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
+
     const handleAdd = () => {
       acceptConnection(user_id);
       reloadConnections();
@@ -43,9 +58,10 @@ export default function UserList({
       reloadConnections();
     };
 
+    if (!options.connected && !options.pending) return null;
     return (
       <ListItemSecondaryAction>
-        {options.manageStatus ? (
+        {options.pending ? (
           <>
             <IconButton onClick={handleAdd}>
               <AddIcon />
@@ -55,10 +71,18 @@ export default function UserList({
             </IconButton>
           </>
         ) : null}
-        {options.viewProfile ? (
-          <Button color="secondary" variant="outlined" size="small">
-            Profile
-          </Button>
+        {options.connected ? (
+          <>
+            <IconButton onClick={handleClick}>
+              <OptionsIcon />
+            </IconButton>
+            <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+              <MenuItem onClick={() => handleRemove(user_id)} disableRipple>
+                <RemoveUserIcon pr={3} />
+                <Typography pl={2}>Remove</Typography>
+              </MenuItem>
+            </Menu>
+          </>
         ) : null}
       </ListItemSecondaryAction>
     );
