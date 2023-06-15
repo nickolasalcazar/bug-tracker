@@ -52,6 +52,16 @@ export const createUser = async (accessToken, user) =>
     },
   });
 
+export const getConnections = async (accessToken) =>
+  await callExternalApi({
+    url: `${endpoint}/api/user/connections`,
+    method: "GET",
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
 export const addConnection = async (accessToken, user_id) =>
   await callExternalApi({
     url: `${endpoint}/api/user/connections/add/${user_id}`,
