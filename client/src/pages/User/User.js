@@ -3,6 +3,7 @@ import { Link, Route, Routes, useMatch } from "react-router-dom";
 import { Avatar, Box, Chip, Container, Stack, Tab, Tabs } from "@mui/material";
 import useGetUserByParam from "../../hooks/useGetUserByParam";
 import ConnectionButton from "./ConnectionButton";
+import ConnectionList from "./ConnectList";
 
 /**
  * Component that displays info about a user, and provides inputs for managing
@@ -39,7 +40,7 @@ export default function User() {
         <Chip variant="outlined" color="secondary" label="Edit" clickable />
         <ConnectionButton user={user} refreshUser={refreshUser} />
       </Stack>
-      <Box>
+      <Container>
         <Tabs
           value={tabIndex}
           onChange={handleChange}
@@ -50,11 +51,14 @@ export default function User() {
           <Tab label="Connections" component={Link} to="connections" />
           <Tab label="Requests" component={Link} to="requests" />
         </Tabs>
-        <Routes>
-          <Route path="connections" element={<div>Tab Content 0</div>} />
-          <Route path="requests" element={<div>Tab Content 1</div>} />
-        </Routes>
-      </Box>
+        <Stack direction="column" alignItems="center">
+          <Routes>
+            {/* <Route path="connections" element={<div>Tab Content 0</div>} /> */}
+            <Route path="connections" element={<ConnectionList />} />
+            <Route path="requests" element={<ConnectionList />} />
+          </Routes>
+        </Stack>
+      </Container>
     </Container>
   );
 }
