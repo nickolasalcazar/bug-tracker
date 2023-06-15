@@ -1,17 +1,9 @@
 import React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/MenuRounded";
-import Toolbar from "@mui/material/Toolbar";
-import { Stack } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-
 import { NavLink } from "react-router-dom";
+import { AppBar, Box, IconButton, Stack, Toolbar } from "@mui/material";
+import MenuIcon from "@mui/icons-material/MenuRounded";
 import NotificationBell from "../NotificationBell";
 import ProfileNavButton from "../ProfileNavButton";
-import useUserProfile from "../../hooks/useUserProfile";
-
 const logoSize = "50px";
 
 /**
