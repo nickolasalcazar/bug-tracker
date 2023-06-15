@@ -3,7 +3,7 @@ import { Link, Route, Routes, useMatch } from "react-router-dom";
 import { Avatar, Box, Chip, Container, Stack, Tab, Tabs } from "@mui/material";
 import useGetUserByParam from "../../hooks/useGetUserByParam";
 import ConnectionButton from "./ConnectionButton";
-import ConnectionList from "./ConnectList";
+import ConnectionList from "./ConnectionList";
 
 /**
  * Component that displays info about a user, and provides inputs for managing
