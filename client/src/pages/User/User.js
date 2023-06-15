@@ -21,8 +21,8 @@ export default function User() {
   const matchReqs = useMatch("/user/:user/requests");
 
   useEffect(() => {
-    console.log(notifs);
-    console.log(connections);
+    console.log("notifs", notifs);
+    console.log("connections", connections);
   }, [notifs, connections]);
 
   useEffect(() => {
@@ -63,9 +63,18 @@ export default function User() {
         </Tabs>
         <Stack direction="column" alignItems="center">
           <Routes>
-            <Route path="" element={<ConnectionList />} />
-            <Route path="connections" element={<ConnectionList />} />
-            <Route path="requests" element={<ConnectionList />} />
+            <Route
+              path=""
+              element={<ConnectionList connections={connections} />}
+            />
+            <Route
+              path="connections"
+              element={<ConnectionList connections={connections} />}
+            />
+            <Route
+              path="requests"
+              element={<ConnectionList connections={connections} />}
+            />
           </Routes>
         </Stack>
       </Container>
