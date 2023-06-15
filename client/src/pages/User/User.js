@@ -3,6 +3,7 @@ import { Link, Route, Routes, useMatch } from "react-router-dom";
 import { Avatar, Box, Chip, Container, Stack, Tab, Tabs } from "@mui/material";
 import useGetUserByParam from "../../hooks/useGetUserByParam";
 import useNotifs from "../../hooks/useNotifs";
+import useConnections from "../../hooks/useConnections";
 import ConnectionButton from "./ConnectionButton";
 import ConnectionList from "./ConnectionList";
 
@@ -12,18 +13,17 @@ import ConnectionList from "./ConnectionList";
  */
 export default function User() {
   const { user, isLoading, error, refreshUser } = useGetUserByParam();
-  const {
-    notifs,
-    isLoading: notifsIsLoading,
-    error: notifsError,
-  } = useNotifs();
+  const { notifs } = useNotifs();
+  const { connections } = useConnections();
+
   const [tabIndex, setTabIndex] = React.useState(0);
   const matchConn = useMatch("/user/:user/connections");
   const matchReqs = useMatch("/user/:user/requests");
 
   useEffect(() => {
-    console.log("notifs", notifs);
-  });
+    console.log(notifs);
+    console.log(connections);
+  }, [notifs, connections]);
 
   useEffect(() => {
     if (isLoading || error) return;
