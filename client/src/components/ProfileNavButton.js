@@ -31,10 +31,6 @@ export default function ProfileNavButton({ sx }) {
     setAnchorEl(null);
   };
 
-  useEffect(() => {
-    console.log("user", user);
-  }, [user]);
-
   return (
     <Box sx={sx}>
       <IconButton
