@@ -18,7 +18,8 @@ module.exports = {
   getConnections: `SELECT
       user_id,
       username,
-      nickname
+      nickname,
+      picture
     FROM users
     WHERE user_id IN (
       (SELECT sender FROM user_connections
