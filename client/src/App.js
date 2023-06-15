@@ -93,7 +93,7 @@ function App() {
             <Route path="/projects/new" element={<NewProject />} />
             <Route path="/tasks/new" element={<TaskForm />} />
             <Route path="/user/*">
-              <Route path=":username" element={<User />} />
+              <Route path=":username/*" element={<User />} />
               <Route path="*" element={<User />} />
             </Route>
           </Route>
