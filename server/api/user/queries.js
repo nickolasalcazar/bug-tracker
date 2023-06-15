@@ -15,6 +15,17 @@ module.exports = {
     WHERE username = $1`,
   createUser:
     "INSERT INTO users(user_id, username, email, name, nickname, picture) VALUES ($1, $2, $3, $4, $5, $6)",
+  getConnections: `SELECT
+      user_id,
+      username,
+      nickname
+    FROM users
+    WHERE user_id IN (
+      (SELECT sender FROM user_connections
+        WHERE receiver = $1 AND connected = TRUE)
+      UNION
+      (SELECT receiver FROM user_connections
+        WHERE sender = $1  AND connected = TRUE))`,
   addConnection:
     "INSERT INTO user_connections(sender, receiver) VALUES ($1, $2)",
   removeConnection:
