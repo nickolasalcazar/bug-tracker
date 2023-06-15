@@ -9,11 +9,12 @@ import {
   ListItemAvatar,
 } from "@mui/material";
 
-export default function ConnectionList({ connections }) {
-  if (connections === null) return;
+export default function UserList({ users }) {
+  if (!users) return;
+  if (users.length === 0) return;
   return (
     <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-      {connections.map((user, index) => {
+      {users.map((user, index) => {
         return (
           <Box key={user.user_id}>
             <ListItem alignItems="flex-start">
@@ -25,7 +26,7 @@ export default function ConnectionList({ connections }) {
                 secondary={`@${user.username}`}
               />
             </ListItem>
-            {index === connections.length - 1 ? null : (
+            {index === users.length - 1 ? null : (
               <Divider variant="inset" component="li" />
             )}
           </Box>

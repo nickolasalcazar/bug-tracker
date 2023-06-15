@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 import { Link, Route, Routes, useMatch } from "react-router-dom";
-import { Avatar, Box, Chip, Container, Stack, Tab, Tabs } from "@mui/material";
+import { Avatar, Chip, Container, Stack, Tab, Tabs } from "@mui/material";
 import useGetUserByParam from "../../hooks/useGetUserByParam";
 import useNotifs from "../../hooks/useNotifs";
 import useConnections from "../../hooks/useConnections";
 import ConnectionButton from "./ConnectionButton";
-import ConnectionList from "./ConnectionList";
-import RequestList from "./RequestList";
+import UserList from "./UserList";
 
 /**
  * Component that displays info about a user, and provides inputs for managing
@@ -64,17 +63,14 @@ export default function User() {
         </Tabs>
         <Stack direction="column" alignItems="center">
           <Routes>
-            <Route
-              path=""
-              element={<ConnectionList connections={connections} />}
-            />
+            <Route path="" element={<UserList users={connections} />} />
             <Route
               path="connections"
-              element={<ConnectionList connections={connections} />}
+              element={<UserList users={connections} />}
             />
             <Route
               path="requests"
-              element={<RequestList connections={notifs.pendingConnections} />}
+              element={<UserList users={notifs.pendingConnections} />}
             />
           </Routes>
         </Stack>
