@@ -62,6 +62,27 @@ export const getConnections = async (accessToken) =>
     },
   });
 
+export const getConnectionsByUsername = async (accessToken, username) =>
+  await callExternalApi({
+    url: `${endpoint}/api/user/connections/${username}`,
+    method: "GET",
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+// Get pending connections of logged-in user
+export const getPendingConnections = async (accessToken) =>
+  await callExternalApi({
+    url: `${endpoint}/api/user/connections/pending`,
+    method: "GET",
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
 export const addConnection = async (accessToken, user_id) =>
   await callExternalApi({
     url: `${endpoint}/api/user/connections/add/${user_id}`,
