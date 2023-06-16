@@ -27,17 +27,16 @@ module.exports = {
       UNION
       (SELECT receiver FROM user_connections
         WHERE sender = $1  AND connected = TRUE))`,
-  getConnectionsByUsername: `SELECT
-        other.user_id,
-        other.username,
-        other.nickname,
-        other.picture
-      FROM users curr
-      JOIN user_connections uc ON
-        (sender = curr.user_id OR receiver = curr.user_id)
-      JOIN users other 
-        ON (uc.sender = other.user_id OR uc.receiver = other.user_id)
-      WHERE curr.username = $1 AND other.username != $1 AND uc.connected = TRUE`,
+  getPendingConnections: `SELECT                                        
+      sender AS user_id,
+      sender.username AS username,
+      sender.nickname AS nickname,
+      sender.picture AS picture,
+      date_requested
+    FROM user_connections c
+    JOIN users u ON u.user_id = receiver
+    JOIN users sender ON sender.user_id = sender
+    WHERE receiver = $1 AND u.user_id = $1 AND pending = TRUE`,
   getPendingConnectionsByUsername: `SELECT
         other.user_id,
         other.username,
