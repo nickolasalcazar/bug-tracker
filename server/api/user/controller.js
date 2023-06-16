@@ -56,6 +56,7 @@ module.exports = {
     console.log("Update user");
   },
 
+  // Gets connections belonging to the sub provided in req.auth.payload.sub.
   getConnections: async (req, res) => {
     const user_id = req.auth.payload.sub;
     try {
@@ -64,6 +65,29 @@ module.exports = {
     } catch (e) {
       if (e.code == 23505) res.sendStatus(400);
       else res.sendStatus(500);
+    }
+  },
+
+  // Gets connections belonging to the username provided as a URL param.
+  getConnectionsByUsername: async (req, res) => {
+    const username = req.params.username;
+    try {
+      const response = await db.query(queries.getConnectionsByUsername, [
+        username,
+      ]);
+      res.status(200).json(response.rows);
+    } catch (e) {
+      res.sendStatus(400);
+    }
+  },
+
+  getPendingConnections: async (req, res) => {
+    const user_id = req.auth.payload.sub;
+    try {
+      const response = await db.query(queries.getPendingConnections, [user_id]);
+      res.status(200).json(response.rows);
+    } catch (e) {
+      res.sendStatus(400);
     }
   },
 
