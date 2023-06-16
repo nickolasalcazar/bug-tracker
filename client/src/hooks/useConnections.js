@@ -50,28 +50,49 @@ export default function useConnections(username) {
     }
   };
 
+  /**
+   * Creates a connection request between two users.
+   * Returns true if successful, false otherwise.
+   */
   const addConnection = async (user_id) => {
     try {
       const token = await getAccessTokenSilently();
       const response = await doAdd(token, user_id);
       console.log("response", response);
-    } catch (e) {}
+      return response.status === 201;
+    } catch (e) {
+      return false;
+    }
   };
 
+  /**
+   * Accepts a connection request between two users.
+   * Returns true if successful, false otherwise.
+   */
   const acceptConnection = async (user_id) => {
     try {
       const token = await getAccessTokenSilently();
       const response = await doAccept(token, user_id);
       console.log("response", response);
-    } catch (e) {}
+      return response.status === 200;
+    } catch (e) {
+      return false;
+    }
   };
 
+  /**
+   * Removes a connection request between two users.
+   * Returns true if successful, false otherwise.
+   */
   const removeConnection = async (user_id) => {
     try {
       const token = await getAccessTokenSilently();
       const response = await doRemove(token, user_id);
       console.log("response", response);
-    } catch (e) {}
+      return response.status === 200;
+    } catch (e) {
+      return false;
+    }
   };
 
   const reloadConnections = () => {
