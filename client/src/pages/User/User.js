@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { Link, Route, Routes, useMatch } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 import { Avatar, Chip, Container, Stack, Tab, Tabs } from "@mui/material";
 import useGetUserByParam from "../../hooks/useGetUserByParam";
-import useNotifs from "../../hooks/useNotifs";
 import useConnections from "../../hooks/useConnections";
+import usePendingConnections from "../../hooks/usePendingConnections";
 import ConnectionButton from "./ConnectionButton";
 import UserList from "./UserList";
 
@@ -12,21 +13,26 @@ import UserList from "./UserList";
  * user relationships.
  */
 export default function User() {
+  const { user: userAuth0 } = useAuth0();
   const { user, isLoading, error, refreshUser } = useGetUserByParam();
-  const { notifs } = useNotifs();
-  const { connections, reloadConnections } = useConnections();
+  const { pendingConnections, reloadPendingConnections } =
+    usePendingConnections();
+  const { connections, reloadConnections } = useConnections(user?.username);
 
   const [tabIndex, setTabIndex] = React.useState(0);
   const matchConn = useMatch("/user/:user/connections");
   const matchReqs = useMatch("/user/:user/requests");
 
-  useEffect(() => {
-    console.log("notifs", notifs);
-    console.log("connections", connections);
-  }, [notifs, connections]);
+  const reloadUserList = () => {
+    reloadConnections();
+    reloadPendingConnections();
+    refreshUser();
+  };
 
   useEffect(() => {
     if (isLoading || error) return;
+    reloadConnections();
+    reloadPendingConnections();
   }, [user, isLoading]);
 
   useEffect(() => {
@@ -59,25 +65,42 @@ export default function User() {
           indicatorColor="secondary"
         >
           <Tab label="Connections" component={Link} to="connections" />
-          <Tab label="Requests" component={Link} to="requests" />
+          {user.user_id !== userAuth0.sub ? null : (
+            <Tab label="Requests" component={Link} to="requests" />
+          )}
         </Tabs>
         <Stack direction="column" alignItems="center">
           <Routes>
-            <Route path="" element={<UserList users={connections} />} />
             <Route
-              path="connections"
-              element={<UserList users={connections} />}
-            />
-            <Route
-              path="requests"
+              path=""
               element={
                 <UserList
-                  users={notifs?.pendingConnections}
-                  reloadConnections={reloadConnections}
-                  options={{ manageStatus: true }}
+                  users={connections}
+                  reloadConnections={reloadUserList}
                 />
               }
             />
+            <Route
+              path="connections"
+              element={
+                <UserList
+                  users={connections}
+                  reloadConnections={reloadUserList}
+                />
+              }
+            />
+            {user.user_id !== userAuth0.sub ? null : (
+              <Route
+                path="requests"
+                element={
+                  <UserList
+                    users={pendingConnections}
+                    reloadConnections={reloadUserList}
+                    options={{ pending: true, connected: false }}
+                  />
+                }
+              />
+            )}
           </Routes>
         </Stack>
       </Container>
