@@ -10,7 +10,10 @@ userRouter.use(jwtCheck);
 userRouter.get("/connections/add/:id", controller.addConnection);
 userRouter.get("/connections/remove/:id", controller.removeConnection);
 userRouter.get("/connections/accept/:id", controller.acceptConnection);
-userRouter.get("/connections", controller.getConnections);
+userRouter.get("/connections/pending", controller.getPendingConnections);
+userRouter.get("/connections/:username", controller.getConnectionsByUsername);
+// TODO: add 'add' 'remove' 'accept' 'pending' to restricted usernames
+userRouter.get("/connections/", controller.getConnections);
 
 userRouter.get("/id/:id", controller.getUserById);
 userRouter.get("/username/:username", controller.getUserByUsername);
