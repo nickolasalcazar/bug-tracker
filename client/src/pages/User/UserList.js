@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 import {
   Avatar,
@@ -34,6 +35,7 @@ export default function UserList({
     connected: true,
   },
 }) {
+  const { user: userAuth0 } = useAuth0();
   const { acceptConnection, removeConnection } = useConnections();
 
   // Additional options that are rendered when renderOptions = true.
@@ -59,6 +61,12 @@ export default function UserList({
       reloadConnections();
     };
 
+    if (userAuth0.sub === user_id)
+      return (
+        <ListItemSecondaryAction>
+          <Typography variant="body2" children="(You)" />
+        </ListItemSecondaryAction>
+      );
     if (!options.connected && !options.pending) return null;
     return (
       <ListItemSecondaryAction>
