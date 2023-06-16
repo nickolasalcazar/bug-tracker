@@ -1,199 +1,96 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Button, ButtonGroup, Menu, MenuItem, Typography } from "@mui/material";
-import AddUserIcon from "@mui/icons-material/PersonAddRounded";
-import RemoveUserIcon from "@mui/icons-material/PersonRemoveRounded";
-import CancelIcon from "@mui/icons-material/CloseRounded";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-
-import {
-  addConnection,
-  acceptConnection,
-  removeConnection,
-} from "../../services/user.api";
-
-const WIDTH = 165;
+import { Chip } from "@mui/material";
+import useConnections from "../../hooks/useConnections";
 
 /**
- * Button for requesting, accepting/rejecting to connect with another user.
+ * A button for adding, accepting, or removing a connection request.
+ *
+ * @param {object}    user    Object that contains details about the user.
+ * @param {function}  refresh Function for reloading parent state.
  */
-export default function ConnectionButton({ user, refreshUser }) {
-  const { getAccessTokenSilently, user: loggedInUser } = useAuth0();
+export default function ConnectionButton({ user, refresh }) {
+  const { user: loggedInUser } = useAuth0();
+  const { addConnection, removeConnection, acceptConnection } =
+    useConnections();
 
-  // If the profile belongs to logged in user, return null
-  if (user.user_id === loggedInUser.sub) return null;
+  const [status, setStatus] = useState(checkStatus());
 
-  const handleAddConnection = async () => {
-    console.log("handleAddConnection");
-    try {
-      const accessToken = await getAccessTokenSilently();
-      const response = await addConnection(accessToken, user.user_id);
-      console.log("response", response);
-      refreshUser();
-    } catch (e) {}
+  function checkStatus() {
+    if (user.connected === null) return "not connected";
+    else if (user.connected === true) return "connected";
+    else if (user.connection_pending === true)
+      if (user.sender === loggedInUser.sub) return "sent request";
+      else return "received request";
+  }
+
+  useEffect(() => {
+    setStatus(checkStatus);
+  }, [user]);
+
+  const handleAdd = async () => {
+    if (await addConnection(user.user_id)) {
+      setStatus("sent request");
+      refresh();
+    }
   };
 
-  const handleAcceptConnection = async () => {
-    console.log("handleAcceptConnection");
-    try {
-      const accessToken = await getAccessTokenSilently();
-      const response = await acceptConnection(accessToken, user.user_id);
-      console.log("response", response);
-      refreshUser();
-    } catch (e) {}
+  const handleAccept = async () => {
+    if (await acceptConnection(user.user_id)) {
+      setStatus("request received");
+      refresh();
+    }
   };
 
-  // Handle rejecting & removing a connection
-  const handleRemoveConnection = async () => {
-    console.log("handleRemoveConnection");
-    try {
-      const accessToken = await getAccessTokenSilently();
-      const response = await removeConnection(accessToken, user.user_id);
-      console.log("response", response);
-      refreshUser();
-    } catch (e) {}
+  const handleRemove = async () => {
+    if (await removeConnection(user.user_id)) {
+      setStatus("not connected");
+      refresh();
+    }
   };
 
-  const options = {
-    notConnected: {
-      key: "notConnected",
-      handler: handleAddConnection,
-      label: "Connect",
-      icon: <AddUserIcon />,
-      variant: "contained",
-      disabled: false,
-    },
-    connected: {
-      key: "connected",
-      handler: handleRemoveConnection,
-      label: "Remove Connection",
-      icon: <RemoveUserIcon />,
-      variant: "contained",
-      disabled: false,
-    },
-    respond: {
-      key: "respond",
-      handler: handleAcceptConnection,
-      label: "Respond",
-      icon: <AddUserIcon />,
-      variant: "contined",
-      disabled: false,
-    },
-    pending: {
-      key: "pending",
-      // handler: null,
-      handler: handleRemoveConnection,
-      // label: "Requested",
-      label: "Cancel Request",
-      icon: <CancelIcon />,
-      variant: "outlined",
-      disabled: false,
-    },
-  };
-
-  let option;
-
-  if (user.connected === null) option = options.notConnected;
-  else if (user.connected === true) option = options.connected;
-  else if (user.connection_pending === true)
-    if (user.sender === loggedInUser.sub) option = options.pending;
-    else option = options.respond;
-
-  // console.log("option", option);
-
-  const RespondButton = () => {
+  // Add yser to components; React sees no change
+  if (loggedInUser.sub === user.user_id) return null;
+  else if (status === "not connected") {
     return (
-      <ButtonGroup
-        variant="contained"
+      <Chip
+        key={`${user.username} ${status}`}
+        label="Connect"
         color="secondary"
-        size="small"
-        style={{
-          maxWidth: WIDTH * 2,
-          minWidth: WIDTH * 2,
-        }}
-      >
-        <Button
-          onClick={handleRemoveConnection}
-          variant="outlined"
-          style={{
-            maxWidth: WIDTH - 50,
-            minWidth: WIDTH - 50,
-          }}
-        >
-          Ignore
-        </Button>
-        <Button
-          onClick={handleAcceptConnection}
-          startIcon={options.notConnected.icon}
-          style={{
-            maxWidth: WIDTH + 50,
-            minWidth: WIDTH + 50,
-          }}
-        >
-          Accept Connection
-        </Button>
-      </ButtonGroup>
+        clickable
+        onClick={handleAdd}
+      />
     );
-  };
-
-  const ConnectedButton = () => {
-    const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-      setAnchorEl(null);
-    };
-
+  } else if (status === "connected") {
     return (
-      <>
-        <Button
-          variant="contained"
-          color="secondary"
-          disableElevation
-          onClick={handleClick}
-          endIcon={<KeyboardArrowDownIcon />}
-          style={{
-            maxWidth: WIDTH,
-            minWidth: WIDTH,
-          }}
-        >
-          Connected
-        </Button>
-        <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-          <MenuItem
-            onClick={() => {
-              handleRemoveConnection();
-              handleClose();
-            }}
-            disableRipple
-          >
-            <RemoveUserIcon pr={3} />
-            <Typography pl={2}>Remove</Typography>
-          </MenuItem>
-        </Menu>
-      </>
-    );
-  };
-
-  if (option.key === "respond") return <RespondButton />;
-  else if (option.key === "connected") return <ConnectedButton />;
-  else
-    return (
-      <Button
-        onClick={option.handler}
-        variant={option.variant}
+      <Chip
+        key={`${user.username} ${status}`}
+        label="Connected"
         color="secondary"
-        endIcon={option.icon}
-        size="small"
-        disabled={option.disabled}
-        style={{
-          maxWidth: WIDTH,
-          minWidth: WIDTH,
-        }}
-      >
-        {option.label}
-      </Button>
+        clickable
+        onClick={handleRemove}
+      />
     );
+  } else if (status === "sent request") {
+    return (
+      <Chip
+        key={`${user.username} ${status}`}
+        label="Cancel Request"
+        color="secondary"
+        variant="outlined"
+        clickable
+        onClick={handleRemove}
+      />
+    );
+  } else if (status === "received request") {
+    return (
+      <Chip
+        key={`${user.username} ${status}`}
+        label="Received Connection (Accept)"
+        color="secondary"
+        clickable
+        onClick={handleAccept}
+      />
+    );
+  }
 }

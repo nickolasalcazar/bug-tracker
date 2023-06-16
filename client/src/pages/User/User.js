@@ -23,7 +23,7 @@ export default function User() {
   const matchConn = useMatch("/user/:user/connections");
   const matchReqs = useMatch("/user/:user/requests");
 
-  const reloadUserList = () => {
+  const refreshUserComponent = () => {
     reloadConnections();
     reloadPendingConnections();
     refreshUser();
@@ -54,7 +54,7 @@ export default function User() {
         <h2>{user.nickname}</h2>
         <h3>@{user.username}</h3>
         <Chip variant="outlined" color="secondary" label="Edit" clickable />
-        <ConnectionButton user={user} refreshUser={refreshUser} />
+        <ConnectionButton user={user} refresh={refreshUserComponent} />
       </Stack>
       <Container>
         <Tabs
@@ -76,7 +76,7 @@ export default function User() {
               element={
                 <UserList
                   users={connections}
-                  reloadConnections={reloadUserList}
+                  reloadConnections={refreshUserComponent}
                 />
               }
             />
@@ -85,7 +85,7 @@ export default function User() {
               element={
                 <UserList
                   users={connections}
-                  reloadConnections={reloadUserList}
+                  reloadConnections={refreshUserComponent}
                 />
               }
             />
@@ -95,7 +95,7 @@ export default function User() {
                 element={
                   <UserList
                     users={pendingConnections}
-                    reloadConnections={reloadUserList}
+                    reloadConnections={refreshUserComponent}
                     options={{ pending: true, connected: false }}
                   />
                 }
