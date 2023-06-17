@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box, Chip, Stack, Typography } from "@mui/material";
+import { Box, Chip, Menu, MenuItem, Stack, Typography } from "@mui/material";
 import useConnections from "../../hooks/useConnections";
 
 import AddUserIcon from "@mui/icons-material/PersonAddRounded";
 import RemoveUserIcon from "@mui/icons-material/PersonRemoveRounded";
 import CancelIcon from "@mui/icons-material/CloseRounded";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import DownArrowIcon from "@mui/icons-material/KeyboardArrowDown";
 
 /**
  * A button for adding, accepting, or removing a connection request.
@@ -55,67 +55,83 @@ export default function ConnectionButton({ user, refresh }) {
   };
 
   const Connected = () => {
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
     return (
-      <Chip
-        label="Connected (Manage Connection)"
-        color="secondary"
-        clickable
-        onClick={handleRemove}
-      />
+      <>
+        <Chip
+          label="Connected"
+          color="secondary"
+          clickable
+          onClick={(e) => {
+            setAnchorEl(e.currentTarget);
+          }}
+          icon={<DownArrowIcon />}
+        />
+        <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+          <MenuItem
+            onClick={() => {
+              handleRemove();
+              handleClose();
+            }}
+            disableRipple
+          >
+            <RemoveUserIcon pr={3} />
+            <Typography pl={2}>Remove</Typography>
+          </MenuItem>
+        </Menu>
+      </>
     );
   };
 
-  const NotConnected = () => {
-    return (
-      <Chip
-        label="Connect"
-        color="secondary"
-        clickable
-        onClick={handleAdd}
-        icon={<AddUserIcon />}
-      />
-    );
-  };
+  const NotConnected = () => (
+    <Chip
+      label="Connect"
+      color="secondary"
+      clickable
+      onClick={handleAdd}
+      icon={<AddUserIcon />}
+    />
+  );
 
-  const SentRequest = () => {
-    return (
-      <Chip
-        label="Cancel Request"
-        variant="outlined"
-        clickable
-        onClick={handleRemove}
-        icon={<CancelIcon />}
-      />
-    );
-  };
+  const SentRequest = () => (
+    <Chip
+      label="Cancel Request"
+      variant="outlined"
+      clickable
+      onClick={handleRemove}
+      icon={<CancelIcon />}
+    />
+  );
 
-  const ReceivedRequest = () => {
-    return (
-      <Stack direction="column" spacing={1}>
-        <Typography variant="body2" textAlign="center">
-          Connection Request:
-        </Typography>
-        <Stack direction="row" spacing={1} alignItems="center">
-          <Chip
-            label="Decline"
-            variant="outlined"
-            color="primary"
-            clickable
-            onClick={handleRemove}
-            icon={<CancelIcon />}
-          />
-          <Chip
-            label="Accept Connection"
-            variant="contained"
-            color="secondary"
-            clickable
-            onClick={handleAccept}
-            icon={<AddUserIcon />}
-          />
-        </Stack>
+  const ReceivedRequest = () => (
+    <Stack direction="column" spacing={1}>
+      <Typography variant="body2" textAlign="center">
+        Connection Request:
+      </Typography>
+      <Stack direction="row" spacing={1} alignItems="center">
+        <Chip
+          label="Decline"
+          variant="outlined"
+          color="primary"
+          clickable
+          onClick={handleRemove}
+          icon={<CancelIcon />}
+        />
+        <Chip
+          label="Accept Connection"
+          variant="contained"
+          color="secondary"
+          clickable
+          onClick={handleAccept}
+          icon={<AddUserIcon />}
+        />
       </Stack>
-    );
-  };
+    </Stack>
+  );
 
   if (loggedInUser.sub === user.user_id) return null;
   return (
@@ -126,47 +142,4 @@ export default function ConnectionButton({ user, refresh }) {
       {status === "received request" ? <ReceivedRequest /> : null}
     </Box>
   );
-
-  // if (status === "not connected") {
-  //   return (
-  //     <Chip
-  //       key={`${user.username} ${status}`}
-  //       label="Connect"
-  //       color="secondary"
-  //       clickable
-  //       onClick={handleAdd}
-  //     />
-  //   );
-  // } else if (status === "connected") {
-  //   return (
-  //     <Chip
-  //       key={`${user.username} ${status}`}
-  //       label="Connected"
-  //       color="secondary"
-  //       clickable
-  //       onClick={handleRemove}
-  //     />
-  //   );
-  // } else if (status === "sent request") {
-  //   return (
-  //     <Chip
-  //       key={`${user.username} ${status}`}
-  //       label="Cancel Request"
-  //       color="secondary"
-  //       variant="outlined"
-  //       clickable
-  //       onClick={handleRemove}
-  //     />
-  //   );
-  // } else if (status === "received request") {
-  //   return (
-  //     <Chip
-  //       key={`${user.username} ${status}`}
-  //       label="Received Connection (Accept)"
-  //       color="secondary"
-  //       clickable
-  //       onClick={handleAccept}
-  //     />
-  //   );
-  // }
 }
