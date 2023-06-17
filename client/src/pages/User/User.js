@@ -53,8 +53,13 @@ export default function User() {
         <Avatar src={user.picture} sx={{ width: 100, height: 100 }} />
         <h2>{user.nickname}</h2>
         <h3>@{user.username}</h3>
-        <Chip variant="outlined" color="secondary" label="Edit" clickable />
-        <ConnectionButton user={user} refresh={refreshUserComponent} />
+        <Stack direction="row" gap={1}>
+          {/* Edit Profile temporarily disabled */}
+          {/* {userAuth0.sub === user.user_id ? (
+            <Chip variant="outlined" color="secondary" label="Edit" clickable />
+          ) : null} */}
+          <ConnectionButton user={user} refresh={refreshUserComponent} />
+        </Stack>
       </Stack>
       <Container>
         <Tabs
