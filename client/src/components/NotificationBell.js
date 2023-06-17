@@ -1,7 +1,17 @@
-import React, { useState } from "react";
-import { Box, IconButton, Menu, MenuItem } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  IconButton,
+  ListItemIcon,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@mui/material";
 import NotifNoneIcon from "@mui/icons-material/NotificationsNoneRounded";
 import NotifIcon from "@mui/icons-material/NotificationsActiveRounded";
+import AddUserIcon from "@mui/icons-material/PersonAddRounded";
+import usePendingConnections from "../hooks/usePendingConnections";
 
 /**
  * Renders a bell icon for accessing notifications.
@@ -9,6 +19,15 @@ import NotifIcon from "@mui/icons-material/NotificationsActiveRounded";
 export default function NotificationBell({ display }) {
   const menuId = "notif-menu";
   const [anchorEl, setAnchorEl] = useState(null);
+  const {
+    pendingConnections: connections,
+    reloadPendingConnections: reloadConnections,
+  } = usePendingConnections();
+
+  const refreshBell = () => {
+    reloadConnections();
+  };
+
   const isOpen = Boolean(anchorEl);
 
   const handleOpen = (event) => {
@@ -17,6 +36,7 @@ export default function NotificationBell({ display }) {
 
   const handleClose = () => {
     setAnchorEl(null);
+    refreshBell();
   };
 
   return (
@@ -24,58 +44,87 @@ export default function NotificationBell({ display }) {
       <IconButton
         size="large"
         edge="end"
-        aria-label="more navigation options"
         aria-controls={menuId}
-        aria-haspopup="true"
-        onClick={handleOpen}
+        onClick={connections?.length === 0 ? null : handleOpen}
         color="inherit"
         sx={{ display: display }}
       >
-        <NotifNoneIcon />
-        {/* <NotifIcon /> */}
+        {connections?.length === 0 ? <NotifNoneIcon /> : <NotifIcon />}
       </IconButton>
       <NotifMenu
-        anchorEl={anchorEl}
-        menuId={menuId}
-        isOpen={isOpen}
-        handleClose={handleClose}
+        options={{
+          anchorEl: anchorEl,
+          menuId: menuId,
+          isOpen: isOpen,
+          handleClose: handleClose,
+        }}
+        connections={connections}
       />
     </>
   );
 }
 
 /**
- * A menu that is rendered when NotificationBell is clicked.
+ * The menu that is rendered when NotificationBell is clicked.
  *
  * @param {any}       anchorEl
  * @param {string}    menuId
  * @param {bool}      isOpen
  * @param {function}  handleClose
  */
-function NotifMenu({ anchorEl, menuId, isOpen, handleClose }) {
+function NotifMenu({ options, connections }) {
+  const Connections = () => {
+    if (connections === null) return null;
+    if (connections.length === 0) return null;
+    return (
+      <>
+        {connections.map((connection, i) => (
+          <MenuItem
+            key={`connection-${i}`}
+            component={Link}
+            to={`/user/${connection.username}`}
+            onClick={options.handleClose}
+          >
+            <ListItemIcon>
+              <NotifIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>
+              <Typography noWrap component="span">
+                Connection request from{" "}
+              </Typography>
+              <Typography fontWeight="bold" noWrap component="span">
+                @{connection.username}
+              </Typography>
+            </ListItemText>
+          </MenuItem>
+        ))}
+      </>
+    );
+  };
+
   return (
     <Menu
-      anchorEl={anchorEl}
+      anchorEl={options.anchorEl}
       anchorOrigin={{
         vertical: "top",
         horizontal: "right",
       }}
-      id={menuId}
+      id={options.menuId}
       keepMounted
       transformOrigin={{
         vertical: "top",
         horizontal: "right",
       }}
-      open={isOpen}
-      onClose={handleClose}
+      open={options.isOpen}
+      onClose={options.handleClose}
       sx={{
         mt: "45px",
       }}
     >
-      <MenuItem>Notification</MenuItem>
-      <MenuItem>Notification</MenuItem>
-      <MenuItem>Notification</MenuItem>
-      <MenuItem>Notification</MenuItem>
+      <MenuItem disabled divider>
+        <Typography variant="subtitle1">Notifications</Typography>
+      </MenuItem>
+      <Connections />
     </Menu>
   );
 }
