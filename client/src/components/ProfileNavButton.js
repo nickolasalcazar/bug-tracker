@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import {
   Avatar,
-  Badge,
   Box,
   IconButton,
   ListItemIcon,
@@ -11,11 +10,12 @@ import {
 } from "@mui/material";
 
 import PersonIcon from "@mui/icons-material/PersonOutlineOutlined";
-import NotifNoneIcon from "@mui/icons-material/NotificationsNoneRounded";
-import NotifIcon from "@mui/icons-material/NotificationsActiveRounded";
+import LogoutIcon from "@mui/icons-material/LogoutRounded";
+import LoginIcon from "@mui/icons-material/LoginRounded";
+
 import useUserProfile from "../hooks/useUserProfile";
 import LogoutButton from "./Logout";
-import LogoutIcon from "@mui/icons-material/LogoutRounded";
+import LoginButton from "./Login";
 
 export default function ProfileNavButton({ sx }) {
   const { userProfile: user } = useUserProfile();
@@ -40,27 +40,10 @@ export default function ProfileNavButton({ sx }) {
         onClick={handleOpen}
         color="inherit"
       >
-        <Badge
-          overlap="circular"
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          badgeContent={
-            <NotifIcon
-              fontSize="small"
-              sx={{
-                display: {
-                  xs: "block",
-                  sm: "block",
-                  md: "none",
-                },
-              }}
-            />
-          }
-        >
-          <Avatar
-            src={user === null ? null : user.picture}
-            alt={user === null ? null : user.nickname}
-          />
-        </Badge>
+        <Avatar
+          src={user === null ? null : user.picture}
+          alt={user === null ? null : user.nickname}
+        />
       </IconButton>
       <ProfileMenu
         user={user}
@@ -82,7 +65,6 @@ export default function ProfileNavButton({ sx }) {
  * @param {function}  handleClose
  */
 function ProfileMenu({ user, anchorEl, menuId, isOpen, handleClose }) {
-  if (user === null) return;
   return (
     <Menu
       anchorEl={anchorEl}
@@ -102,15 +84,7 @@ function ProfileMenu({ user, anchorEl, menuId, isOpen, handleClose }) {
         mt: "45px",
       }}
     >
-      <NavLink to="/dashboard" ml={2}>
-        <MenuItem onClick={handleClose} divider>
-          <ListItemIcon>
-            <NotifNoneIcon fontSize="small" />
-          </ListItemIcon>
-          Notifications
-        </MenuItem>
-      </NavLink>
-      <NavLink to={`/user/${user.username}`} ml={2}>
+      <NavLink to={user === null ? "/user" : `/user/${user.username}`} ml={2}>
         <MenuItem onClick={handleClose} divider>
           <ListItemIcon>
             <PersonIcon fontSize="small" />
@@ -119,10 +93,16 @@ function ProfileMenu({ user, anchorEl, menuId, isOpen, handleClose }) {
         </MenuItem>
       </NavLink>
       <MenuItem>
-        <ListItemIcon>
-          <LogoutIcon fontSize="small" />
-        </ListItemIcon>
-        <LogoutButton />
+        {user === null ? (
+          <ListItemIcon>
+            <LoginIcon fontSize="small" />
+          </ListItemIcon>
+        ) : (
+          <ListItemIcon>
+            <LogoutIcon fontSize="small" />
+          </ListItemIcon>
+        )}
+        {user === null ? <LoginButton /> : <LogoutButton />}
       </MenuItem>
     </Menu>
   );
