@@ -65,14 +65,6 @@ export default function LeftDrawer({
             <ListItemText primary={"Subscribed"} />
           </ListItemButton>
         </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <StarOutlineIcon />
-            </ListItemIcon>
-            <ListItemText primary={"Starred"} />
-          </ListItemButton>
-        </ListItem>
         <Divider />
       </List>
     </>
