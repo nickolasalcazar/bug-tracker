@@ -1,4 +1,3 @@
-import { createContext } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
 import "./App.css";
 
@@ -13,11 +12,9 @@ import User from "./pages/User/User";
 import Projects from "./pages/Projects";
 import NewProject from "./pages/NewProject";
 
-import { createTheme, CssBaseline, Paper, ThemeProvider } from "@mui/material";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import { TasksProvider } from "./context/TasksContext";
 import Dashboard from "./pages/Dashboard";
-
-export const UserContext = createContext(null);
 
 function App() {
   const { isLoading } = useAuth0();
