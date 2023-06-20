@@ -29,9 +29,9 @@ import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreenRounded";
 import CloseIcon from "@mui/icons-material/CloseRounded";
 import TagIcon from "@mui/icons-material/LocalOfferOutlined";
 import CalendarIcon from "@mui/icons-material/CalendarMonthOutlined";
-// import OpenInNewIcon from "@mui/icons-material/OpenInNewRounded";
 import LinkIcon from "@mui/icons-material/InsertLinkOutlined";
 
+import TaskWrapper from "./TaskWrapper";
 import useGetTaskByParam from "../hooks/useGetTaskByParam";
 import { deleteTask } from "../services/task.api";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -86,218 +86,230 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
 
   return (
     <>
-      <List>
-        <ListItem>
-          <Box
-            sx={{
-              width: "100%",
-              height: 30,
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-end",
-              gap: 1,
-            }}
-          >
-            <Box sx={{ flex: 1, display: "flex", alignContent: "center" }}>
-              <Typography
-                sx={{
-                  fontSize: "14px",
-                  display: "flex",
-                  alignItems: "center",
-                  flexWrap: "wrap",
-                }}
-                component="p"
-              >
-                <TaskIcon fontSize="small" sx={{ pr: 0.5, pt: "2.5px" }} />
-                {data.task_id}
-              </Typography>
-            </Box>
-            <Button
-              component={Link}
-              onClick={handleClickOpen}
-              color="secondary"
-              variant="outlined"
-              size="small"
+      <TaskWrapper>
+        <List>
+          <ListItem>
+            <Box
+              sx={{
+                width: "100%",
+                height: 30,
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-end",
+                gap: 1,
+              }}
             >
-              Delete
-            </Button>
-            <Button
-              component={Link}
-              to={`/dashboard/task/form/${data.task_id}`}
-              color="secondary"
-              variant="contained"
-              size="small"
-            >
-              Edit
-            </Button>
-            {renderTable ? (
-              <IconButton onClick={() => setRenderTable(false)}>
-                <FullscreenIcon />
-              </IconButton>
-            ) : (
-              <IconButton onClick={() => setRenderTable(true)}>
-                <CloseFullscreenIcon />
-              </IconButton>
-            )}
-            <IconButton
-              component={Link}
-              to="/dashboard"
-              onClick={() => setRenderTable(true)}
-            >
-              <CloseIcon />
-            </IconButton>
-          </Box>
-        </ListItem>
-        <ListItem sx={{ pb: 0 }}>
-          <Typography variant="h6" component="h2" fontWeight="medium">
-            {data.title}
-          </Typography>
-        </ListItem>
-        <ListItem>
-          <Stack direction="row" spacing={1}>
-            <Chip size="small" label={`Status: ${data.status}`} />
-            <Chip size="small" label={`Priority: ${data.priority}`} />
-          </Stack>
-        </ListItem>
-        <Divider />
-        <ListItem>
-          <Typography variant="p" sx={{ pt: 2, pb: 4 }}>
-            {data.description ?? (
-              <Typography fontStyle="italic" children="No description" />
-            )}
-          </Typography>
-        </ListItem>
-        <Divider />
-        <ListItem>
-          <Box width="40%">
-            <ListItemIcon sx={{ pt: 1 }}>
-              <PersonIcon />
-              <Typography pl={1} variant="subtitle2" component="p">
-                Creator
-              </Typography>
-            </ListItemIcon>
-          </Box>
-          <Box width="60%">
-            <ListItemText
-              primary={
-                <Typography fontSize="14px" component="p">
-                  {data.creator} ({data.date_created})
+              <Box sx={{ flex: 1, display: "flex", alignContent: "center" }}>
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    display: "flex",
+                    alignItems: "center",
+                    flexWrap: "wrap",
+                  }}
+                  component="p"
+                >
+                  <TaskIcon fontSize="small" sx={{ pr: 0.5, pt: "2.5px" }} />
+                  {data.task_id}
                 </Typography>
-              }
-            />
-          </Box>
-        </ListItem>
-        <Divider />
-        <ListItem>
-          <Box width="40%">
-            <ListItemIcon sx={{ pt: 1 }}>
-              <SubscriberIcon />
-              <Typography pl={1} variant="subtitle2" component="p">
-                Subscribers
-              </Typography>
-            </ListItemIcon>
-          </Box>
-          <Box width="60%" sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-            {data.subscribers.map((subscriber, index) => (
-              <Chip
-                key={index}
-                icon={<AccountCircleIcon />}
-                label={subscriber}
+              </Box>
+              <Button
+                component={Link}
+                onClick={handleClickOpen}
+                color="secondary"
                 variant="outlined"
-                onClick={() => console.log("chip")}
                 size="small"
+              >
+                Delete
+              </Button>
+              <Button
+                component={Link}
+                to={`/dashboard/task/form/${data.task_id}`}
+                color="secondary"
+                variant="contained"
+                size="small"
+              >
+                Edit
+              </Button>
+              {renderTable ? (
+                <IconButton onClick={() => setRenderTable(false)}>
+                  <FullscreenIcon />
+                </IconButton>
+              ) : (
+                <IconButton onClick={() => setRenderTable(true)}>
+                  <CloseFullscreenIcon />
+                </IconButton>
+              )}
+              <IconButton
+                component={Link}
+                to="/dashboard"
+                onClick={() => setRenderTable(true)}
+              >
+                <CloseIcon />
+              </IconButton>
+            </Box>
+          </ListItem>
+          <ListItem sx={{ pb: 0 }}>
+            <Typography variant="h6" component="h2" fontWeight="medium">
+              {data.title}
+            </Typography>
+          </ListItem>
+          <ListItem>
+            <Stack direction="row" spacing={1}>
+              <Chip size="small" label={`Status: ${data.status}`} />
+              <Chip size="small" label={`Priority: ${data.priority}`} />
+            </Stack>
+          </ListItem>
+          <Divider />
+          <ListItem>
+            <Typography variant="p" sx={{ pt: 2, pb: 4 }}>
+              {data.description ?? (
+                <Typography fontStyle="italic" children="No description" />
+              )}
+            </Typography>
+          </ListItem>
+          <Divider />
+          <ListItem>
+            <Box width="40%">
+              <ListItemIcon sx={{ pt: 1 }}>
+                <PersonIcon />
+                <Typography pl={1} variant="subtitle2" component="p">
+                  Creator
+                </Typography>
+              </ListItemIcon>
+            </Box>
+            <Box width="60%">
+              <ListItemText
+                primary={
+                  <Typography fontSize="14px" component="p">
+                    {data.creator} ({data.date_created})
+                  </Typography>
+                }
               />
-            ))}
-          </Box>
-        </ListItem>
-        <Divider />
-        <ListItem>
-          <Box width="40%">
-            <ListItemIcon sx={{ pt: 1 }}>
-              <TagIcon />
-              <Typography pl={1} variant="subtitle2" component="p">
-                Tags
-              </Typography>
-            </ListItemIcon>
-          </Box>
-          <Box width="60%" sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-            {data.tags === null || data.tags.length === 0 ? (
-              <Typography fontSize="14px" component="p" fontStyle="italic">
-                No tags assigned
-              </Typography>
-            ) : (
-              data.tags.map((tag, index) => (
+            </Box>
+          </ListItem>
+          <Divider />
+          <ListItem>
+            <Box width="40%">
+              <ListItemIcon sx={{ pt: 1 }}>
+                <SubscriberIcon />
+                <Typography pl={1} variant="subtitle2" component="p">
+                  Subscribers
+                </Typography>
+              </ListItemIcon>
+            </Box>
+            <Box
+              width="60%"
+              sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}
+            >
+              {data.subscribers.map((subscriber, index) => (
                 <Chip
                   key={index}
-                  label={tag}
+                  icon={<AccountCircleIcon />}
+                  label={subscriber}
                   variant="outlined"
                   onClick={() => console.log("chip")}
                   size="small"
                 />
-              ))
-            )}
-          </Box>
-        </ListItem>
-        <Divider />
-        <ListItem>
-          <Box width="40%">
-            <ListItemIcon sx={{ pt: 1 }}>
-              <SubtasksIcon />
-              <Typography pl={1} variant="subtitle2" component="p">
-                Parent Task
-              </Typography>
-            </ListItemIcon>
-          </Box>
-          <Box width="60%">
-            <ListItemText
-              primary={
-                data.parent_task_id ? (
-                  <Link to={`/dashboard/task/${data.parent_task_id}`}>
-                    <Chip
-                      clickable
-                      label={data.parent_title}
-                      icon={<LinkIcon fontSize="small" />}
-                      variant="outlined"
-                      color="secondary"
-                    />
-                  </Link>
-                ) : (
-                  <Typography fontSize="14px" component="p" fontStyle="italic">
-                    No parent task
-                  </Typography>
-                )
-              }
-            />
-          </Box>
-        </ListItem>
-
-        {!data.date_start || !data.date_end ? null : (
-          <>
-            <Divider />
-            <ListItem>
-              <Box width="40%">
-                <ListItemIcon sx={{ pt: 1 }}>
-                  <CalendarIcon />
-                  <Typography pl={1} variant="subtitle2" component="p">
-                    Timeframe
-                  </Typography>
-                </ListItemIcon>
-              </Box>
-              <Box width="60%">
-                <ListItemText
-                  primary={
-                    <Typography fontSize="14px" component="p">
-                      {`${formatIsoString(data.date_start)} - ${formatIsoString(
-                        data.date_end
-                      )}`}
+              ))}
+            </Box>
+          </ListItem>
+          <Divider />
+          <ListItem>
+            <Box width="40%">
+              <ListItemIcon sx={{ pt: 1 }}>
+                <TagIcon />
+                <Typography pl={1} variant="subtitle2" component="p">
+                  Tags
+                </Typography>
+              </ListItemIcon>
+            </Box>
+            <Box
+              width="60%"
+              sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}
+            >
+              {data.tags === null || data.tags.length === 0 ? (
+                <Typography fontSize="14px" component="p" fontStyle="italic">
+                  No tags assigned
+                </Typography>
+              ) : (
+                data.tags.map((tag, index) => (
+                  <Chip
+                    key={index}
+                    label={tag}
+                    variant="outlined"
+                    onClick={() => console.log("chip")}
+                    size="small"
+                  />
+                ))
+              )}
+            </Box>
+          </ListItem>
+          <Divider />
+          <ListItem>
+            <Box width="40%">
+              <ListItemIcon sx={{ pt: 1 }}>
+                <SubtasksIcon />
+                <Typography pl={1} variant="subtitle2" component="p">
+                  Parent Task
+                </Typography>
+              </ListItemIcon>
+            </Box>
+            <Box width="60%">
+              <ListItemText
+                primary={
+                  data.parent_task_id ? (
+                    <Link to={`/dashboard/task/${data.parent_task_id}`}>
+                      <Chip
+                        clickable
+                        label={data.parent_title}
+                        icon={<LinkIcon fontSize="small" />}
+                        variant="outlined"
+                        color="secondary"
+                      />
+                    </Link>
+                  ) : (
+                    <Typography
+                      fontSize="14px"
+                      component="p"
+                      fontStyle="italic"
+                    >
+                      No parent task
                     </Typography>
-                  }
-                />
-              </Box>
-            </ListItem>
-          </>
-        )}
-      </List>
+                  )
+                }
+              />
+            </Box>
+          </ListItem>
+
+          {!data.date_start || !data.date_end ? null : (
+            <>
+              <Divider />
+              <ListItem>
+                <Box width="40%">
+                  <ListItemIcon sx={{ pt: 1 }}>
+                    <CalendarIcon />
+                    <Typography pl={1} variant="subtitle2" component="p">
+                      Timeframe
+                    </Typography>
+                  </ListItemIcon>
+                </Box>
+                <Box width="60%">
+                  <ListItemText
+                    primary={
+                      <Typography fontSize="14px" component="p">
+                        {`${formatIsoString(
+                          data.date_start
+                        )} - ${formatIsoString(data.date_end)}`}
+                      </Typography>
+                    }
+                  />
+                </Box>
+              </ListItem>
+            </>
+          )}
+        </List>
+      </TaskWrapper>
       <Dialog
         open={open}
         onClose={handleClose}

@@ -5,7 +5,7 @@ import { getUserInfo, createUser } from "../services/user.api";
 import { TasksContext } from "../context/TasksContext";
 
 import DataTable from "../components/DataTable/DataTable";
-import { Box, Paper, Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import TaskForm from "../components/TaskForm";
 import Task from "../components/Task";
 
@@ -18,8 +18,6 @@ function Dashboard() {
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
   const [renderTable, setRenderTable] = useState(true);
-  // const [renderDragBar, setRenderDragBar] = useState(false);
-  // const [dragOffset, setDragOffset] = useState(0);
 
   // Fetch tasks, transform them into rows & columns
   useEffect(() => {
@@ -73,13 +71,10 @@ function Dashboard() {
                 pb: { xs: 1, sm: 0 },
               }}
             >
-              <Paper sx={{ py: 0.5, px: 0 }}>
-                <Outlet />
-              </Paper>
+              <Outlet />
             </Box>
           }
         >
-          {/* Use one oath task/form & task/form/:id */}
           <Route
             path="task/form"
             element={
@@ -89,7 +84,6 @@ function Dashboard() {
               />
             }
           />
-          {/* <Route path="task/:id/edit" element={"Edit a task"} /> */}
           <Route
             path="task/form/:id"
             element={

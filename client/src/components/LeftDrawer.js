@@ -33,7 +33,7 @@ export default function LeftDrawer({
     <>
       <ToolbarPadding />
       <List sx={{ mt: { xs: 1, sm: 0 } }}>
-        <ListItem component={Link} to="/tasks/new">
+        <ListItem component={Link} to="/task/new">
           <Button
             color="secondary"
             variant="contained"
@@ -49,7 +49,7 @@ export default function LeftDrawer({
           </Button>
         </ListItem>
         <Divider />
-        <ListItem disablePadding>
+        <ListItem disablePadding component={Link} to="/dashboard">
           <ListItemButton>
             <ListItemIcon>
               <PersonIcon />

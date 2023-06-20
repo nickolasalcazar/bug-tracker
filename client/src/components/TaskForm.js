@@ -42,6 +42,7 @@ import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreenRounded";
 import CloseIcon from "@mui/icons-material/CloseRounded";
 import TagIcon from "@mui/icons-material/LocalOfferOutlined";
 import CalendarIcon from "@mui/icons-material/CalendarMonthOutlined";
+import TaskWrapper from "./TaskWrapper";
 
 /**
  * Component that displays all of the details of a task.
@@ -140,333 +141,337 @@ export default function TaskForm({
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <List component={"form"} onSubmit={handleSubmit}>
-        <ListItem>
-          <Box
+      <TaskWrapper>
+        <List component={"form"} onSubmit={handleSubmit}>
+          <ListItem>
+            <Box
+              sx={{
+                width: "100%",
+                height: 30,
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-end",
+                gap: 1,
+              }}
+            >
+              <Box sx={{ flex: 1, display: "flex", alignContent: "center" }}>
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    display: "flex",
+                    alignItems: "center",
+                    flexWrap: "wrap",
+                  }}
+                  component="p"
+                >
+                  <TaskIcon fontSize="small" sx={{ pr: 0.5, pt: "2.5px" }} />
+                  {data.task_id ?? "New Task"}
+                </Typography>
+              </Box>
+              {renderTable ? (
+                <IconButton onClick={() => setRenderTable(false)}>
+                  <FullscreenIcon />
+                </IconButton>
+              ) : (
+                <IconButton onClick={() => setRenderTable(true)}>
+                  <CloseFullscreenIcon />
+                </IconButton>
+              )}
+              <IconButton component={Link} onClick={handleClickOpen}>
+                <CloseIcon />
+              </IconButton>
+            </Box>
+          </ListItem>
+          {/* Title field */}
+          <ListItem>
+            <TextField
+              value={data.title ?? ""}
+              variant="standard"
+              placeholder="Task title"
+              size="medium"
+              fullWidth
+              required
+              onChange={(e) => {
+                setData((data) => {
+                  return { ...data, title: e.target.value };
+                });
+              }}
+            />
+          </ListItem>
+          {/* Status and Priority fields */}
+          <ListItem
             sx={{
-              width: "100%",
-              height: 30,
               display: "flex",
               flexDirection: "row",
-              justifyContent: "flex-end",
               gap: 1,
+              maxWidth: 600,
+              pb: 2,
             }}
           >
-            <Box sx={{ flex: 1, display: "flex", alignContent: "center" }}>
-              <Typography
-                sx={{
-                  fontSize: "14px",
-                  display: "flex",
-                  alignItems: "center",
-                  flexWrap: "wrap",
-                }}
-                component="p"
+            <FormControl sx={{ flex: 1 }}>
+              <InputLabel id="status-select-label">Status</InputLabel>
+              <Select
+                required
+                labelId="status-select-label"
+                label="Status"
+                value={data.status ? data.status : ""}
+                onChange={(e) =>
+                  setData((data) => {
+                    return { ...data, status: e.target.value };
+                  })
+                }
               >
-                <TaskIcon fontSize="small" sx={{ pr: 0.5, pt: "2.5px" }} />
-                {data.task_id ?? "New Task"}
-              </Typography>
-            </Box>
-            {renderTable ? (
-              <IconButton onClick={() => setRenderTable(false)}>
-                <FullscreenIcon />
-              </IconButton>
-            ) : (
-              <IconButton onClick={() => setRenderTable(true)}>
-                <CloseFullscreenIcon />
-              </IconButton>
-            )}
-            <IconButton component={Link} onClick={handleClickOpen}>
-              <CloseIcon />
-            </IconButton>
-          </Box>
-        </ListItem>
-        {/* Title field */}
-        <ListItem>
-          <TextField
-            value={data.title ?? ""}
-            variant="standard"
-            placeholder="Task title"
-            size="medium"
-            fullWidth
-            required
-            onChange={(e) => {
-              setData((data) => {
-                return { ...data, title: e.target.value };
-              });
-            }}
-          />
-        </ListItem>
-        {/* Status and Priority fields */}
-        <ListItem
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            gap: 1,
-            maxWidth: 600,
-            pb: 2,
-          }}
-        >
-          <FormControl sx={{ flex: 1 }}>
-            <InputLabel id="status-select-label">Status</InputLabel>
-            <Select
-              required
-              labelId="status-select-label"
-              label="Status"
-              value={data.status ? data.status : ""}
-              onChange={(e) =>
-                setData((data) => {
-                  return { ...data, status: e.target.value };
-                })
-              }
-            >
-              {["in progress", "completed", "archived"].map((value, index) => (
-                <MenuItem key={`${index}-status`} value={value}>
-                  {value}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <FormControl sx={{ flex: 1 }}>
-            <InputLabel id="priority-select-label">Priority</InputLabel>
-            <Select
-              required
-              labelId="priority-select-label"
-              label="Priority"
-              value={data.priority ? data.priority : ""}
-              onChange={(e) =>
-                setData((data) => {
-                  return { ...data, priority: e.target.value };
-                })
-              }
-            >
-              {["low", "medium", "high"].map((value, index) => (
-                <MenuItem key={`${index}-priority`} value={value}>
-                  {value}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </ListItem>
-        <Divider />
-        {/* Description field */}
-        <ListItem>
-          <TextField
-            value={data.description ?? ""}
-            id="description"
-            name="description"
-            label="Description"
-            placeholder="Enter task description"
-            onChange={(e) => {
-              setData((data) => {
-                return {
-                  ...data,
-                  description: e.target.value,
-                };
-              });
-            }}
-            multiline
-            minRows={5}
-            maxRows={Infinity}
-            fullWidth
-          />
-        </ListItem>
-        <Divider />
-        {/* Subscribers field */}
-        <ListItem
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            flexWrap: "wrap",
-            gap: 1,
-          }}
-        >
-          <Box flex={1} minWidth={160}>
-            <ListItemIcon sx={{ pt: 1 }}>
-              <SubscriberIcon />
-              <Typography pl={1} variant="subtitle2" component="p">
-                Subscribers
-              </Typography>
-            </ListItemIcon>
-          </Box>
-          <Box flex={2} sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-            <MuiChipsInput
-              placeholder="Add subscriber"
-              helperText="Enter username"
-              fullWidth
-              value={data.subscribers.map((subscriber) => subscriber)}
-              onChange={(newChips) => {
-                setData((data) => ({
-                  ...data,
-                  subscribers: newChips.map((c) => c.toLowerCase()),
-                }));
-              }}
-              validate={(chipValue) => {
-                if (data.tags.includes(chipValue.toLowerCase())) return false;
-
-                // Do validation check to see if user exists; throw errors
-
-                return {
-                  isError: chipValue.length > 254 || chipValue.length < 3,
-                  textError: "Value must be at least 3 characters long",
-                };
-              }}
-            />
-          </Box>
-        </ListItem>
-        <Divider />
-        {/* Tags field */}
-        <ListItem
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            flexWrap: "wrap",
-            gap: 1,
-          }}
-        >
-          <Box flex={1} minWidth={160}>
-            <ListItemIcon sx={{ pt: 1 }}>
-              <TagIcon />
-              <Typography pl={1} variant="subtitle2" component="p">
-                Tags
-              </Typography>
-            </ListItemIcon>
-          </Box>
-          <Box flex={2} sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-            <MuiChipsInput
-              placeholder="Add tag"
-              fullWidth
-              value={data.tags}
-              onChange={(newChips) => {
-                setData((data) => ({
-                  ...data,
-                  tags: newChips.map((c) => c.toLowerCase()),
-                }));
-              }}
-              validate={(chipValue) => {
-                if (data.tags.includes(chipValue.toLowerCase())) return false;
-                return {
-                  isError: chipValue.length > 16 || chipValue.length < 3,
-                  textError: "Tag must be between 3 and 16 characters long",
-                };
-              }}
-            />
-          </Box>
-        </ListItem>
-        <Divider />
-        {/* Parent Task field */}
-        <ListItem
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            flexWrap: "wrap",
-            gap: 1,
-          }}
-        >
-          <Box flex={1} minWidth={160}>
-            <ListItemIcon sx={{ pt: 1 }}>
-              <SubtasksIcon />
-              <Typography pl={1} variant="subtitle2" component="p">
-                Parent Task
-              </Typography>
-            </ListItemIcon>
-          </Box>
-          <Box flex={2} sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                {["in progress", "completed", "archived"].map(
+                  (value, index) => (
+                    <MenuItem key={`${index}-status`} value={value}>
+                      {value}
+                    </MenuItem>
+                  )
+                )}
+              </Select>
+            </FormControl>
+            <FormControl sx={{ flex: 1 }}>
+              <InputLabel id="priority-select-label">Priority</InputLabel>
+              <Select
+                required
+                labelId="priority-select-label"
+                label="Priority"
+                value={data.priority ? data.priority : ""}
+                onChange={(e) =>
+                  setData((data) => {
+                    return { ...data, priority: e.target.value };
+                  })
+                }
+              >
+                {["low", "medium", "high"].map((value, index) => (
+                  <MenuItem key={`${index}-priority`} value={value}>
+                    {value}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </ListItem>
+          <Divider />
+          {/* Description field */}
+          <ListItem>
             <TextField
-              type="text"
-              value={data.parent_task_id ?? ""}
-              placeholder="Parent task ID"
+              value={data.description ?? ""}
+              id="description"
+              name="description"
+              label="Description"
+              placeholder="Enter task description"
               onChange={(e) => {
                 setData((data) => {
                   return {
                     ...data,
-                    parent_task_id: e.target.value,
+                    description: e.target.value,
                   };
                 });
               }}
+              multiline
+              minRows={5}
+              maxRows={Infinity}
+              fullWidth
             />
-          </Box>
-        </ListItem>
-        <Divider />
-        {/* Schedule field */}
-        {/* DatePicker dates use dayjs; results in crash when switching between mobile/desktop (only?) in development */}
-        <ListItem
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            flexWrap: "wrap",
-            gap: 1,
-          }}
-        >
-          <Box flex={1} minWidth={160}>
-            <ListItemIcon sx={{ pt: 1 }}>
-              <CalendarIcon />
-              <Typography pl={1} variant="subtitle2" component="p">
-                Schedule
-              </Typography>
-            </ListItemIcon>
-          </Box>
-          <Box
-            flex={2}
-            sx={{ display: "flex", flexWrap: "wrap", gap: 1, minWidth: 200 }}
-          >
-            {/* Breaks because dates are not formatted to dayjs */}
-            <DatePicker
-              flex={1}
-              label="Start date"
-              value={convertIsoToDayjs(data.date_start) ?? null}
-              onChange={(date) => {
-                if (!date) return;
-                setData((data) => {
-                  return { ...data, date_start: date.$d };
-                });
-              }}
-            />
-            <DatePicker
-              flex={1}
-              label="End date"
-              value={convertIsoToDayjs(data.date_end) ?? null}
-              onChange={(date) => {
-                if (!date) return;
-                setData((data) => {
-                  return { ...data, date_end: date.$d };
-                });
-              }}
-            />
-          </Box>
-        </ListItem>
-        {/* Publish / Discard buttons */}
-        <ListItem>
-          <Box
-            width="100%"
+          </ListItem>
+          <Divider />
+          {/* Subscribers field */}
+          <ListItem
             sx={{
-              height: 30,
               display: "flex",
               flexDirection: "row",
-              justifyContent: "center",
+              flexWrap: "wrap",
               gap: 1,
             }}
           >
-            <Button
-              component={Link}
-              onClick={handleClickOpen}
-              color="secondary"
-              variant="outlined"
-              size="large"
+            <Box flex={1} minWidth={160}>
+              <ListItemIcon sx={{ pt: 1 }}>
+                <SubscriberIcon />
+                <Typography pl={1} variant="subtitle2" component="p">
+                  Subscribers
+                </Typography>
+              </ListItemIcon>
+            </Box>
+            <Box flex={2} sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+              <MuiChipsInput
+                placeholder="Add subscriber"
+                helperText="Enter username"
+                fullWidth
+                value={data.subscribers.map((subscriber) => subscriber)}
+                onChange={(newChips) => {
+                  setData((data) => ({
+                    ...data,
+                    subscribers: newChips.map((c) => c.toLowerCase()),
+                  }));
+                }}
+                validate={(chipValue) => {
+                  if (data.tags.includes(chipValue.toLowerCase())) return false;
+
+                  // Do validation check to see if user exists; throw errors
+
+                  return {
+                    isError: chipValue.length > 254 || chipValue.length < 3,
+                    textError: "Value must be at least 3 characters long",
+                  };
+                }}
+              />
+            </Box>
+          </ListItem>
+          <Divider />
+          {/* Tags field */}
+          <ListItem
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              gap: 1,
+            }}
+          >
+            <Box flex={1} minWidth={160}>
+              <ListItemIcon sx={{ pt: 1 }}>
+                <TagIcon />
+                <Typography pl={1} variant="subtitle2" component="p">
+                  Tags
+                </Typography>
+              </ListItemIcon>
+            </Box>
+            <Box flex={2} sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+              <MuiChipsInput
+                placeholder="Add tag"
+                fullWidth
+                value={data.tags}
+                onChange={(newChips) => {
+                  setData((data) => ({
+                    ...data,
+                    tags: newChips.map((c) => c.toLowerCase()),
+                  }));
+                }}
+                validate={(chipValue) => {
+                  if (data.tags.includes(chipValue.toLowerCase())) return false;
+                  return {
+                    isError: chipValue.length > 16 || chipValue.length < 3,
+                    textError: "Tag must be between 3 and 16 characters long",
+                  };
+                }}
+              />
+            </Box>
+          </ListItem>
+          <Divider />
+          {/* Parent Task field */}
+          <ListItem
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              gap: 1,
+            }}
+          >
+            <Box flex={1} minWidth={160}>
+              <ListItemIcon sx={{ pt: 1 }}>
+                <SubtasksIcon />
+                <Typography pl={1} variant="subtitle2" component="p">
+                  Parent Task
+                </Typography>
+              </ListItemIcon>
+            </Box>
+            <Box flex={2} sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+              <TextField
+                type="text"
+                value={data.parent_task_id ?? ""}
+                placeholder="Parent task ID"
+                onChange={(e) => {
+                  setData((data) => {
+                    return {
+                      ...data,
+                      parent_task_id: e.target.value,
+                    };
+                  });
+                }}
+              />
+            </Box>
+          </ListItem>
+          <Divider />
+          {/* Schedule field */}
+          {/* DatePicker dates use dayjs; results in crash when switching between mobile/desktop (only?) in development */}
+          <ListItem
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              gap: 1,
+            }}
+          >
+            <Box flex={1} minWidth={160}>
+              <ListItemIcon sx={{ pt: 1 }}>
+                <CalendarIcon />
+                <Typography pl={1} variant="subtitle2" component="p">
+                  Schedule
+                </Typography>
+              </ListItemIcon>
+            </Box>
+            <Box
+              flex={2}
+              sx={{ display: "flex", flexWrap: "wrap", gap: 1, minWidth: 200 }}
             >
-              Cancel
-            </Button>
-            <Button
-              component="button"
-              type="submit"
-              color="secondary"
-              variant="contained"
-              size="large"
+              {/* Breaks because dates are not formatted to dayjs */}
+              <DatePicker
+                flex={1}
+                label="Start date"
+                value={convertIsoToDayjs(data.date_start) ?? null}
+                onChange={(date) => {
+                  if (!date) return;
+                  setData((data) => {
+                    return { ...data, date_start: date.$d };
+                  });
+                }}
+              />
+              <DatePicker
+                flex={1}
+                label="End date"
+                value={convertIsoToDayjs(data.date_end) ?? null}
+                onChange={(date) => {
+                  if (!date) return;
+                  setData((data) => {
+                    return { ...data, date_end: date.$d };
+                  });
+                }}
+              />
+            </Box>
+          </ListItem>
+          {/* Publish / Discard buttons */}
+          <ListItem>
+            <Box
+              width="100%"
+              sx={{
+                height: 30,
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                gap: 1,
+              }}
             >
-              Publish
-            </Button>
-          </Box>
-        </ListItem>
-      </List>
+              <Button
+                component={Link}
+                onClick={handleClickOpen}
+                color="secondary"
+                variant="outlined"
+                size="large"
+              >
+                Cancel
+              </Button>
+              <Button
+                component="button"
+                type="submit"
+                color="secondary"
+                variant="contained"
+                size="large"
+              >
+                Publish
+              </Button>
+            </Box>
+          </ListItem>
+        </List>
+      </TaskWrapper>
       <Dialog
         open={open}
         onClose={handleClose}

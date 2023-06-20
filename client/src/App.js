@@ -13,7 +13,7 @@ import User from "./pages/User/User";
 import Projects from "./pages/Projects";
 import NewProject from "./pages/NewProject";
 
-import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { createTheme, CssBaseline, Paper, ThemeProvider } from "@mui/material";
 import { TasksProvider } from "./context/TasksContext";
 import Dashboard from "./pages/Dashboard";
 
@@ -91,7 +91,7 @@ function App() {
           <Route element={<LayoutWrapper />}>
             <Route path="/projects" element={<Projects />} />
             <Route path="/projects/new" element={<NewProject />} />
-            <Route path="/tasks/new" element={<TaskForm />} />
+            <Route path="/task/new" element={<TaskForm />} />
             <Route path="/user/*">
               <Route path=":username/*" element={<User />} />
               <Route path="*" element={<User />} />
