@@ -5,8 +5,8 @@ import {
   CssBaseline,
   Toolbar as ToolbarPadding,
 } from "@mui/material";
-import NavBar from "./components/NavigationUI/NavBar";
-import LeftDrawer from "./components/NavigationUI/LeftDrawer";
+import NavBar from "./components/NavBar";
+import LeftDrawer from "./components/LeftDrawer";
 
 const drawerWidth = 185;
 

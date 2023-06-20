@@ -1,9 +1,8 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import { AppBar, Box, IconButton, Stack, Toolbar } from "@mui/material";
 import MenuIcon from "@mui/icons-material/MenuRounded";
-import NotificationBell from "../NotificationBell";
-import ProfileNavButton from "../ProfileNavButton";
+import NotificationBell from "./NotificationBell";
+import ProfileNavButton from "./ProfileNavButton";
 const logoSize = "50px";
 
 /**

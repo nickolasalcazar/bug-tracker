@@ -1,8 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { Menu, MenuItem } from "@mui/material";
-import LogoutButton from "../Logout";
-import useUserProfile from "../../hooks/useUserProfile";
+import LogoutButton from "./Logout";
+import useUserProfile from "../hooks/useUserProfile";
 
 /**
  * The meny that is rendered when the profile picture of the NavBar is clicked.
