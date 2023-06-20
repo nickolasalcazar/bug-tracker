@@ -47,10 +47,7 @@ import TaskWrapper from "./TaskWrapper";
 /**
  * Component that displays all of the details of a task.
  */
-export default function TaskForm({
-  setRenderTable = undefined,
-  renderTable = undefined,
-}) {
+export default function TaskForm({ setExpanded = null, expanded = null }) {
   const navigate = useNavigate();
   const { updateTasksContext } = useContext(TasksContext);
   const { getAccessTokenSilently } = useAuth0();
@@ -168,12 +165,12 @@ export default function TaskForm({
                   {data.task_id ?? "New Task"}
                 </Typography>
               </Box>
-              {renderTable ? (
-                <IconButton onClick={() => setRenderTable(false)}>
+              {expanded ? (
+                <IconButton onClick={() => setExpanded(false)}>
                   <FullscreenIcon />
                 </IconButton>
               ) : (
-                <IconButton onClick={() => setRenderTable(true)}>
+                <IconButton onClick={() => setExpanded(true)}>
                   <CloseFullscreenIcon />
                 </IconButton>
               )}

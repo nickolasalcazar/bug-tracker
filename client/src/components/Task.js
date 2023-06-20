@@ -40,7 +40,7 @@ import { TasksContext } from "../context/TasksContext";
 /**
  * Component that displays all of the details of a task.
  */
-function Task({ setRenderTable = undefined, renderTable = undefined }) {
+function Task({ setExpanded = null, expanded = null }) {
   const navigate = useNavigate();
   const { updateTasksContext } = useContext(TasksContext);
   const { getAccessTokenSilently } = useAuth0();
@@ -131,19 +131,19 @@ function Task({ setRenderTable = undefined, renderTable = undefined }) {
               >
                 Edit
               </Button>
-              {renderTable ? (
-                <IconButton onClick={() => setRenderTable(false)}>
+              {expanded ? (
+                <IconButton onClick={() => setExpanded(false)}>
                   <FullscreenIcon />
                 </IconButton>
               ) : (
-                <IconButton onClick={() => setRenderTable(true)}>
+                <IconButton onClick={() => setExpanded(true)}>
                   <CloseFullscreenIcon />
                 </IconButton>
               )}
               <IconButton
                 component={Link}
                 to="/dashboard"
-                onClick={() => setRenderTable(true)}
+                onClick={() => setExpanded(true)}
               >
                 <CloseIcon />
               </IconButton>

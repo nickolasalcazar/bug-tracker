@@ -17,7 +17,7 @@ function Dashboard() {
   const { tasksContext } = useContext(TasksContext);
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
-  const [renderTable, setRenderTable] = useState(true);
+  const [expanded, setExpanded] = useState(true);
 
   // Fetch tasks, transform them into rows & columns
   useEffect(() => {
@@ -52,7 +52,13 @@ function Dashboard() {
 
   return (
     <Stack
-      direction={{ sx: "column", sm: "column", md: "column", lg: "row" }}
+      direction={{
+        sx: "column",
+        sm: "column",
+        md: "column",
+        lg: expanded ? "column" : "row",
+        xl: expanded ? "column" : "row",
+      }}
       spacing={1}
       sx={{
         m: "none",
@@ -64,9 +70,7 @@ function Dashboard() {
           element={
             <Box
               sx={{
-                width: renderTable
-                  ? { md: "100%", lg: "50%", xl: "40%" }
-                  : "100%",
+                width: "100%",
                 display: "block",
                 pb: { xs: 1, sm: 0 },
               }}
@@ -77,43 +81,29 @@ function Dashboard() {
         >
           <Route
             path="task/form"
-            element={
-              <TaskForm
-                setRenderTable={setRenderTable}
-                renderTable={renderTable}
-              />
-            }
+            element={<TaskForm setExpanded={setExpanded} expanded={expanded} />}
           />
           <Route
             path="task/form/:id"
-            element={
-              <TaskForm
-                setRenderTable={setRenderTable}
-                renderTable={renderTable}
-              />
-            }
+            element={<TaskForm setExpanded={setExpanded} expanded={expanded} />}
           />
           <Route
             path="task/:id"
-            element={
-              <Task setRenderTable={setRenderTable} renderTable={renderTable} />
-            }
+            element={<Task setExpanded={setExpanded} expanded={expanded} />}
           />
         </Route>
       </Routes>
-      {renderTable ? (
-        <Box
-          sx={{
-            width: "100%",
-          }}
-        >
-          <DataTable
-            columns={columns}
-            rows={rows}
-            handleOnRowClick={handleOnRowClick}
-          />
-        </Box>
-      ) : null}
+      <Box
+        sx={{
+          width: "100%",
+        }}
+      >
+        <DataTable
+          columns={columns}
+          rows={rows}
+          handleOnRowClick={handleOnRowClick}
+        />
+      </Box>
     </Stack>
   );
 }
