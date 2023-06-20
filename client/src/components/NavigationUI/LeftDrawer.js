@@ -1,6 +1,8 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import {
   Box,
+  Button,
   Divider,
   Drawer,
   List,
@@ -13,7 +15,7 @@ import {
 import PersonIcon from "@mui/icons-material/PersonOutlineOutlined";
 import SubscriberIcon from "@mui/icons-material/Inbox";
 import StarOutlineIcon from "@mui/icons-material/StarOutlineRounded";
-import NewButton from "./NewButton";
+import AddIcon from "@mui/icons-material/Add";
 
 /**
  * Renders the left drawer that should appear in the Dashboard page.
@@ -31,7 +33,21 @@ export default function LeftDrawer({
     <>
       <ToolbarPadding />
       <List sx={{ mt: { xs: 1, sm: 0 } }}>
-        <NewButton />
+        <ListItem component={Link} to="/tasks/new">
+          <Button
+            color="secondary"
+            variant="contained"
+            disableElevation
+            size="large"
+            startIcon={<AddIcon />}
+            sx={{
+              minWidth: "100%",
+              mb: 1,
+            }}
+          >
+            NEW TASK
+          </Button>
+        </ListItem>
         <Divider />
         <ListItem disablePadding>
           <ListItemButton>
