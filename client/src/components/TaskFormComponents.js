@@ -15,7 +15,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { MuiChipsInput } from "mui-chips-input";
 
 export const LeftColumn = ({ icon: FieldIcon, label }) => (
-  <Box flex={1} minWidth={160}>
+  <Box flex={1} minWidth={160} mt={1}>
     <ListItemIcon>
       <FieldIcon />
       <Typography pl={1} variant="subtitle2" component="p">
