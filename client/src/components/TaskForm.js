@@ -9,22 +9,15 @@ import {
   DialogContentText,
   DialogTitle,
   Divider,
-  IconButton,
-  InputLabel,
   FormControl,
   List,
   ListItem,
   ListItemIcon,
-  ListItemText,
-  MenuItem,
-  Select,
   TextField,
   Typography,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { MuiChipsInput } from "mui-chips-input";
 
 import useUserProfile from "../hooks/useUserProfile";
 import useGetTaskByParam from "../hooks/useGetTaskByParam";
@@ -32,17 +25,23 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { createTask, updateTask } from "../services/task.api";
 import { TasksContext } from "../context/TasksContext";
 
-import TaskIcon from "@mui/icons-material/AssignmentTurnedInOutlined";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SubtasksIcon from "@mui/icons-material/ListOutlined";
 import SubscriberIcon from "@mui/icons-material/Inbox";
-import StarOutlineIcon from "@mui/icons-material/StarOutlineRounded";
-import FullscreenIcon from "@mui/icons-material/OpenInFullRounded";
-import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreenRounded";
-import CloseIcon from "@mui/icons-material/CloseRounded";
 import TagIcon from "@mui/icons-material/LocalOfferOutlined";
 import CalendarIcon from "@mui/icons-material/CalendarMonthOutlined";
 import TaskWrapper from "./TaskWrapper";
+
+import TaskHeader from "./TaskHeader";
+import {
+  DescriptionField,
+  PriorityField,
+  ScheduleField,
+  StatusField,
+  SubscribersField,
+  TagsField,
+  TitleField,
+} from "./TaskFormInputs";
 
 /**
  * Component that displays all of the details of a task.
@@ -112,25 +111,12 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
     }
   };
 
-  const handleClickOpen = () => {
+  const handleOpenDialog = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleCloseDialog = () => {
     setOpen(false);
-  };
-
-  // Converts an ISO date string to a dayjs object
-  // Because DatePicker component requires dayjs format
-  const convertIsoToDayjs = (iso) => {
-    if (!iso) return null;
-    const d = new Date(iso);
-    // eslint-disable-next-line no-undef
-    return dayjs({
-      year: d.getFullYear(),
-      month: d.getMonth(),
-      day: d.getDate(),
-    });
   };
 
   if (data === null || data === undefined)
@@ -141,61 +127,16 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
       <TaskWrapper>
         <List component={"form"} onSubmit={handleSubmit}>
           <ListItem>
-            <Box
-              sx={{
-                width: "100%",
-                height: 30,
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "flex-end",
-                gap: 1,
-              }}
-            >
-              <Box sx={{ flex: 1, display: "flex", alignContent: "center" }}>
-                <Typography
-                  sx={{
-                    fontSize: "14px",
-                    display: "flex",
-                    alignItems: "center",
-                    flexWrap: "wrap",
-                  }}
-                  component="p"
-                >
-                  <TaskIcon fontSize="small" sx={{ pr: 0.5, pt: "2.5px" }} />
-                  {data.task_id ?? "New Task"}
-                </Typography>
-              </Box>
-              {expanded ? (
-                <IconButton onClick={() => setExpanded(false)}>
-                  <FullscreenIcon />
-                </IconButton>
-              ) : (
-                <IconButton onClick={() => setExpanded(true)}>
-                  <CloseFullscreenIcon />
-                </IconButton>
-              )}
-              <IconButton component={Link} onClick={handleClickOpen}>
-                <CloseIcon />
-              </IconButton>
-            </Box>
-          </ListItem>
-          {/* Title field */}
-          <ListItem>
-            <TextField
-              value={data.title ?? ""}
-              variant="standard"
-              placeholder="Task title"
-              size="medium"
-              fullWidth
-              required
-              onChange={(e) => {
-                setData((data) => {
-                  return { ...data, title: e.target.value };
-                });
-              }}
+            <TaskHeader
+              data={data}
+              expanded={expanded}
+              setExpanded={setExpanded}
+              handleClose={handleOpenDialog}
             />
           </ListItem>
-          {/* Status and Priority fields */}
+          <ListItem>
+            <TitleField data={data} setData={setData} />
+          </ListItem>
           <ListItem
             sx={{
               display: "flex",
@@ -206,73 +147,17 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
             }}
           >
             <FormControl sx={{ flex: 1 }}>
-              <InputLabel id="status-select-label">Status</InputLabel>
-              <Select
-                required
-                labelId="status-select-label"
-                label="Status"
-                value={data.status ? data.status : ""}
-                onChange={(e) =>
-                  setData((data) => {
-                    return { ...data, status: e.target.value };
-                  })
-                }
-              >
-                {["in progress", "completed", "archived"].map(
-                  (value, index) => (
-                    <MenuItem key={`${index}-status`} value={value}>
-                      {value}
-                    </MenuItem>
-                  )
-                )}
-              </Select>
+              <StatusField data={data} setData={setData} />
             </FormControl>
             <FormControl sx={{ flex: 1 }}>
-              <InputLabel id="priority-select-label">Priority</InputLabel>
-              <Select
-                required
-                labelId="priority-select-label"
-                label="Priority"
-                value={data.priority ? data.priority : ""}
-                onChange={(e) =>
-                  setData((data) => {
-                    return { ...data, priority: e.target.value };
-                  })
-                }
-              >
-                {["low", "medium", "high"].map((value, index) => (
-                  <MenuItem key={`${index}-priority`} value={value}>
-                    {value}
-                  </MenuItem>
-                ))}
-              </Select>
+              <PriorityField data={data} setData={setData} />
             </FormControl>
           </ListItem>
           <Divider />
-          {/* Description field */}
           <ListItem>
-            <TextField
-              value={data.description ?? ""}
-              id="description"
-              name="description"
-              label="Description"
-              placeholder="Enter task description"
-              onChange={(e) => {
-                setData((data) => {
-                  return {
-                    ...data,
-                    description: e.target.value,
-                  };
-                });
-              }}
-              multiline
-              minRows={5}
-              maxRows={Infinity}
-              fullWidth
-            />
+            <DescriptionField data={data} setData={setData} />
           </ListItem>
           <Divider />
-          {/* Subscribers field */}
           <ListItem
             sx={{
               display: "flex",
@@ -290,32 +175,10 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
               </ListItemIcon>
             </Box>
             <Box flex={2} sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-              <MuiChipsInput
-                placeholder="Add subscriber"
-                helperText="Enter username"
-                fullWidth
-                value={data.subscribers.map((subscriber) => subscriber)}
-                onChange={(newChips) => {
-                  setData((data) => ({
-                    ...data,
-                    subscribers: newChips.map((c) => c.toLowerCase()),
-                  }));
-                }}
-                validate={(chipValue) => {
-                  if (data.tags.includes(chipValue.toLowerCase())) return false;
-
-                  // Do validation check to see if user exists; throw errors
-
-                  return {
-                    isError: chipValue.length > 254 || chipValue.length < 3,
-                    textError: "Value must be at least 3 characters long",
-                  };
-                }}
-              />
+              <SubscribersField data={data} setData={setData} />
             </Box>
           </ListItem>
           <Divider />
-          {/* Tags field */}
           <ListItem
             sx={{
               display: "flex",
@@ -333,28 +196,10 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
               </ListItemIcon>
             </Box>
             <Box flex={2} sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-              <MuiChipsInput
-                placeholder="Add tag"
-                fullWidth
-                value={data.tags}
-                onChange={(newChips) => {
-                  setData((data) => ({
-                    ...data,
-                    tags: newChips.map((c) => c.toLowerCase()),
-                  }));
-                }}
-                validate={(chipValue) => {
-                  if (data.tags.includes(chipValue.toLowerCase())) return false;
-                  return {
-                    isError: chipValue.length > 16 || chipValue.length < 3,
-                    textError: "Tag must be between 3 and 16 characters long",
-                  };
-                }}
-              />
+              <TagsField data={data} setData={setData} />
             </Box>
           </ListItem>
           <Divider />
-          {/* Parent Task field */}
           <ListItem
             sx={{
               display: "flex",
@@ -388,8 +233,6 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
             </Box>
           </ListItem>
           <Divider />
-          {/* Schedule field */}
-          {/* DatePicker dates use dayjs; results in crash when switching between mobile/desktop (only?) in development */}
           <ListItem
             sx={{
               display: "flex",
@@ -410,32 +253,9 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
               flex={2}
               sx={{ display: "flex", flexWrap: "wrap", gap: 1, minWidth: 200 }}
             >
-              {/* Breaks because dates are not formatted to dayjs */}
-              <DatePicker
-                flex={1}
-                label="Start date"
-                value={convertIsoToDayjs(data.date_start) ?? null}
-                onChange={(date) => {
-                  if (!date) return;
-                  setData((data) => {
-                    return { ...data, date_start: date.$d };
-                  });
-                }}
-              />
-              <DatePicker
-                flex={1}
-                label="End date"
-                value={convertIsoToDayjs(data.date_end) ?? null}
-                onChange={(date) => {
-                  if (!date) return;
-                  setData((data) => {
-                    return { ...data, date_end: date.$d };
-                  });
-                }}
-              />
+              <ScheduleField data={data} setData={setData} />
             </Box>
           </ListItem>
-          {/* Publish / Discard buttons */}
           <ListItem>
             <Box
               width="100%"
@@ -449,7 +269,7 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
             >
               <Button
                 component={Link}
-                onClick={handleClickOpen}
+                onClick={handleOpenDialog}
                 color="secondary"
                 variant="outlined"
                 size="large"
@@ -471,7 +291,7 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
       </TaskWrapper>
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={handleCloseDialog}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -482,12 +302,12 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} variant="outlined">
+          <Button onClick={handleCloseDialog} variant="outlined">
             Cancel
           </Button>
           <Button
             onClick={() => {
-              handleClose();
+              handleCloseDialog();
               navigate(-1);
             }}
             variant="contained"

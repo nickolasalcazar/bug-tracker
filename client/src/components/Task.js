@@ -32,6 +32,7 @@ import CalendarIcon from "@mui/icons-material/CalendarMonthOutlined";
 import LinkIcon from "@mui/icons-material/InsertLinkOutlined";
 
 import TaskWrapper from "./TaskWrapper";
+import TaskHeader from "./TaskHeader";
 import useGetTaskByParam from "../hooks/useGetTaskByParam";
 import { deleteTask } from "../services/task.api";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -89,65 +90,15 @@ function Task({ setExpanded = null, expanded = null }) {
       <TaskWrapper>
         <List>
           <ListItem>
-            <Box
-              sx={{
-                width: "100%",
-                height: 30,
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "flex-end",
-                gap: 1,
+            <TaskHeader
+              data={data}
+              expanded={expanded}
+              setExpanded={setExpanded}
+              handleClose={() => {
+                navigate("..");
               }}
-            >
-              <Box sx={{ flex: 1, display: "flex", alignContent: "center" }}>
-                <Typography
-                  sx={{
-                    fontSize: "14px",
-                    display: "flex",
-                    alignItems: "center",
-                    flexWrap: "wrap",
-                  }}
-                  component="p"
-                >
-                  <TaskIcon fontSize="small" sx={{ pr: 0.5, pt: "2.5px" }} />
-                  {data.task_id}
-                </Typography>
-              </Box>
-              <Button
-                component={Link}
-                onClick={handleClickOpen}
-                color="secondary"
-                variant="outlined"
-                size="small"
-              >
-                Delete
-              </Button>
-              <Button
-                component={Link}
-                to={`/dashboard/task/form/${data.task_id}`}
-                color="secondary"
-                variant="contained"
-                size="small"
-              >
-                Edit
-              </Button>
-              {expanded ? (
-                <IconButton onClick={() => setExpanded(false)}>
-                  <FullscreenIcon />
-                </IconButton>
-              ) : (
-                <IconButton onClick={() => setExpanded(true)}>
-                  <CloseFullscreenIcon />
-                </IconButton>
-              )}
-              <IconButton
-                component={Link}
-                to="/dashboard"
-                onClick={() => setExpanded(true)}
-              >
-                <CloseIcon />
-              </IconButton>
-            </Box>
+              handleDelete={handleClickOpen}
+            />
           </ListItem>
           <ListItem sx={{ pb: 0 }}>
             <Typography variant="h6" component="h2" fontWeight="medium">
