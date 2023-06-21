@@ -10,7 +10,6 @@ import {
   DialogContentText,
   DialogTitle,
   Divider,
-  IconButton,
   List,
   ListItem,
   ListItemIcon,
@@ -19,14 +18,10 @@ import {
   Typography,
 } from "@mui/material";
 
-import TaskIcon from "@mui/icons-material/AssignmentTurnedInOutlined";
 import PersonIcon from "@mui/icons-material/PersonOutlineOutlined";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SubtasksIcon from "@mui/icons-material/ListOutlined";
 import SubscriberIcon from "@mui/icons-material/Inbox";
-import FullscreenIcon from "@mui/icons-material/OpenInFullRounded";
-import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreenRounded";
-import CloseIcon from "@mui/icons-material/CloseRounded";
 import TagIcon from "@mui/icons-material/LocalOfferOutlined";
 import CalendarIcon from "@mui/icons-material/CalendarMonthOutlined";
 import LinkIcon from "@mui/icons-material/InsertLinkOutlined";
@@ -41,7 +36,7 @@ import { TasksContext } from "../context/TasksContext";
 /**
  * Component that displays all of the details of a task.
  */
-function Task({ setExpanded = null, expanded = null }) {
+export default function Task({ setExpanded = null, expanded = null }) {
   const navigate = useNavigate();
   const { updateTasksContext } = useContext(TasksContext);
   const { getAccessTokenSilently } = useAuth0();
@@ -292,5 +287,3 @@ function Task({ setExpanded = null, expanded = null }) {
     </>
   );
 }
-
-export default Task;
