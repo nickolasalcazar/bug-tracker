@@ -1,12 +1,37 @@
 /**
- * Exports various input components for TaskForm.
+ * Exports various components for TaskForm.
  */
 import React from "react";
-import { InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import {
+  Box,
+  InputLabel,
+  ListItemIcon,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { MuiChipsInput } from "mui-chips-input";
 
 // export const Field = ({ data, setData }) => ();
+
+export const LeftColumn = ({ icon: FieldIcon, label }) => (
+  <Box flex={1} minWidth={160}>
+    <ListItemIcon>
+      <FieldIcon />
+      <Typography pl={1} variant="subtitle2" component="p">
+        {label}
+      </Typography>
+    </ListItemIcon>
+  </Box>
+);
+
+export const RightColumn = ({ children }) => (
+  <Box flex={2} sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+    {children}
+  </Box>
+);
 
 export const ScheduleField = ({ data, setData }) => {
   // Converts an ISO date string to a dayjs object
