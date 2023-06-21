@@ -12,7 +12,6 @@ import {
   FormControl,
   List,
   ListItem,
-  ListItemIcon,
   TextField,
   Typography,
 } from "@mui/material";
@@ -35,7 +34,9 @@ import TaskWrapper from "./TaskWrapper";
 import TaskHeader from "./TaskHeader";
 import {
   DescriptionField,
+  LeftColumn,
   PriorityField,
+  RightColumn,
   ScheduleField,
   StatusField,
   SubscribersField,
@@ -166,17 +167,10 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
               gap: 1,
             }}
           >
-            <Box flex={1} minWidth={160}>
-              <ListItemIcon sx={{ pt: 1 }}>
-                <SubscriberIcon />
-                <Typography pl={1} variant="subtitle2" component="p">
-                  Subscribers
-                </Typography>
-              </ListItemIcon>
-            </Box>
-            <Box flex={2} sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+            <LeftColumn icon={SubscriberIcon} label="Subscribers" />
+            <RightColumn>
               <SubscribersField data={data} setData={setData} />
-            </Box>
+            </RightColumn>
           </ListItem>
           <Divider />
           <ListItem
@@ -187,17 +181,10 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
               gap: 1,
             }}
           >
-            <Box flex={1} minWidth={160}>
-              <ListItemIcon sx={{ pt: 1 }}>
-                <TagIcon />
-                <Typography pl={1} variant="subtitle2" component="p">
-                  Tags
-                </Typography>
-              </ListItemIcon>
-            </Box>
-            <Box flex={2} sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+            <LeftColumn icon={TagIcon} label="Tags" />
+            <RightColumn>
               <TagsField data={data} setData={setData} />
-            </Box>
+            </RightColumn>
           </ListItem>
           <Divider />
           <ListItem
@@ -208,15 +195,8 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
               gap: 1,
             }}
           >
-            <Box flex={1} minWidth={160}>
-              <ListItemIcon sx={{ pt: 1 }}>
-                <SubtasksIcon />
-                <Typography pl={1} variant="subtitle2" component="p">
-                  Parent Task
-                </Typography>
-              </ListItemIcon>
-            </Box>
-            <Box flex={2} sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+            <LeftColumn icon={SubtasksIcon} label="Parent Task" />
+            <RightColumn>
               <TextField
                 type="text"
                 value={data.parent_task_id ?? ""}
@@ -230,7 +210,7 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
                   });
                 }}
               />
-            </Box>
+            </RightColumn>
           </ListItem>
           <Divider />
           <ListItem
@@ -241,20 +221,10 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
               gap: 1,
             }}
           >
-            <Box flex={1} minWidth={160}>
-              <ListItemIcon sx={{ pt: 1 }}>
-                <CalendarIcon />
-                <Typography pl={1} variant="subtitle2" component="p">
-                  Schedule
-                </Typography>
-              </ListItemIcon>
-            </Box>
-            <Box
-              flex={2}
-              sx={{ display: "flex", flexWrap: "wrap", gap: 1, minWidth: 200 }}
-            >
+            <LeftColumn icon={CalendarIcon} label="Schedule" />
+            <RightColumn>
               <ScheduleField data={data} setData={setData} />
-            </Box>
+            </RightColumn>
           </ListItem>
           <ListItem>
             <Box
