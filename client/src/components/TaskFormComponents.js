@@ -1,8 +1,9 @@
 /**
  * Exports various components for Task and TaskForm.
  */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
+  Autocomplete,
   Box,
   InputLabel,
   ListItemIcon,
@@ -13,6 +14,7 @@ import {
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { MuiChipsInput } from "mui-chips-input";
+import useConnections from "../hooks/useConnections";
 
 export const LeftColumn = ({ icon: FieldIcon, label }) => (
   <Box flex={1} minWidth={160} mt={1}>
@@ -188,6 +190,44 @@ export const SubscribersField = ({ data, setData }) => (
     }}
   />
 );
+
+export const SubscribersFieldDev = ({ data, setData, user = null }) => {
+  const { connections, isLoading, error } = useConnections();
+
+  useEffect(() => {
+    if (user === null) return;
+    setData({
+      ...data,
+      subscribers: [user.username],
+    });
+  }, [connections, user]);
+
+  const loading = connections === null || user === null;
+
+  return loading ? null : (
+    <Autocomplete
+      fullWidth
+      multiple
+      loading={isLoading}
+      options={[user.username, ...connections.map((u) => u.username)]}
+      value={data.subscribers}
+      getOptionLabel={(option) => option}
+      isOptionEqualToValue={(option, value) => option === value}
+      onChange={(event, value) => {
+        console.log("subscribers field value", value);
+        setData({ ...data, subscribers: value });
+      }}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          variant="standard"
+          label="Add subscriber"
+          placeholder="Username"
+        />
+      )}
+    />
+  );
+};
 
 export const TitleField = ({ data, setData }) => (
   <TextField

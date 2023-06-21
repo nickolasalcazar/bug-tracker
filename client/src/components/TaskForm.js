@@ -40,6 +40,7 @@ import {
   ScheduleField,
   StatusField,
   SubscribersField,
+  SubscribersFieldDev,
   TagsField,
   TitleField,
 } from "./TaskFormComponents";
@@ -78,14 +79,16 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
     date_end: null,
   });
 
-  // When task loads, save to data
+  // After hook useGetTaskByParam loads (or fails to load) the task,
+  // either save the task data to or add the logged in user as the default value
   useEffect(() => {
     if (isLoading) return;
     else if (error) {
-      // Add logged in user as default subscriber
       if (userProfile) {
-        setData((data) => {
-          return { ...data, subscribers: [userProfile.username] };
+        const taskIsNew = data.task_id === null;
+        setData({
+          ...data,
+          subscribers: taskIsNew ? [userProfile.username] : data.subscribers,
         });
       }
       return;
@@ -169,7 +172,11 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
           <ListItem sx={rowStyling}>
             <LeftColumn icon={SubscriberIcon} label="Subscribers" />
             <RightColumn>
-              <SubscribersField data={data} setData={setData} />
+              <SubscribersFieldDev
+                data={data}
+                setData={setData}
+                user={userProfile}
+              />
             </RightColumn>
           </ListItem>
           <Divider />
