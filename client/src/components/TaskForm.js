@@ -44,6 +44,13 @@ import {
   TitleField,
 } from "./TaskFormInputs";
 
+const rowStyling = {
+  display: "flex",
+  flexDirection: "row",
+  flexWrap: "wrap",
+  gap: 1,
+};
+
 /**
  * Component that displays all of the details of a task.
  */
@@ -159,42 +166,21 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
             <DescriptionField data={data} setData={setData} />
           </ListItem>
           <Divider />
-          <ListItem
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              flexWrap: "wrap",
-              gap: 1,
-            }}
-          >
+          <ListItem sx={rowStyling}>
             <LeftColumn icon={SubscriberIcon} label="Subscribers" />
             <RightColumn>
               <SubscribersField data={data} setData={setData} />
             </RightColumn>
           </ListItem>
           <Divider />
-          <ListItem
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              flexWrap: "wrap",
-              gap: 1,
-            }}
-          >
+          <ListItem sx={rowStyling}>
             <LeftColumn icon={TagIcon} label="Tags" />
             <RightColumn>
               <TagsField data={data} setData={setData} />
             </RightColumn>
           </ListItem>
           <Divider />
-          <ListItem
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              flexWrap: "wrap",
-              gap: 1,
-            }}
-          >
+          <ListItem sx={rowStyling}>
             <LeftColumn icon={SubtasksIcon} label="Parent Task" />
             <RightColumn>
               <TextField
@@ -213,14 +199,7 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
             </RightColumn>
           </ListItem>
           <Divider />
-          <ListItem
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              flexWrap: "wrap",
-              gap: 1,
-            }}
-          >
+          <ListItem sx={rowStyling}>
             <LeftColumn icon={CalendarIcon} label="Schedule" />
             <RightColumn>
               <ScheduleField data={data} setData={setData} />
