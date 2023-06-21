@@ -30,7 +30,7 @@ import useGetTaskByParam from "../hooks/useGetTaskByParam";
 import { deleteTask } from "../services/task.api";
 import { useAuth0 } from "@auth0/auth0-react";
 import { TasksContext } from "../context/TasksContext";
-import { LeftColumn, RightColumn } from "./TaskFormInputs";
+import { LeftColumn, RightColumn } from "./TaskFormComponents";
 
 /**
  * Component that displays all of the details of a task.

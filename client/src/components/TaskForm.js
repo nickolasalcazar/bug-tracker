@@ -42,7 +42,7 @@ import {
   SubscribersField,
   TagsField,
   TitleField,
-} from "./TaskFormInputs";
+} from "./TaskFormComponents";
 
 const rowStyling = {
   display: "flex",

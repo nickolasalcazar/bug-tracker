@@ -1,5 +1,5 @@
 /**
- * Exports various components for TaskForm.
+ * Exports various components for Task and TaskForm.
  */
 import React from "react";
 import {
@@ -13,8 +13,6 @@ import {
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { MuiChipsInput } from "mui-chips-input";
-
-// export const Field = ({ data, setData }) => ();
 
 export const LeftColumn = ({ icon: FieldIcon, label }) => (
   <Box flex={1} minWidth={160}>
