@@ -17,13 +17,8 @@ CREATE TABLE user_connections (
   date_requested TIMESTAMP DEFAULT NOW(),
   date_accepted TIMESTAMP DEFAULT NULL,
   UNIQUE (sender, receiver)
+  UNIQUE (receiver, sender)
 );
--- Query connections from user1 and user2 like so:
--- SELECT * FROM User WHERE User.UserId IN (
---     (SELECT User1_Id FROM Friend WHERE User2_Id = MY_USER_ID)
---     UNION
---     (SELECT User2_Id FROM Friend WHERE User1_Id = MY_USER_ID)
--- )
 
 -- User groups are named collections of users.
 -- E.g. 'Household', 'Computer Science Club'.
