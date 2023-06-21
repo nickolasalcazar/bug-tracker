@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  Box,
   Button,
   Chip,
   Dialog,
@@ -12,7 +11,6 @@ import {
   Divider,
   List,
   ListItem,
-  ListItemIcon,
   ListItemText,
   Stack,
   Typography,
@@ -32,6 +30,7 @@ import useGetTaskByParam from "../hooks/useGetTaskByParam";
 import { deleteTask } from "../services/task.api";
 import { useAuth0 } from "@auth0/auth0-react";
 import { TasksContext } from "../context/TasksContext";
+import { LeftColumn, RightColumn } from "./TaskFormInputs";
 
 /**
  * Component that displays all of the details of a task.
@@ -116,15 +115,8 @@ export default function Task({ setExpanded = null, expanded = null }) {
           </ListItem>
           <Divider />
           <ListItem>
-            <Box width="40%">
-              <ListItemIcon sx={{ pt: 1 }}>
-                <PersonIcon />
-                <Typography pl={1} variant="subtitle2" component="p">
-                  Creator
-                </Typography>
-              </ListItemIcon>
-            </Box>
-            <Box width="60%">
+            <LeftColumn icon={PersonIcon} label="Creator" />
+            <RightColumn>
               <ListItemText
                 primary={
                   <Typography fontSize="14px" component="p">
@@ -132,22 +124,12 @@ export default function Task({ setExpanded = null, expanded = null }) {
                   </Typography>
                 }
               />
-            </Box>
+            </RightColumn>
           </ListItem>
           <Divider />
           <ListItem>
-            <Box width="40%">
-              <ListItemIcon sx={{ pt: 1 }}>
-                <SubscriberIcon />
-                <Typography pl={1} variant="subtitle2" component="p">
-                  Subscribers
-                </Typography>
-              </ListItemIcon>
-            </Box>
-            <Box
-              width="60%"
-              sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}
-            >
+            <LeftColumn icon={SubscriberIcon} label="Subscribers" />
+            <RightColumn>
               {data.subscribers.map((subscriber, index) => (
                 <Chip
                   key={index}
@@ -158,22 +140,12 @@ export default function Task({ setExpanded = null, expanded = null }) {
                   size="small"
                 />
               ))}
-            </Box>
+            </RightColumn>
           </ListItem>
           <Divider />
           <ListItem>
-            <Box width="40%">
-              <ListItemIcon sx={{ pt: 1 }}>
-                <TagIcon />
-                <Typography pl={1} variant="subtitle2" component="p">
-                  Tags
-                </Typography>
-              </ListItemIcon>
-            </Box>
-            <Box
-              width="60%"
-              sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}
-            >
+            <LeftColumn icon={TagIcon} label="Tags" />
+            <RightColumn>
               {data.tags === null || data.tags.length === 0 ? (
                 <Typography fontSize="14px" component="p" fontStyle="italic">
                   No tags assigned
@@ -189,19 +161,12 @@ export default function Task({ setExpanded = null, expanded = null }) {
                   />
                 ))
               )}
-            </Box>
+            </RightColumn>
           </ListItem>
           <Divider />
           <ListItem>
-            <Box width="40%">
-              <ListItemIcon sx={{ pt: 1 }}>
-                <SubtasksIcon />
-                <Typography pl={1} variant="subtitle2" component="p">
-                  Parent Task
-                </Typography>
-              </ListItemIcon>
-            </Box>
-            <Box width="60%">
+            <LeftColumn icon={SubtasksIcon} label="Parent Task" />
+            <RightColumn>
               <ListItemText
                 primary={
                   data.parent_task_id ? (
@@ -225,22 +190,14 @@ export default function Task({ setExpanded = null, expanded = null }) {
                   )
                 }
               />
-            </Box>
+            </RightColumn>
           </ListItem>
-
           {!data.date_start || !data.date_end ? null : (
             <>
               <Divider />
               <ListItem>
-                <Box width="40%">
-                  <ListItemIcon sx={{ pt: 1 }}>
-                    <CalendarIcon />
-                    <Typography pl={1} variant="subtitle2" component="p">
-                      Timeframe
-                    </Typography>
-                  </ListItemIcon>
-                </Box>
-                <Box width="60%">
+                <LeftColumn icon={CalendarIcon} label="Timeframe" />
+                <RightColumn>
                   <ListItemText
                     primary={
                       <Typography fontSize="14px" component="p">
@@ -250,7 +207,7 @@ export default function Task({ setExpanded = null, expanded = null }) {
                       </Typography>
                     }
                   />
-                </Box>
+                </RightColumn>
               </ListItem>
             </>
           )}
