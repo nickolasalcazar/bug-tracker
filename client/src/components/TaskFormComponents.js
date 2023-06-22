@@ -144,26 +144,24 @@ export const StatusField = ({ data, setData }) => (
 );
 
 export const TagsField = ({ data, setData }) => (
-  <>
-    <MuiChipsInput
-      placeholder="Add tag"
-      fullWidth
-      value={data.tags}
-      onChange={(newChips) => {
-        setData((data) => ({
-          ...data,
-          tags: newChips.map((c) => c.toLowerCase()),
-        }));
-      }}
-      validate={(chipValue) => {
-        if (data.tags.includes(chipValue.toLowerCase())) return false;
-        return {
-          isError: chipValue.length > 16 || chipValue.length < 3,
-          textError: "Tag must be between 3 and 16 characters long",
-        };
-      }}
-    />
-  </>
+  <MuiChipsInput
+    placeholder="Add tag"
+    fullWidth
+    value={data.tags}
+    onChange={(newChips) => {
+      setData((data) => ({
+        ...data,
+        tags: newChips.map((c) => c.toLowerCase()),
+      }));
+    }}
+    validate={(chipValue) => {
+      if (data.tags.includes(chipValue.toLowerCase())) return false;
+      return {
+        isError: chipValue.length > 16 || chipValue.length < 3,
+        textError: "Tag must be between 3 and 16 characters long",
+      };
+    }}
+  />
 );
 
 export const SubscribersField = ({ data, setData, user = null }) => {
@@ -195,7 +193,7 @@ export const SubscribersField = ({ data, setData, user = null }) => {
       renderInput={(params) => (
         <TextField
           {...params}
-          variant="standard"
+          variant="outlined"
           label="Add subscriber"
           placeholder="Username"
         />
