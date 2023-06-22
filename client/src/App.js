@@ -74,36 +74,33 @@ function App() {
     <ThemeProvider theme={themeLight}>
       <div className="App">
         <CssBaseline />
-        <Routes>
-          <Route element={<LayoutWrapper />}>
-            <Route
-              path="/dashboard/*"
-              element={
-                <TasksProvider>
-                  <Dashboard />
-                </TasksProvider>
-              }
-            />
-          </Route>
-          <Route element={<LayoutWrapper />}>
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/projects/new" element={<NewProject />} />
-            <Route path="/task/new" element={<TaskForm />} />
-            <Route path="/user/*">
-              <Route path=":username/*" element={<User />} />
-              <Route path="*" element={<User />} />
+        <TasksProvider>
+          <Routes>
+            <Route element={<LayoutWrapper />}>
+              <Route path="/dashboard/*" element={<Dashboard />} />
             </Route>
-          </Route>
-          <Route element={<LayoutWrapper requireAuth={false} />}>
-            <Route path="/" element={<Homepage />} />
-            <Route
-              path="*"
-              element={
-                <h1>404: Sorry, the page you are looking for does not exist</h1>
-              }
-            />
-          </Route>
-        </Routes>
+            <Route element={<LayoutWrapper />}>
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/projects/new" element={<NewProject />} />
+              <Route path="/task/new" element={<TaskForm />} />
+              <Route path="/user/*">
+                <Route path=":username/*" element={<User />} />
+                <Route path="*" element={<User />} />
+              </Route>
+            </Route>
+            <Route element={<LayoutWrapper requireAuth={false} />}>
+              <Route path="/" element={<Homepage />} />
+              <Route
+                path="*"
+                element={
+                  <h1>
+                    404: Sorry, the page you are looking for does not exist
+                  </h1>
+                }
+              />
+            </Route>
+          </Routes>
+        </TasksProvider>
       </div>
     </ThemeProvider>
   );
