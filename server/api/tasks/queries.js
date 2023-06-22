@@ -41,7 +41,9 @@ module.exports = {
       tasks.task_id AS "Task ID",
       title AS "Title",
       users.username AS "Creator",
-      TO_CHAR(date_created AT TIME ZONE 'UTC', 'MM/DD/YYYY') AS "Created"
+      TO_CHAR(date_created AT TIME ZONE 'UTC', 'MM/DD/YYYY') AS "Created",
+      tags AS "Tags",
+      subscribers AS "Subscribers"
     FROM tasks
     INNER JOIN users ON users.user_id = $1 
     WHERE users.username = ANY (subscribers)`,
