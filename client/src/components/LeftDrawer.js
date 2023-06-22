@@ -1,5 +1,6 @@
-import * as React from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { TasksContext } from "../context/TasksContext";
 import {
   Box,
   Button,
@@ -14,7 +15,6 @@ import {
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/PersonOutlineOutlined";
 import SubscriberIcon from "@mui/icons-material/Inbox";
-import StarOutlineIcon from "@mui/icons-material/StarOutlineRounded";
 import AddIcon from "@mui/icons-material/Add";
 
 /**
@@ -29,6 +29,7 @@ export default function LeftDrawer({
   mobileOpen,
   handleDrawerToggle,
 }) {
+  const { updateTasksContext } = useContext(TasksContext);
   const drawer = (
     <>
       <ToolbarPadding />
@@ -49,7 +50,14 @@ export default function LeftDrawer({
           </Button>
         </ListItem>
         <Divider />
-        <ListItem disablePadding component={Link} to="/dashboard">
+        <ListItem
+          disablePadding
+          component={Link}
+          to="/dashboard"
+          onClick={() => {
+            updateTasksContext("owned");
+          }}
+        >
           <ListItemButton>
             <ListItemIcon>
               <PersonIcon />
@@ -57,7 +65,14 @@ export default function LeftDrawer({
             <ListItemText primary={"My Tasks"} />
           </ListItemButton>
         </ListItem>
-        <ListItem disablePadding>
+        <ListItem
+          disablePadding
+          component={Link}
+          to="/dashboard"
+          onClick={() => {
+            updateTasksContext("subscribed");
+          }}
+        >
           <ListItemButton>
             <ListItemIcon>
               <SubscriberIcon />
