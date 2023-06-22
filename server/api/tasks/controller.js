@@ -65,8 +65,14 @@ module.exports = {
     try {
       const task_id = decodeURI(req.params.id);
       const user_id = decodeURI(req.auth.payload.sub);
-      const response = await db.query(queries.getTaskById, [user_id, task_id]);
-      if (response.rows.length === 0) res.status(200).json(response.rows[0]);
+      const response = await db.query(queries.checkPrivileges, [
+        user_id,
+        task_id,
+      ]);
+      res.status(200);
+      if (response.rows.length === 0)
+        res.json({ owner: false, subscriber: false });
+      else res.json(response.rows);
     } catch (e) {
       console.log(e);
       res.sendStatus(500);
