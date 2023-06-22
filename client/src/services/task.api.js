@@ -55,10 +55,24 @@ export const deleteTask = async (accessToken, task_id) =>
   });
 
 /**
- * Get all subscribed tasks.
+ * Get all tasks that are owned by the user.
  * @param {string} accessToken  JWT.
  */
-export const getAllSubscribedTasks = async (accessToken) =>
+export const getOwnedTasks = async (accessToken) =>
+  await callExternalApi({
+    url: `${endpoint}/api/tasks/owned`,
+    method: "GET",
+    headers: {
+      "content-type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+/**
+ * Get all taks that are subscribed to by the user.
+ * @param {string} accessToken  JWT.
+ */
+export const getSubscribedTasks = async (accessToken) =>
   await callExternalApi({
     url: `${endpoint}/api/tasks/subscribed`,
     method: "GET",
