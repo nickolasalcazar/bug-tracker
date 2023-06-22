@@ -35,7 +35,17 @@ module.exports = {
     WHERE task_id = $1
     RETURNING task_id`,
   deleteTask: "DELETE FROM tasks WHERE task_id = $1",
-  getAllOwnedTasks: "SELECT * FROM tasks WHERE owner_id = $1",
+  getAllOwnedTasks: `
+    SELECT
+      tasks.task_id AS "Task ID",
+      title AS "Title",
+      users.username AS "Creator",
+      TO_CHAR(date_created AT TIME ZONE 'UTC', 'MM/DD/YYYY') AS "Created",
+      tags AS "Tags",
+      subscribers AS "Subscribers"
+    FROM tasks
+    INNER JOIN users ON users.user_id = $1 
+    WHERE $1 = owner_id`,
   getAllSubscribedTasks: `
     SELECT
       tasks.task_id AS "Task ID",
