@@ -44,6 +44,35 @@ module.exports = {
       });
   },
 
+  /**
+   * Get subscribed and owned tasks.
+   */
+  // getAllTasks: (req, res) => {
+  //   db.query(queries.getAllSubscribedTasks, [req.auth.payload.sub])
+  //     .then((result) => {
+  //       res.status(200).json(result.rows);
+  //     })
+  //     .catch((e) => {
+  //       console.log(e);
+  //       res.sendStatus(500);
+  //     });
+  // },
+
+  /**
+   * Checks the privileges a user has in relation to a task.
+   */
+  checkPrivileges: async (req, res) => {
+    try {
+      const task_id = decodeURI(req.params.id);
+      const user_id = decodeURI(req.auth.payload.sub);
+      const response = await db.query(queries.getTaskById, [user_id, task_id]);
+      if (response.rows.length === 0) res.status(200).json(response.rows[0]);
+    } catch (e) {
+      console.log(e);
+      res.sendStatus(500);
+    }
+  },
+
   createTask: async (req, res) => {
     const ownerId = req.auth.payload.sub;
     let {

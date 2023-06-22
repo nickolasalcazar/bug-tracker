@@ -57,6 +57,7 @@ module.exports = {
     FROM tasks
     INNER JOIN users ON users.user_id = $1 
     WHERE users.username = ANY (subscribers)`,
+  getAllTasks: ``,
   getTaskById: `
     SELECT
       sub.task_id,
@@ -77,4 +78,7 @@ module.exports = {
     INNER JOIN users ON sub.owner_id = users.user_id 
     LEFT JOIN tasks parent ON parent.task_id = sub.parent_task_id 
     WHERE sub.task_id = $1`,
+  checkPrivileges: `
+    SELECT (owner_id = $1) AS "owner", (username = ANY (subscribers)) AS "subscriber"
+    FROM tasks INNER JOIN users ON users.user_id = $1 WHERE task_id = $2`,
 };
