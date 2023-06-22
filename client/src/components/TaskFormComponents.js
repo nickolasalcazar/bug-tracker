@@ -166,32 +166,7 @@ export const TagsField = ({ data, setData }) => (
   </>
 );
 
-export const SubscribersField = ({ data, setData }) => (
-  <MuiChipsInput
-    placeholder="Add subscriber"
-    helperText="Enter username"
-    fullWidth
-    value={data.subscribers.map((subscriber) => subscriber)}
-    onChange={(newChips) => {
-      setData((data) => ({
-        ...data,
-        subscribers: newChips.map((c) => c.toLowerCase()),
-      }));
-    }}
-    validate={(chipValue) => {
-      if (data.tags.includes(chipValue.toLowerCase())) return false;
-
-      // Do validation check to see if user exists; throw errors
-
-      return {
-        isError: chipValue.length > 254 || chipValue.length < 3,
-        textError: "Value must be at least 3 characters long",
-      };
-    }}
-  />
-);
-
-export const SubscribersFieldDev = ({ data, setData, user = null }) => {
+export const SubscribersField = ({ data, setData, user = null }) => {
   const { connections, isLoading, error } = useConnections();
 
   useEffect(() => {

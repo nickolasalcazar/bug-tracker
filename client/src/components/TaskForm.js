@@ -40,7 +40,6 @@ import {
   ScheduleField,
   StatusField,
   SubscribersField,
-  SubscribersFieldDev,
   TagsField,
   TitleField,
 } from "./TaskFormComponents";
@@ -172,7 +171,7 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
           <ListItem sx={rowStyling}>
             <LeftColumn icon={SubscriberIcon} label="Subscribers" />
             <RightColumn>
-              <SubscribersFieldDev
+              <SubscribersField
                 data={data}
                 setData={setData}
                 user={userProfile}
