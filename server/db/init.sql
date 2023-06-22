@@ -20,44 +20,6 @@ CREATE TABLE user_connections (
   UNIQUE (receiver, sender)
 );
 
--- User groups are named collections of users.
--- E.g. 'Household', 'Computer Science Club'.
-CREATE TABLE user_groups (
-  group_id SERIAL PRIMARY KEY,
-  title TEXT NOT NULL,
-  description TEXT
-);
-
-CREATE TABLE user_group_members (
-  group_id SERIAL REFERENCES user_groups(group_id) ON DELETE CASCADE,
-  user_id TEXT REFERENCES users(user_id),
-  is_owner BOOLEAN NOT NULL DEFAULT FALSE,
-  PRIMARY KEY (group_id, user_id)
-);
-
-CREATE TABLE projects (
-  project_id SERIAL PRIMARY KEY,
-  user_group_id SERIAL REFERENCES user_groups(group_id),
-  title TEXT NOT NULL,
-  description TEXT DEFAULT 'No description',
-  date_created TIMESTAMP NOT NULL DEFAULT NOW()
-);
-
-CREATE TABLE project_members (
-  project_id SERIAL REFERENCES projects(project_id) ON DELETE CASCADE,
-  user_id TEXT REFERENCES users(user_id),
-  is_owner BOOLEAN NOT NULL DEFAULT FALSE,
-  PRIMARY KEY (project_id, user_id)
-);
-
-CREATE TABLE project_comments (
-  comment_id SERIAL PRIMARY KEY,
-  project_id SERIAL REFERENCES projects(project_id) ON DELETE CASCADE,
-  author_id TEXT REFERENCES users(user_id),
-  comment_text TEXT NOT NULL,
-  date_posted TIMESTAMP NOT NULL DEFAULT NOW()
-);
-
 CREATE TABLE task_statuses (
   status_value VARCHAR(50) NOT NULL PRIMARY KEY
 );
