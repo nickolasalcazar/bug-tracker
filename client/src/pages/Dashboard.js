@@ -4,7 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { getUserInfo, createUser } from "../services/user.api";
 import { TasksContext } from "../context/TasksContext";
 
-import DataTable from "../components/DataTable/DataTable";
+import DataTable from "../components/DataTable";
 import { Box, Stack } from "@mui/material";
 import TaskForm from "../components/TaskForm";
 import Task from "../components/Task";
