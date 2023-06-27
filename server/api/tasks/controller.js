@@ -62,16 +62,23 @@ module.exports = {
    * Checks the privileges a user has in relation to a task.
    */
   checkPrivileges: async (req, res) => {
+    const falsy = { owner: false, subscriber: false };
     try {
-      const task_id = decodeURI(req.params.id);
       const user_id = decodeURI(req.auth.payload.sub);
+      const task_id = decodeURI(req.params.id);
+      if (isNaN(task_id)) {
+        res.status(200).json(falsy);
+        return;
+      } else if (parseInt(task_id) < 0) {
+        res.status(200).json(falsy);
+        return;
+      }
       const response = await db.query(queries.checkPrivileges, [
         user_id,
         task_id,
       ]);
       res.status(200);
-      if (response.rows.length === 0)
-        res.json({ owner: false, subscriber: false });
+      if (response.rows.length === 0) res.json(falsy);
       else res.json(response.rows[0]);
     } catch (e) {
       console.log(e);
