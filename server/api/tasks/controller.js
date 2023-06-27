@@ -72,7 +72,7 @@ module.exports = {
       res.status(200);
       if (response.rows.length === 0)
         res.json({ owner: false, subscriber: false });
-      else res.json(response.rows);
+      else res.json(response.rows[0]);
     } catch (e) {
       console.log(e);
       res.sendStatus(500);
