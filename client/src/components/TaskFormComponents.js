@@ -1,7 +1,7 @@
 /**
  * Exports various components for Task and TaskForm.
  */
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Autocomplete,
   Box,
@@ -97,6 +97,24 @@ export const DescriptionField = ({ data, setData }) => (
   />
 );
 
+export const ParentTaskField = ({ data, setData, error }) => (
+  <TextField
+    type="text"
+    label={error ? "Invalid task ID" : ""}
+    value={data.parent_task_id ?? ""}
+    placeholder="Parent task ID"
+    error={error}
+    onChange={(e) => {
+      setData((data) => {
+        return {
+          ...data,
+          parent_task_id: e.target.value,
+        };
+      });
+    }}
+  />
+);
+
 export const PriorityField = ({ data, setData }) => (
   <>
     <InputLabel id="priority-select-label">Priority</InputLabel>
@@ -187,14 +205,13 @@ export const SubscribersField = ({ data, setData, user = null }) => {
       getOptionLabel={(option) => option}
       isOptionEqualToValue={(option, value) => option === value}
       onChange={(event, value) => {
-        console.log("subscribers field value", value);
         setData({ ...data, subscribers: value });
       }}
       renderInput={(params) => (
         <TextField
           {...params}
           variant="outlined"
-          label="Add subscriber"
+          label="Add subscribers"
           placeholder="Username"
         />
       )}

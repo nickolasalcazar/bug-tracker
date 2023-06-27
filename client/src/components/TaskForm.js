@@ -12,7 +12,6 @@ import {
   FormControl,
   List,
   ListItem,
-  TextField,
   Typography,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -21,7 +20,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import useUserProfile from "../hooks/useUserProfile";
 import useGetTaskByParam from "../hooks/useGetTaskByParam";
 import { useAuth0 } from "@auth0/auth0-react";
-import { createTask, updateTask } from "../services/task.api";
+import { createTask, updateTask, getPrivileges } from "../services/task.api";
 import { TasksContext } from "../context/TasksContext";
 
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -35,6 +34,7 @@ import TaskHeader from "./TaskHeader";
 import {
   DescriptionField,
   LeftColumn,
+  ParentTaskField,
   PriorityField,
   RightColumn,
   ScheduleField,
@@ -61,6 +61,7 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
   const { userProfile } = useUserProfile();
   const { task, isLoading, error } = useGetTaskByParam();
   const [open, setOpen] = useState(false); // Close form button dialog
+  const [parentFieldError, setParentFieldError] = useState(false);
 
   const [data, setData] = useState({
     task_id: null,
@@ -95,6 +96,9 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
     setData(task);
   }, [task, userProfile]);
 
+  const fetchPrivileges = async (token) =>
+    (await getPrivileges(token, data.parent_task_id)).data;
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const taskIsNew = data.task_id === null;
@@ -102,9 +106,12 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
     const now = new Date().toISOString();
     data[taskIsNew ? "date_created" : "date_modified"] = now;
 
-    // Perform validation checks here
-    // Check if dates can be converted to ISO properly
-    console.log("Submitting", data);
+    // Check if user has permission to assign parent task
+    const privileges = await fetchPrivileges(accessToken);
+    if (!privileges.owner && !privileges.subscriber) {
+      setParentFieldError(true);
+      return;
+    }
 
     try {
       const response = taskIsNew
@@ -187,20 +194,12 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
           </ListItem>
           <Divider />
           <ListItem sx={rowStyling}>
-            <LeftColumn icon={SubtasksIcon} label="Parent Task" />
+            <LeftColumn icon={SubtasksIcon} label="Parent Task ID" />
             <RightColumn>
-              <TextField
-                type="text"
-                value={data.parent_task_id ?? ""}
-                placeholder="Parent task ID"
-                onChange={(e) => {
-                  setData((data) => {
-                    return {
-                      ...data,
-                      parent_task_id: e.target.value,
-                    };
-                  });
-                }}
+              <ParentTaskField
+                data={data}
+                setData={setData}
+                error={parentFieldError}
               />
             </RightColumn>
           </ListItem>
