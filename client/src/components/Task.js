@@ -31,6 +31,7 @@ import { deleteTask } from "../services/task.api";
 import { useAuth0 } from "@auth0/auth0-react";
 import { TasksContext } from "../context/TasksContext";
 import { LeftColumn, RightColumn } from "./TaskFormComponents";
+import TaskChip from "./TaskChip";
 
 /**
  * Component that displays all of the details of a task.
@@ -170,15 +171,10 @@ export default function Task({ setExpanded = null, expanded = null }) {
               <ListItemText
                 primary={
                   data.parent_task_id ? (
-                    <Link to={`/dashboard/task/${data.parent_task_id}`}>
-                      <Chip
-                        clickable
-                        label={data.parent_title}
-                        icon={<LinkIcon fontSize="small" />}
-                        variant="outlined"
-                        color="secondary"
-                      />
-                    </Link>
+                    <TaskChip
+                      id={data.parent_task_id}
+                      title={data.parent_title}
+                    />
                   ) : (
                     <Typography
                       fontSize="14px"
@@ -190,6 +186,28 @@ export default function Task({ setExpanded = null, expanded = null }) {
                   )
                 }
               />
+            </RightColumn>
+          </ListItem>
+          <Divider />
+          <ListItem>
+            <LeftColumn icon={SubtasksIcon} label="Child Tasks" />
+            <RightColumn>
+              <Stack direction="column" spacing={0.5}>
+                {data.child_tasks ? (
+                  data.child_tasks.map((task) => (
+                    <TaskChip
+                      key={task.task_id}
+                      id={task.task_id}
+                      title={task.title}
+                      status={task.status}
+                    />
+                  ))
+                ) : (
+                  <Typography fontSize="14px" component="p" fontStyle="italic">
+                    No child tasks
+                  </Typography>
+                )}
+              </Stack>
             </RightColumn>
           </ListItem>
           {!data.date_start || !data.date_end ? null : (
