@@ -16,7 +16,7 @@ CREATE TABLE user_connections (
   connected BOOLEAN DEFAULT FALSE,
   date_requested TIMESTAMP DEFAULT NOW(),
   date_accepted TIMESTAMP DEFAULT NULL,
-  UNIQUE (sender, receiver)
+  UNIQUE (sender, receiver),
   UNIQUE (receiver, sender)
 );
 
@@ -39,7 +39,6 @@ INSERT INTO task_priorities(priority_value)
 CREATE TABLE tasks (
   task_id SERIAL PRIMARY KEY,
   parent_task_id SERIAL REFERENCES tasks(task_id) ON DELETE CASCADE,
-  project_id SERIAL REFERENCES projects(project_id) ON DELETE CASCADE,
   owner_id TEXT REFERENCES users(user_id) ON DELETE CASCADE,
   title TEXT NOT NULL,
   "description" TEXT DEFAULT 'No description',
@@ -51,14 +50,11 @@ CREATE TABLE tasks (
   "priority" VARCHAR(50) REFERENCES task_priorities(priority_value) DEFAULT NULL,
   tags VARCHAR(16) ARRAY[8],   -- 8 max
   subscribers TEXT ARRAY[256] -- 256 max
-  --invited_subscribers
 );
 
 -- Alter table tasks to make foreign keys nullable
 ALTER TABLE tasks
   ALTER COLUMN parent_task_id DROP NOT NULL;
-ALTER TABLE tasks
-  ALTER COLUMN project_id DROP NOT NULL;
 
 CREATE TABLE task_comments (
   comment_id SERIAL PRIMARY KEY,
