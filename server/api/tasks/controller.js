@@ -5,9 +5,11 @@ module.exports = {
   getTaskById: async (req, res) => {
     try {
       const id = decodeURI(req.params.id);
-      const response = await db.query(queries.getTaskById, [id]);
-      if (response.rows.length === 0) res.sendStatus(404);
-      const task = response.rows[0];
+      const getTask = await db.query(queries.getTaskById, [id]);
+      if (getTask.rows.length === 0) res.sendStatus(404);
+      const task = getTask.rows[0];
+      const getChildren = await db.query(queries.getChildTasks, [id]);
+      task.child_tasks = getChildren.rows[0].json_agg;
       res.status(200).json(task);
     } catch (e) {
       console.log(e);
