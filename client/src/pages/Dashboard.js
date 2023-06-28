@@ -5,14 +5,14 @@ import { getUserInfo, createUser } from "../services/user.api";
 import { TasksContext } from "../context/TasksContext";
 
 import DataTable from "../components/DataTable";
-import { Box, Stack } from "@mui/material";
+import { Box, Chip, Stack } from "@mui/material";
 import TaskForm from "../components/TaskForm";
 import Task from "../components/Task";
 
 /**
  * Renders the main dashboard that the user sees when they enter the app.
  */
-function Dashboard() {
+export default function Dashboard() {
   const { user, getAccessTokenSilently } = useAuth0();
   const { tasksContext } = useContext(TasksContext);
   const [columns, setColumns] = useState([]);
@@ -26,6 +26,13 @@ function Dashboard() {
     const rows = tasksContext.tasks.map((row) => Object.values(row));
     const columns = Object.keys(tasksContext.tasks[0]);
     setColumns(columns);
+    rows.forEach((row) => {
+      const tags = row[4];
+      row[4] = [];
+      tags.forEach((tag) => {
+        row[4].push(<Chip label={tag} variant="outlined" size="small" />);
+      });
+    });
     setRows(rows);
   }, [tasksContext]);
 
@@ -107,5 +114,3 @@ function Dashboard() {
     </Stack>
   );
 }
-
-export default Dashboard;
