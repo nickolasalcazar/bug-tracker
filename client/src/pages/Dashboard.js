@@ -1,11 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
-import { getUserInfo, createUser } from "../services/user.api";
 import { TasksContext } from "../context/TasksContext";
-
-import DataTable from "../components/DataTable";
 import { Box, Chip, Stack } from "@mui/material";
+import DataTable from "../components/DataTable";
 import TaskForm from "../components/TaskForm";
 import Task from "../components/Task";
 
@@ -13,7 +10,6 @@ import Task from "../components/Task";
  * Renders the main dashboard that the user sees when they enter the app.
  */
 export default function Dashboard() {
-  const { user, getAccessTokenSilently } = useAuth0();
   const { tasksContext } = useContext(TasksContext);
   const [columns, setColumns] = useState([]);
   const [rows, setRows] = useState([]);
@@ -35,23 +31,6 @@ export default function Dashboard() {
     });
     setRows(rows);
   }, [tasksContext]);
-
-  useEffect(() => {
-    let isMounted = true;
-    // Whenever the user signs in they are redirected to this page.
-    // This function checks if they are a new user.
-    // If they are new user, their profile is created in the backend.
-    const newUserCheck = async () => {
-      const accessToken = await getAccessTokenSilently();
-      let res = await getUserInfo(accessToken, user.sub);
-      if (res.status === 404) await createUser(accessToken, user);
-      if (!isMounted) return;
-    };
-    newUserCheck();
-    return () => {
-      isMounted = false;
-    };
-  }, []);
 
   const handleOnRowClick = () => {
     console.log("Dashboard: row clicked");
