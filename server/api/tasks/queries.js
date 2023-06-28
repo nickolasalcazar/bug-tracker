@@ -82,6 +82,6 @@ module.exports = {
     SELECT (owner_id = $1) AS "owner", (username = ANY (subscribers)) AS "subscriber"
     FROM tasks INNER JOIN users ON users.user_id = $1 WHERE task_id = $2`,
   getChildTasks: `
-    SELECT json_agg(json_build_object('task_id', task_id, 'title', title))
+    SELECT json_agg(json_build_object('task_id', task_id, 'title', title, 'status', status))
     FROM tasks WHERE tasks.parent_task_id = $1`,
 };
