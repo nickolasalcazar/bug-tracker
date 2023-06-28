@@ -33,6 +33,10 @@ export default function TaskHeader({
     </Box>
   );
 
+  const iconStyle = {
+    display: { xs: "none", sm: "none", md: "none", lg: "flex" },
+  };
+
   return (
     <Box
       sx={{
@@ -68,12 +72,12 @@ export default function TaskHeader({
         </>
       ) : null}
       {expanded ? (
-        <IconButton onClick={() => setExpanded(false)}>
-          <FullscreenIcon />
+        <IconButton onClick={() => setExpanded(false)} sx={iconStyle}>
+          <CloseFullscreenIcon />
         </IconButton>
       ) : (
-        <IconButton onClick={() => setExpanded(true)}>
-          <CloseFullscreenIcon />
+        <IconButton onClick={() => setExpanded(true)} sx={iconStyle}>
+          <FullscreenIcon />
         </IconButton>
       )}
       <IconButton onClick={handleClose}>
