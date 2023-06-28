@@ -60,25 +60,28 @@ module.exports = {
   getAllTasks: ``,
   getTaskById: `
     SELECT
-      sub.task_id,
+      this.task_id,
       parent.task_id AS parent_task_id,
       parent.title AS parent_title,
-      sub.project_id,
-      sub.title,
-      sub.description,
+      this.project_id,
+      this.title,
+      this.description,
       users.username AS "creator",
-      TO_CHAR(sub.date_created AT TIME ZONE 'UTC', 'MM/DD/YYYY HH:MI AM') AS "date_created",
-      sub.date_start,
-      sub.date_end,
-      sub.status,
-      sub.priority,
-      sub.tags,
-      sub.subscribers
-    FROM tasks sub
-    INNER JOIN users ON sub.owner_id = users.user_id 
-    LEFT JOIN tasks parent ON parent.task_id = sub.parent_task_id 
-    WHERE sub.task_id = $1`,
+      TO_CHAR(this.date_created AT TIME ZONE 'UTC', 'MM/DD/YYYY HH:MI AM') AS "date_created",
+      this.date_start,
+      this.date_end,
+      this.status,
+      this.priority,
+      this.tags,
+      this.subscribers
+    FROM tasks this
+    INNER JOIN users ON this.owner_id = users.user_id 
+    LEFT JOIN tasks parent ON parent.task_id = this.parent_task_id 
+    WHERE this.task_id = $1`,
   checkPrivileges: `
     SELECT (owner_id = $1) AS "owner", (username = ANY (subscribers)) AS "subscriber"
     FROM tasks INNER JOIN users ON users.user_id = $1 WHERE task_id = $2`,
+  getChildTasks: `
+    SELECT json_agg(json_build_object('task_id', task_id, 'title', title))
+    FROM tasks WHERE tasks.parent_task_id = $1`,
 };
