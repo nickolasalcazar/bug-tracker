@@ -192,7 +192,7 @@ export default function Task({ setExpanded = null, expanded = null }) {
           <ListItem>
             <LeftColumn icon={SubtasksIcon} label="Child Tasks" />
             <RightColumn>
-              <Stack direction="column" spacing={0.5}>
+              <List dense={true}>
                 {data.child_tasks ? (
                   data.child_tasks.map((task) => (
                     <TaskChip
@@ -207,7 +207,7 @@ export default function Task({ setExpanded = null, expanded = null }) {
                     No child tasks
                   </Typography>
                 )}
-              </Stack>
+              </List>
             </RightColumn>
           </ListItem>
           {!data.date_start || !data.date_end ? null : (
