@@ -1,8 +1,18 @@
 import React from "react";
-import { AppBar, Box, IconButton, Stack, Toolbar } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  IconButton,
+  MenuItem,
+  Stack,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/MenuRounded";
 import NotificationBell from "./NotificationBell";
 import ProfileNavButton from "./ProfileNavButton";
+import { Link } from "react-router-dom";
+import useUserProfile from "../hooks/useUserProfile";
 const logoSize = "50px";
 
 /**
@@ -11,6 +21,7 @@ const logoSize = "50px";
  * @param {function} handleDrawerToggle
  */
 export default function NavBar({ handleDrawerToggle }) {
+  const { userProfile: user } = useUserProfile();
   return (
     <AppBar
       position="fixed"
@@ -29,6 +40,21 @@ export default function NavBar({ handleDrawerToggle }) {
           </Stack>
           <LogoSmall />
           <Stack direction="row" spacing={2}>
+            <Box display={{ xs: "none", sm: "flex", md: "flex", lg: "flex" }}>
+              <MenuItem component={Link} to="/dashboard">
+                <Typography textAlign="center" fontWeight="medium">
+                  Dashboard
+                </Typography>
+              </MenuItem>
+              <MenuItem
+                component={Link}
+                to={user === null ? "/user" : `/user/${user.username}`}
+              >
+                <Typography textAlign="center" fontWeight="medium">
+                  Profile
+                </Typography>
+              </MenuItem>
+            </Box>
             <NotificationBell />
             <ProfileNavButton />
           </Stack>
