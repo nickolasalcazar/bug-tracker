@@ -1,32 +1,17 @@
-import { Outlet, Route, Routes } from "react-router-dom";
 import "./App.css";
-
-import { useAuth0 } from "@auth0/auth0-react";
-
+import { Outlet, Route, Routes } from "react-router-dom";
 import { AuthenticationGuard } from "./components/auth0/AuthenticationGuard";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import { TasksProvider } from "./context/TasksContext";
 import AppLayout from "./AppLayout";
 import TaskForm from "./components/TaskForm";
-import PageLoader from "./components/PageLoader";
 import Homepage from "./pages/Homepage";
 import User from "./pages/User/User";
 import Projects from "./pages/Projects";
 import NewProject from "./pages/NewProject";
-
-import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
-import { TasksProvider } from "./context/TasksContext";
 import Dashboard from "./pages/Dashboard";
 
 function App() {
-  const { isLoading } = useAuth0();
-
-  if (isLoading) {
-    return (
-      <div className="App">
-        <PageLoader />
-      </div>
-    );
-  }
-
   const themeLight = createTheme({
     palette: {
       background: {
