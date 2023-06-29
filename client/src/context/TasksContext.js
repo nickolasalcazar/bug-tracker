@@ -12,9 +12,17 @@ export const TasksProvider = ({ children }) => {
   };
   const [tasksContext, setTasksContext] = useState(initialVal);
   const [currMethod, setCurrMethod] = useState("subscribed");
-  const { getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
 
   const updateTasksContext = async (method = null) => {
+    if (!isAuthenticated) {
+      setTasksContext({
+        tasks: null,
+        isLoading: false,
+        error: true,
+      });
+      return;
+    }
     const token = await getAccessTokenSilently();
     let response;
 
