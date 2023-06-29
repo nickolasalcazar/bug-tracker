@@ -7,7 +7,6 @@ module.exports = {
         status,
         priority,
         description,
-        project_id,
         parent_task_id,
         date_created,
         date_modified,
@@ -16,7 +15,7 @@ module.exports = {
         tags,
         subscribers
         )
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
     RETURNING task_id`,
   updateTask: `
     UPDATE tasks
@@ -25,13 +24,12 @@ module.exports = {
       status = $3,
       priority = $4,
       description = $5,
-      project_id = $6,
-      parent_task_id = $7,
-      date_modified = $8,
-      date_start = $9,
-      date_end = $10,
-      tags = $11,
-      subscribers = $12
+      parent_task_id = $6,
+      date_modified = $7,
+      date_start = $8,
+      date_end = $9,
+      tags = $10,
+      subscribers = $11
     WHERE task_id = $1
     RETURNING task_id`,
   deleteTask: "DELETE FROM tasks WHERE task_id = $1",
@@ -61,7 +59,6 @@ module.exports = {
       this.task_id,
       parent.task_id AS parent_task_id,
       parent.title AS parent_title,
-      this.project_id,
       this.title,
       this.description,
       users.username AS "creator",

@@ -97,7 +97,6 @@ module.exports = {
       description = null,
       subscribers = [],
       tags = [],
-      project_id = null,
       parent_task_id = null,
       date_created = null,
       date_start = null,
@@ -116,7 +115,6 @@ module.exports = {
         status,
         priority,
         description,
-        project_id,
         parent_task_id,
         date_created,
         (date_modified = date_created),
@@ -144,7 +142,6 @@ module.exports = {
       description = null,
       subscribers = [],
       tags = [],
-      project_id = null,
       parent_task_id = null,
       date_modified = null,
       date_start = null,
@@ -152,6 +149,7 @@ module.exports = {
     } = req.body;
 
     // Validate inputs here
+    if (parent_task_id === "") parent_task_id = null;
 
     try {
       await db.query(queries.updateTask, [
@@ -160,7 +158,6 @@ module.exports = {
         status,
         priority,
         description,
-        project_id,
         parent_task_id,
         date_modified,
         date_start,
