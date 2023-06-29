@@ -38,6 +38,7 @@ export default function NotificationBell({ display }) {
     refreshBell();
   };
 
+  if (connections === null) return null;
   if (connections.length === 0) return null;
   return (
     <>
