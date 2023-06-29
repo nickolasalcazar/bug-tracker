@@ -7,7 +7,12 @@ import IncompleteIcon from "@mui/icons-material/RadioButtonUnchecked";
 /**
  * Renders a chip that renders the title, status, and link to the task.
  */
-export default function TaskChip({ id, title, status = null }) {
+export default function TaskChip({
+  id,
+  title,
+  status = null,
+  component = null,
+}) {
   let icon;
   if (status === null) icon = <TaskIcon />;
   else if (status === "in progress") icon = <IncompleteIcon />;
@@ -15,7 +20,7 @@ export default function TaskChip({ id, title, status = null }) {
 
   return (
     <Link to={`/dashboard/task/${id}`}>
-      <ListItem disableGutters disablePadding dense>
+      <ListItem disableGutters disablePadding dense component={component}>
         <ListItemIcon>{icon}</ListItemIcon>
         <ListItemText primary={title} secondary={status ? status : null} />
       </ListItem>

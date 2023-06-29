@@ -26,12 +26,12 @@ import CalendarIcon from "@mui/icons-material/CalendarMonthOutlined";
 import PageLoader from "./PageLoader";
 import TaskWrapper from "./TaskWrapper";
 import TaskHeader from "./TaskHeader";
+import TaskChip from "./TaskChip";
 import useGetTaskByParam from "../hooks/useGetTaskByParam";
 import { deleteTask } from "../services/task.api";
 import { useAuth0 } from "@auth0/auth0-react";
 import { TasksContext } from "../context/TasksContext";
 import { LeftColumn, RightColumn } from "./TaskFormComponents";
-import TaskChip from "./TaskChip";
 
 /**
  * Component that displays all of the details of a task.
@@ -156,7 +156,7 @@ export default function Task({ setExpanded = null, expanded = null }) {
                     key={index}
                     label={tag}
                     variant="outlined"
-                    onClick={() => console.log("chip")}
+                    // onClick={() => console.log("chip")}
                     size="small"
                   />
                 ))
@@ -173,6 +173,7 @@ export default function Task({ setExpanded = null, expanded = null }) {
                     <TaskChip
                       id={data.parent_task_id}
                       title={data.parent_title}
+                      component="div"
                     />
                   ) : (
                     <Typography
