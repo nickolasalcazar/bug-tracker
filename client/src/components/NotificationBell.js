@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   IconButton,
@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import NotifNoneIcon from "@mui/icons-material/NotificationsNoneRounded";
 import NotifIcon from "@mui/icons-material/NotificationsActiveRounded";
-import AddUserIcon from "@mui/icons-material/PersonAddRounded";
 import usePendingConnections from "../hooks/usePendingConnections";
 
 /**
@@ -39,6 +38,7 @@ export default function NotificationBell({ display }) {
     refreshBell();
   };
 
+  if (connections.length === 0) return null;
   return (
     <>
       <IconButton

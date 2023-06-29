@@ -29,13 +29,7 @@ export default function NavBar({ handleDrawerToggle }) {
           </Stack>
           <LogoSmall />
           <Stack direction="row" spacing={2}>
-            <NotificationBell
-              display={{
-                xs: "none",
-                sm: "none",
-                md: "block",
-              }}
-            />
+            <NotificationBell />
             <ProfileNavButton />
           </Stack>
         </Box>
