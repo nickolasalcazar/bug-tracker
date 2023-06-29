@@ -23,7 +23,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { createTask, updateTask, getPrivileges } from "../services/task.api";
 import { TasksContext } from "../context/TasksContext";
 
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SubtasksIcon from "@mui/icons-material/ListOutlined";
 import SubscriberIcon from "@mui/icons-material/Inbox";
 import TagIcon from "@mui/icons-material/LocalOfferOutlined";
@@ -96,8 +95,8 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
     setData(task);
   }, [task, userProfile]);
 
-  const fetchPrivileges = async (token) =>
-    (await getPrivileges(token, data.parent_task_id)).data;
+  const fetchPrivileges = async (token, task_id) =>
+    (await getPrivileges(token, task_id)).data;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -106,11 +105,28 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
     const now = new Date().toISOString();
     data[taskIsNew ? "date_created" : "date_modified"] = now;
 
-    // Check if user has permission to assign parent task
-    const privileges = await fetchPrivileges(accessToken);
-    if (!privileges.owner && !privileges.subscriber) {
+    const parent_id = data.parent_task_id;
+
+    // Check if parent_task_id is appropriate
+    if (parent_id === "" || parent_id === null) {
+      setParentFieldError(false);
+    } else if (isNaN(parent_id)) {
       setParentFieldError(true);
       return;
+    } else if (parseInt(parent_id) < 0) {
+      setParentFieldError(true);
+      return;
+    }
+
+    // Check if user has permission to assign parent task
+    console.log("parent_id", parent_id);
+    if (parent_id !== "" && parent_id !== null) {
+      const privileges = await fetchPrivileges(accessToken, parent_id);
+      console.log("privileges", privileges);
+      if (!privileges.owner && !privileges.subscriber) {
+        setParentFieldError(true);
+        return;
+      }
     }
 
     try {
