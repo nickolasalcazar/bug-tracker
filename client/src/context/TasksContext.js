@@ -11,7 +11,7 @@ export const TasksProvider = ({ children }) => {
     error: false,
   };
   const [tasksContext, setTasksContext] = useState(initialVal);
-  const [currMethod, setCurrMethod] = useState("subscribed");
+  const [currMethod, setCurrMethod] = useState("owned");
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
 
   const updateTasksContext = async (method = null) => {
