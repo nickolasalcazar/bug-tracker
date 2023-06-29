@@ -25,15 +25,17 @@ export default function Dashboard() {
     rows.forEach((row) => {
       const tags = row[4];
       row[4] = [];
-      tags.forEach((tag) => {
-        row[4].push(<Chip label={tag} variant="outlined" size="small" />);
+      tags.forEach((tag, i) => {
+        row[4].push(
+          <Chip key={i} label={tag} variant="outlined" size="small" />
+        );
       });
     });
     setRows(rows);
   }, [tasksContext]);
 
   const handleOnRowClick = () => {
-    console.log("Dashboard: row clicked");
+    // console.log("Dashboard: row clicked");
   };
 
   return (

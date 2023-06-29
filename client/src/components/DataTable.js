@@ -31,7 +31,7 @@ export default function DataTable({
   });
 
   const onRowClick = (rowData, rowMeta) => {
-    console.log("rowData", rowData, "rowMeta", rowMeta);
+    // console.log("rowData", rowData, "rowMeta", rowMeta);
     const id = rowData[0];
     navigate(`/dashboard/task/${id}`);
     if (handleOnRowClick) handleOnRowClick();

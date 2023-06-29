@@ -46,7 +46,7 @@ export default function Task({ setExpanded = null, expanded = null }) {
 
   useEffect(() => {
     setData(task);
-    console.log("task", task);
+    // console.log("task", task);
   }, [task, isLoading, error]);
 
   const formatIsoString = (str) =>
@@ -73,7 +73,7 @@ export default function Task({ setExpanded = null, expanded = null }) {
         navigate("/dashboard");
       }
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   };
 
