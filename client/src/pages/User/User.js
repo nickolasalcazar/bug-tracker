@@ -1,12 +1,21 @@
 import React, { useEffect } from "react";
 import { Link, Route, Routes, useMatch } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Avatar, Chip, Container, Stack, Tab, Tabs } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Container,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import useGetUserByParam from "../../hooks/useGetUserByParam";
 import useConnections from "../../hooks/useConnections";
 import usePendingConnections from "../../hooks/usePendingConnections";
 import ConnectionButton from "./ConnectionButton";
 import UserList from "./UserList";
+import PageLoader from "../../components/PageLoader";
 
 /**
  * Component that displays info about a user, and provides inputs for managing
@@ -44,15 +53,24 @@ export default function User() {
     setTabIndex(newValue);
   };
 
-  if (isLoading) return <div>Loading profile...</div>;
-  else if (error) return <div>{error}</div>;
+  if (isLoading) return <PageLoader />;
+  else if (error)
+    return (
+      <Box display="flex" justifyContent="center" pt={25}>
+        {error}
+      </Box>
+    );
 
   return (
     <Container sx={{ pt: 3 }}>
       <Stack direction="column" spacing={1} alignItems="center" pb={1}>
         <Avatar src={user.picture} sx={{ width: 100, height: 100 }} />
-        <h2>{user.nickname}</h2>
-        <h3>@{user.username}</h3>
+        <Typography component="h2" variant="h5" fontWeight="500">
+          {user.nickname}
+        </Typography>
+        <Typography component="h3" variant="subtitle1">
+          @{user.username}
+        </Typography>
         <Stack direction="row" gap={1}>
           {/* Edit Profile temporarily disabled */}
           {/* {userAuth0.sub === user.user_id ? (
