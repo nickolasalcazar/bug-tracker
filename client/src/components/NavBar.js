@@ -1,4 +1,3 @@
-import React from "react";
 import {
   AppBar,
   Box,
@@ -46,14 +45,13 @@ export default function NavBar({ handleDrawerToggle }) {
                   Dashboard
                 </Typography>
               </MenuItem>
-              <MenuItem
-                component={Link}
-                to={user === null ? "/user" : `/user/${user.username}`}
-              >
-                <Typography textAlign="center" fontWeight="medium">
-                  Profile
-                </Typography>
-              </MenuItem>
+              {user === null ? null : (
+                <MenuItem component={Link} to={`/user/${user.username}`}>
+                  <Typography textAlign="center" fontWeight="medium">
+                    Profile
+                  </Typography>
+                </MenuItem>
+              )}
             </Box>
             <NotificationBell />
             <ProfileNavButton />

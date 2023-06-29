@@ -19,7 +19,6 @@ import LoginButton from "./Login";
 
 export default function ProfileNavButton({ sx }) {
   const { userProfile: user } = useUserProfile();
-
   const menuId = "profile-menu";
   const [anchorEl, setAnchorEl] = useState(null);
   const isOpen = Boolean(anchorEl);
@@ -84,14 +83,16 @@ function ProfileMenu({ user, anchorEl, menuId, isOpen, handleClose }) {
         mt: "45px",
       }}
     >
-      <NavLink to={user === null ? "/user" : `/user/${user.username}`} ml={2}>
-        <MenuItem onClick={handleClose} divider>
-          <ListItemIcon>
-            <PersonIcon fontSize="small" />
-          </ListItemIcon>
-          Profile
-        </MenuItem>
-      </NavLink>
+      {user === null ? null : (
+        <NavLink to={`/user/${user.username}`} ml={2}>
+          <MenuItem onClick={handleClose} divider>
+            <ListItemIcon>
+              <PersonIcon fontSize="small" />
+            </ListItemIcon>
+            Profile
+          </MenuItem>
+        </NavLink>
+      )}
       <MenuItem>
         {user === null ? (
           <ListItemIcon>
