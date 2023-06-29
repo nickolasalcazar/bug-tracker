@@ -1,3 +1,8 @@
-export default function PageLoader(props) {
-  return <h3>Loading...</h3>;
+import { Box, CircularProgress } from "@mui/material";
+export default function PageLoader() {
+  return (
+    <Box display="flex" justifyContent="center" pt={25}>
+      <CircularProgress size={80} />
+    </Box>
+  );
 }
