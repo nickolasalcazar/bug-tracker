@@ -39,7 +39,9 @@ module.exports = {
       title AS "Title",
       users.username AS "Creator",
       TO_CHAR(date_created AT TIME ZONE 'UTC', 'MM/DD/YYYY') AS "Created",
-      tags AS "Tags"
+      tags AS "Tags",
+      status AS "Status",
+      priority AS "Priority"
     FROM tasks
     INNER JOIN users ON users.user_id = $1 
     WHERE $1 = owner_id`,
@@ -49,7 +51,9 @@ module.exports = {
       title AS "Title",
       owner.username AS "Creator",
       TO_CHAR(date_created AT TIME ZONE 'UTC', 'MM/DD/YYYY') AS "Created",
-      tags AS "Tags"
+      tags AS "Tags",
+      status AS "Status",
+      priority AS "Priority"
     FROM tasks
     INNER JOIN users this ON this.user_id = $1
     INNER JOIN users owner ON owner.user_id = tasks.owner_id
