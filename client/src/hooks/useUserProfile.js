@@ -8,12 +8,17 @@ import { createUser, getUserInfo } from "../services/user.api";
  */
 export default function useUserProfile() {
   const navigate = useNavigate();
-  const { getAccessTokenSilently, user } = useAuth0();
+  const { getAccessTokenSilently, user, isAuthenticated } = useAuth0();
   const [userProfile, setUserProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
+      if (!isAuthenticated) {
+        setIsLoading(false);
+        setUserProfile(null);
+        return;
+      }
       try {
         const token = await getAccessTokenSilently();
         const response = await getUserInfo(token, user.sub);
@@ -29,7 +34,7 @@ export default function useUserProfile() {
       }
     };
     fetchUserProfile();
-  }, []);
+  }, [isAuthenticated]);
 
   return { userProfile, isLoading };
 }
