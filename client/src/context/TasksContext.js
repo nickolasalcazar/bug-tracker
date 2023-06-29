@@ -41,7 +41,7 @@ export const TasksProvider = ({ children }) => {
 
   useEffect(() => {
     updateTasksContext();
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <TasksContext.Provider value={{ tasksContext, updateTasksContext }}>
