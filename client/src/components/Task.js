@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Chip,
@@ -22,8 +22,8 @@ import SubtasksIcon from "@mui/icons-material/ListOutlined";
 import SubscriberIcon from "@mui/icons-material/Inbox";
 import TagIcon from "@mui/icons-material/LocalOfferOutlined";
 import CalendarIcon from "@mui/icons-material/CalendarMonthOutlined";
-import LinkIcon from "@mui/icons-material/InsertLinkOutlined";
 
+import PageLoader from "./PageLoader";
 import TaskWrapper from "./TaskWrapper";
 import TaskHeader from "./TaskHeader";
 import useGetTaskByParam from "../hooks/useGetTaskByParam";
@@ -77,8 +77,7 @@ export default function Task({ setExpanded = null, expanded = null }) {
     }
   };
 
-  if (data === null)
-    return <Typography component="h2">Loading task...</Typography>;
+  if (data === null) return <PageLoader />;
 
   return (
     <>

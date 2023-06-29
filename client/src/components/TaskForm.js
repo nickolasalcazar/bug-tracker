@@ -29,6 +29,7 @@ import TagIcon from "@mui/icons-material/LocalOfferOutlined";
 import CalendarIcon from "@mui/icons-material/CalendarMonthOutlined";
 import TaskWrapper from "./TaskWrapper";
 
+import PageLoader from "./PageLoader";
 import TaskHeader from "./TaskHeader";
 import {
   DescriptionField,
@@ -152,8 +153,7 @@ export default function TaskForm({ setExpanded = null, expanded = null }) {
     setOpen(false);
   };
 
-  if (data === null || data === undefined)
-    return <Typography component="h2">Loading task...</Typography>;
+  if (data === null || data === undefined) return <PageLoader />;
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
