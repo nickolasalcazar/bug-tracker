@@ -1,8 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Button,
   Chip,
+  Container,
   Dialog,
   DialogActions,
   DialogContent,
@@ -12,6 +13,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  Paper,
   Stack,
   Typography,
 } from "@mui/material";
@@ -41,13 +43,7 @@ export default function Task({ setExpanded = null, expanded = null }) {
   const { updateTasksContext } = useContext(TasksContext);
   const { getAccessTokenSilently } = useAuth0();
   const { task, isLoading, error } = useGetTaskByParam();
-  const [data, setData] = useState(null);
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    setData(task);
-    // console.log("task", task);
-  }, [task, isLoading, error]);
 
   const formatIsoString = (str) =>
     new Date(str).toLocaleDateString({
@@ -67,7 +63,7 @@ export default function Task({ setExpanded = null, expanded = null }) {
   const handleDeleteTask = async () => {
     try {
       const token = await getAccessTokenSilently();
-      const response = await deleteTask(token, data.task_id);
+      const response = await deleteTask(token, task.task_id);
       if (response.status === 202) {
         updateTasksContext(); // Reload tasks
         navigate("/dashboard");
@@ -77,7 +73,13 @@ export default function Task({ setExpanded = null, expanded = null }) {
     }
   };
 
-  if (data === null) return <PageLoader />;
+  if (isLoading === true) return <PageLoader />;
+  else if (error)
+    return (
+      <Paper>
+        <Container>An error ocurred loading this task</Container>
+      </Paper>
+    );
 
   return (
     <>
@@ -85,7 +87,7 @@ export default function Task({ setExpanded = null, expanded = null }) {
         <List>
           <ListItem>
             <TaskHeader
-              data={data}
+              data={task}
               expanded={expanded}
               setExpanded={setExpanded}
               handleClose={() => {
@@ -96,19 +98,19 @@ export default function Task({ setExpanded = null, expanded = null }) {
           </ListItem>
           <ListItem sx={{ pb: 0 }}>
             <Typography variant="h6" component="h2" fontWeight="medium">
-              {data.title}
+              {task.title}
             </Typography>
           </ListItem>
           <ListItem>
             <Stack direction="row" spacing={1}>
-              <Chip size="small" label={`Status: ${data.status}`} />
-              <Chip size="small" label={`Priority: ${data.priority}`} />
+              <Chip size="small" label={`Status: ${task.status}`} />
+              <Chip size="small" label={`Priority: ${task.priority}`} />
             </Stack>
           </ListItem>
           <Divider />
           <ListItem>
             <Typography variant="p" sx={{ pt: 2, pb: 4 }}>
-              {data.description ?? (
+              {task.description ?? (
                 <Typography fontStyle="italic" children="No description" />
               )}
             </Typography>
@@ -120,7 +122,7 @@ export default function Task({ setExpanded = null, expanded = null }) {
               <ListItemText
                 primary={
                   <Typography fontSize="14px" component="p">
-                    {data.creator} ({data.date_created})
+                    {task.creator} ({task.date_created})
                   </Typography>
                 }
               />
@@ -130,7 +132,7 @@ export default function Task({ setExpanded = null, expanded = null }) {
           <ListItem>
             <LeftColumn icon={SubscriberIcon} label="Subscribers" />
             <RightColumn>
-              {data.subscribers.map((subscriber, index) => (
+              {task.subscribers.map((subscriber, index) => (
                 <Chip
                   key={index}
                   icon={<AccountCircleIcon />}
@@ -146,12 +148,12 @@ export default function Task({ setExpanded = null, expanded = null }) {
           <ListItem>
             <LeftColumn icon={TagIcon} label="Tags" />
             <RightColumn>
-              {data.tags === null || data.tags.length === 0 ? (
+              {task.tags === null || task.tags.length === 0 ? (
                 <Typography fontSize="14px" component="p" fontStyle="italic">
                   No tags assigned
                 </Typography>
               ) : (
-                data.tags.map((tag, index) => (
+                task.tags.map((tag, index) => (
                   <Chip
                     key={index}
                     label={tag}
@@ -169,10 +171,10 @@ export default function Task({ setExpanded = null, expanded = null }) {
             <RightColumn>
               <ListItemText
                 primary={
-                  data.parent_task_id ? (
+                  task.parent_task_id ? (
                     <TaskChip
-                      id={data.parent_task_id}
-                      title={data.parent_title}
+                      id={task.parent_task_id}
+                      title={task.parent_title}
                       component="div"
                     />
                   ) : (
@@ -193,8 +195,8 @@ export default function Task({ setExpanded = null, expanded = null }) {
             <LeftColumn icon={SubtasksIcon} label="Child Tasks" />
             <RightColumn>
               <List dense={true}>
-                {data.child_tasks ? (
-                  data.child_tasks.map((task) => (
+                {task.child_tasks ? (
+                  task.child_tasks.map((task) => (
                     <TaskChip
                       key={task.task_id}
                       id={task.task_id}
@@ -210,7 +212,7 @@ export default function Task({ setExpanded = null, expanded = null }) {
               </List>
             </RightColumn>
           </ListItem>
-          {!data.date_start || !data.date_end ? null : (
+          {!task.date_start || !task.date_end ? null : (
             <>
               <Divider />
               <ListItem>
@@ -220,8 +222,8 @@ export default function Task({ setExpanded = null, expanded = null }) {
                     primary={
                       <Typography fontSize="14px" component="p">
                         {`${formatIsoString(
-                          data.date_start
-                        )} - ${formatIsoString(data.date_end)}`}
+                          task.date_start
+                        )} - ${formatIsoString(task.date_end)}`}
                       </Typography>
                     }
                   />
