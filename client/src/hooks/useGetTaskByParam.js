@@ -24,6 +24,7 @@ export default function useGetTaskByParam() {
         const token = await getAccessTokenSilently();
         const response = await getTaskById(token, id);
         if (response.status !== 200) throw Error(response.statusText);
+        setError(false);
         setTask(response.data);
       } catch (e) {
         setError(true);
