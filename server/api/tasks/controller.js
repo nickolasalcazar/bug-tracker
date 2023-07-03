@@ -14,7 +14,6 @@ module.exports = {
         res.sendStatus(403);
         return;
       }
-
       const getTask = await db.query(queries.getTaskById, [task_id]);
       const task = getTask.rows[0];
       const getChildren = await db.query(queries.getChildTasks, [task_id]);
@@ -76,11 +75,9 @@ module.exports = {
     const user_id = decodeURI(req.auth.payload.sub);
     const task_id = decodeURI(req.params.id);
     const privileges = await getPrivileges(user_id, task_id);
-    if (privileges === null) {
-      res.sendStatus(500);
-    } else {
-      res.status(200).json(privileges);
-    }
+    privileges === null
+      ? res.sendStatus(500)
+      : res.status(200).json(privileges);
   },
 
   createTask: async (req, res) => {
@@ -102,7 +99,6 @@ module.exports = {
 
     try {
       if (date_created === null) date_created = new Date().toISOString();
-
       // Insert the new task
       const { rows } = await db.query(queries.createTask, [
         ownerId,
@@ -141,6 +137,15 @@ module.exports = {
       date_start = null,
       date_end = null,
     } = req.body;
+
+    const privileges = await getPrivileges(user_id, task_id);
+    if (privileges === null) {
+      res.sendStatus(500);
+      return;
+    } else if (!privileges.owner && !privileges.subscriber) {
+      res.sendStatus(403);
+      return;
+    }
 
     // Validate inputs here
     if (parent_task_id === "") parent_task_id = null;
