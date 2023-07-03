@@ -16,6 +16,7 @@ import {
 import PersonIcon from "@mui/icons-material/PersonOutlineOutlined";
 import SubscriberIcon from "@mui/icons-material/Inbox";
 import AddIcon from "@mui/icons-material/Add";
+import AllIcon from "@mui/icons-material/ListRounded";
 
 /**
  * Renders the left drawer that should appear in the Dashboard page.
@@ -50,6 +51,22 @@ export default function LeftDrawer({
           </Button>
         </ListItem>
         <Divider />
+        {/* TODO */}
+        {/* <ListItem
+          disablePadding
+          component={Link}
+          to="/dashboard"
+          onClick={() => {
+            updateTasksContext("all");
+          }}
+        >
+          <ListItemButton>
+            <ListItemIcon>
+              <AllIcon />
+            </ListItemIcon>
+            <ListItemText primary={"All Tasks"} />
+          </ListItemButton>
+        </ListItem> */}
         <ListItem
           disablePadding
           component={Link}

@@ -1,6 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getOwnedTasks, getSubscribedTasks } from "../services/task.api";
+// TODO: Implement getAllTasks so user can view tabs 'subscribed', 'my tasks' and 'all'
+// import { getAllTasks, getOwnedTasks, getSubscribedTasks } from "../services/task.api";
 
 export const TasksContext = createContext("tasksContext -- initial");
 
@@ -11,7 +13,7 @@ export const TasksProvider = ({ children }) => {
     error: false,
   };
   const [tasksContext, setTasksContext] = useState(initialVal);
-  const [currMethod, setCurrMethod] = useState("owned");
+  const [currMethod, setCurrMethod] = useState("subscribed");
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
 
   const updateTasksContext = async (method = null) => {
@@ -24,13 +26,15 @@ export const TasksProvider = ({ children }) => {
       return;
     }
     const token = await getAccessTokenSilently();
-    let response;
 
     if (method !== null) setCurrMethod(method);
-    response =
-      (method ?? currMethod) === "owned"
-        ? await getOwnedTasks(token)
-        : await getSubscribedTasks(token);
+    else method = currMethod;
+
+    let response;
+    if (currMethod === "owned") response = await getOwnedTasks(token);
+    else if (currMethod === "subscribed")
+      response = await getSubscribedTasks(token);
+    // else if (currMethod === "all") response = await getAllTasks(token);
 
     setTasksContext({
       tasks: response.data,
@@ -41,7 +45,7 @@ export const TasksProvider = ({ children }) => {
 
   useEffect(() => {
     updateTasksContext();
-  }, [isAuthenticated]);
+  }, [currMethod, isAuthenticated]);
 
   return (
     <TasksContext.Provider value={{ tasksContext, updateTasksContext }}>
