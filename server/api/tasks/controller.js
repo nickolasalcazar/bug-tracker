@@ -4,11 +4,20 @@ const queries = require("./queries");
 module.exports = {
   getTaskById: async (req, res) => {
     try {
-      const id = decodeURI(req.params.id);
-      const getTask = await db.query(queries.getTaskById, [id]);
-      if (getTask.rows.length === 0) res.sendStatus(404);
+      const task_id = decodeURI(req.params.id);
+      const user_id = req.auth.payload.sub;
+      const privileges = await getPrivileges(user_id, task_id);
+      if (privileges === null) {
+        res.sendStatus(500);
+        return;
+      } else if (!privileges.owner && !privileges.subscriber) {
+        res.sendStatus(403);
+        return;
+      }
+
+      const getTask = await db.query(queries.getTaskById, [task_id]);
       const task = getTask.rows[0];
-      const getChildren = await db.query(queries.getChildTasks, [id]);
+      const getChildren = await db.query(queries.getChildTasks, [task_id]);
       task.child_tasks = getChildren.rows[0].json_agg;
       res.status(200).json(task);
     } catch (e) {
@@ -64,27 +73,13 @@ module.exports = {
    * Checks the privileges a user has in relation to a task.
    */
   checkPrivileges: async (req, res) => {
-    const falsy = { owner: false, subscriber: false };
-    try {
-      const user_id = decodeURI(req.auth.payload.sub);
-      const task_id = decodeURI(req.params.id);
-      if (isNaN(task_id)) {
-        res.status(200).json(falsy);
-        return;
-      } else if (parseInt(task_id) < 0) {
-        res.status(200).json(falsy);
-        return;
-      }
-      const response = await db.query(queries.checkPrivileges, [
-        user_id,
-        task_id,
-      ]);
-      res.status(200);
-      if (response.rows.length === 0) res.json(falsy);
-      else res.json(response.rows[0]);
-    } catch (e) {
-      console.log(e);
+    const user_id = decodeURI(req.auth.payload.sub);
+    const task_id = decodeURI(req.params.id);
+    const privileges = await getPrivileges(user_id, task_id);
+    if (privileges === null) {
       res.sendStatus(500);
+    } else {
+      res.status(200).json(privileges);
     }
   },
 
@@ -133,7 +128,6 @@ module.exports = {
 
   updateTask: async (req, res) => {
     const user_id = req.auth.payload.sub;
-    // TODO: Is the client an owner or subscriber?
     let {
       task_id,
       title = null,
@@ -181,4 +175,27 @@ module.exports = {
       res.sendStatus(400);
     }
   },
+};
+
+const falsy = { owner: false, subscriber: false };
+/**
+ * Gets privileges of a task in relation to a user.
+ *
+ * @param {string} user_id
+ * @param {string} task_id
+ */
+const getPrivileges = async (user_id, task_id) => {
+  try {
+    if (isNaN(task_id)) return falsy;
+    else if (parseInt(task_id) < 0) return falsy;
+    const response = await db.query(queries.checkPrivileges, [
+      user_id,
+      task_id,
+    ]);
+    if (response.rows.length === 0) return falsy;
+    else return response.rows[0];
+  } catch (e) {
+    console.log("Error in getPrivileges: ", e);
+    return null;
+  }
 };
