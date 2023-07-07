@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import {
   AppBar,
   Box,
@@ -20,6 +21,7 @@ const logoSize = "50px";
  * @param {function} handleDrawerToggle
  */
 export default function NavBar({ handleDrawerToggle }) {
+  const { isAuthenticated } = useAuth0();
   const { userProfile: user } = useUserProfile();
   return (
     <AppBar
@@ -34,7 +36,9 @@ export default function NavBar({ handleDrawerToggle }) {
           alignItems="center"
         >
           <Stack direction="row" spacing={1}>
-            <ToggleDrawer handleDrawerToggle={handleDrawerToggle} />
+            {isAuthenticated ? (
+              <ToggleDrawer handleDrawerToggle={handleDrawerToggle} />
+            ) : null}
             <LogoFull />
           </Stack>
           <LogoSmall />

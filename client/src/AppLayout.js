@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import {
   Box,
   Container,
@@ -15,6 +16,7 @@ const drawerWidth = 185;
  * LeftDrawer, and the main content of the app contained in <main />.
  */
 export default function AppLayout({ children, renderLeftDrawer = false }) {
+  const { isAuthenticated } = useAuth0();
   const [mobileOpen, setMobileOpen] = useState(false);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -24,7 +26,7 @@ export default function AppLayout({ children, renderLeftDrawer = false }) {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <NavBar handleDrawerToggle={handleDrawerToggle} />
-      {!renderLeftDrawer ? null : (
+      {!renderLeftDrawer || !isAuthenticated ? null : (
         <LeftDrawer
           handleDrawerToggle={handleDrawerToggle}
           drawerWidth={drawerWidth}
