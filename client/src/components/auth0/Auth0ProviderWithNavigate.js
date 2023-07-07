@@ -1,5 +1,5 @@
 import { Auth0Provider } from "@auth0/auth0-react";
-import React from "react";
+import config from "../../config";
 import { useNavigate } from "react-router-dom";
 
 /**
@@ -9,10 +9,10 @@ import { useNavigate } from "react-router-dom";
 export default function Auth0ProviderWithNavigate({ children }) {
   const navigate = useNavigate();
 
-  const domain = process.env.REACT_APP_AUTH0_DOMAIN;
-  const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
-  const redirectUri = process.env.REACT_APP_AUTH0_CALLBACK_URL;
-  const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
+  const domain = config.auth0.DOMAIN;
+  const clientId = config.auth0.CLIENT_ID;
+  const redirectUri = config.auth0.CALLBACK_URL;
+  const audience = config.auth0.AUDIENCE;
 
   // Called after users are redirected from Auth0's universal login.
   const onRedirectCallback = (appState) => {

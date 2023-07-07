@@ -1,5 +1,6 @@
 import { callExternalApi } from "./external-api";
-const endpoint = process.env.REACT_APP_API_SERVER_URL;
+import config from "../config";
+const endpoint = config.API_SERVER_URL;
 
 export const getNotifs = async (accessToken) =>
   await callExternalApi({
