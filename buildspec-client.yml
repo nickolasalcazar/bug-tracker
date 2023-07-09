@@ -1,0 +1,18 @@
+# buildspec for React client frontend
+# to be used by AWS CodeBuild in AWS CodePipeline
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - cd client
+      - npm install
+  build:
+    commands:
+      - npm run build
+
+artifacts:
+  files:
+    - "**/*"
+  discard-paths: no
+  base-directory: build
