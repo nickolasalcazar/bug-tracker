@@ -1,0 +1,20 @@
+# buildspec for React Node.js server
+# to be used by AWS CodeBuild in AWS CodePipeline
+version: 0.0
+os: linux
+files:
+  - source: /server
+    destination: /home/ec2-user/mugbug-app
+hooks:
+  ApplicationStop:
+    - location: server/scripts/application_stop.sh
+      timeout: 300
+      runas: ec2-user
+  BeforeInstall:
+    - locaiton: server/scripts/before_install.sh
+      timeout: 300
+      runas: ec2-user
+  ApplicationStart:
+    - location: server/scripts/application_start.sh
+      timeout: 300
+      runas: ec2-user
