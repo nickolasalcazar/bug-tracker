@@ -1,9 +1,9 @@
-# buildspec for React Node.js server
-# to be used by AWS CodeBuild in AWS CodePipeline
+# Node server buildspec
+# Used by AWS CodeDeploy
 version: 0.0
 os: linux
 files:
-  - source: /server
+  - source: server
     destination: /home/ec2-user/mugbug-app
 hooks:
   ApplicationStop:
