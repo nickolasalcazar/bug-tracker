@@ -6,10 +6,10 @@ files:
   - source: server
     destination: /home/ec2-user/mugbug-app
 hooks:
-  ApplicationStop:
-    - location: server/scripts/application_stop.sh
-      timeout: 300
-      runas: ec2-user
+  # ApplicationStop:
+  #   - location: server/scripts/application_stop.sh
+  #     timeout: 300
+  #     runas: ec2-user
   BeforeInstall:
     - location: server/scripts/before_install.sh
       timeout: 300
