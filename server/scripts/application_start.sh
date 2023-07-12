@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Give permission for everything in the express-app directory
-sudo chmod -R 777 /home/ec2-user/mugbug-app
+sudo chown -R ec2-user:ec2-user /home/ec2-user/mugbug-app
 
 # Navigate into our working directory where we have all our GitHub files
 cd /home/ec2-user/mugbug-app
