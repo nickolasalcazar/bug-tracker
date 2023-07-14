@@ -15,7 +15,8 @@ export NVM_DIR="$HOME/.nvm"
 npm install
 
 # Pull config variables
-echo AUTH0_API_ID=$(aws ssm get-parameter --name "/mugbug/auth0/api_id" | jq '.Parameter.Value') > .env
+echo PORT=443 > .env
+echo AUTH0_API_ID=$(aws ssm get-parameter --name "/mugbug/auth0/api_id" | jq '.Parameter.Value') >> .env
 echo AUTH0_AUDIENCE=$(aws ssm get-parameter --name "/mugbug/auth0/audience" | jq '.Parameter.Value') >> .env
 echo CLIENT_ORIGIN_URL=$(aws ssm get-parameter --name "/mugbug/auth0/client_origin_url" | jq '.Parameter.Value') >> .env
 echo AUTH0_DOMAIN=$(aws ssm get-parameter --name "/mugbug/auth0/domain" | jq '.Parameter.Value') >> .env
